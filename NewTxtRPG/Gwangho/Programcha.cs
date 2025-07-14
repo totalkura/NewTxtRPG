@@ -1,7 +1,7 @@
-﻿// using System;
+﻿using System;
 using System.Collections.Generic;
 
-// class Program
+class Program
 {
 
     static int level = 1;
