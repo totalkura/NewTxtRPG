@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-class Program
-{
-
+/* class Program
+ {
+ 
     static int level = 1;
     static float atk = 10;
     static int def = 5;
@@ -793,11 +793,11 @@ class Program
             }
 
             equippedWeapon = inventory.Find(x => x.Name == weaponName);
-            equippedArmor = inventory.Find(x => x.Name == armorName);
-        }
-
-        Console.WriteLine("게임을 불러왔습니다.");
-        Thread.Sleep(1000);
-    }
-
-}
+             equippedArmor = inventory.Find(x => x.Name == armorName);
+         }
+ 
+         Console.WriteLine("게임을 불러왔습니다.");
+         Thread.Sleep(1000);
+     }
+ }
+*/
