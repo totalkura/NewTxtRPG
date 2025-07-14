@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -49,6 +49,9 @@
     <Compile Include="Chanmin\Struct\Item.cs" />
     <Compile Include="Chanmin\Struct\Skill.cs" />
     <Compile Include="Chanmin\Struct\Stat.cs" />
+    <Compile Include="Gwangho\ItemDrop.cs" />
+    <Compile Include="Gwangho\Potion.cs" />
+    <Compile Include="Gwangho\PotionList.cs" />
     <Compile Include="Hyunsu\Program.cs" />
     <Compile Include="SMC\Dungeon.cs" />
     <Compile Include="SMC\Inn.cs" />
@@ -59,5 +62,6 @@
     <Compile Include="SMC\Status.cs" />
     <Compile Include="SMC\Stroe.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
