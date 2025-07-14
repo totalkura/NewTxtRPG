@@ -49,6 +49,9 @@
     <Compile Include="Chanmin\Struct\Item.cs" />
     <Compile Include="Chanmin\Struct\Skill.cs" />
     <Compile Include="Chanmin\Struct\Stat.cs" />
+    <Compile Include="Gwangho\MaiN.cs" />
+    <Compile Include="Gwangho\Item.cs" />
+    <Compile Include="Gwangho\Profile.cs" />
     <Compile Include="Gwangho\ItemDrop.cs" />
     <Compile Include="Gwangho\Potion.cs" />
     <Compile Include="Gwangho\PotionList.cs" />
