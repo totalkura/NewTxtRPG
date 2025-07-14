@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-/* class Program
+class Program
  {
  
     static int level = 1;
@@ -800,4 +800,3 @@ using System.Collections.Generic;
          Thread.Sleep(1000);
      }
  }
-*/
