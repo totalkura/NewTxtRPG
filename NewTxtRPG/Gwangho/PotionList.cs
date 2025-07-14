@@ -16,7 +16,7 @@ namespace NewTxtRPG.Gwangho
         {
             potionlist.Add(new Potion("체력 포션", 50, 30, 0, "체력을 회복하는 물약입니다.", false, false));
             potionlist.Add(new Potion("마나 포션", 50, 0, 30, "마나를 회복하는 물약입니다.", false, false));
-            potionlist.Add(new Potion("개쩌는 엘릭서", 150, 50, 50, "체력과 마나를 동시에 회복하는 만능 물약입니다.", false, false));
+            potionlist.Add(new Potion("슈퍼 엘릭서", 150, 50, 50, "체력과 마나를 동시에 회복하는 만능 물약입니다.", false, false));
         }
     }
 }

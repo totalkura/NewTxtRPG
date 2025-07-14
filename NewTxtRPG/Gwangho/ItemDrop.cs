@@ -19,7 +19,7 @@ namespace NewTxtRPG.Gwangho
             if (dropChance < 30) // 30% 확률
             {
                 var droppablePotions = PotionList.potionlist
-            .Where(p => p.name != "개쩌는 엘릭서")
+            .Where(p => p.name != "슈퍼 엘릭서")
             .ToList();
 
                 int index = rand.Next(droppablePotions.Count);
