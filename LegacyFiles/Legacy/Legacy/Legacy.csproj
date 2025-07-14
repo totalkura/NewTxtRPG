@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{55215541-2BDF-4A97-A894-2542DAD810FE}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Legacy</RootNamespace>
+    <AssemblyName>Legacy</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Chanmin\GameManager.cs" />
+    <Compile Include="Chanmin\Interface\Creture.cs" />
+    <Compile Include="Chanmin\Interface\Job.cs" />
+    <Compile Include="Chanmin\Inventory.cs" />
+    <Compile Include="Chanmin\Items.cs" />
+    <Compile Include="Chanmin\Jobs.cs" />
+    <Compile Include="Chanmin\Main.cs" />
+    <Compile Include="Chanmin\Player.cs" />
+    <Compile Include="Chanmin\RenderConsole.cs" />
+    <Compile Include="Chanmin\Shop.cs" />
+    <Compile Include="Chanmin\Struct\Item.cs" />
+    <Compile Include="Chanmin\Struct\Skill.cs" />
+    <Compile Include="Chanmin\Struct\Stat.cs" />
+    <Compile Include="Hyunsu\Program.cs" />
+    <Compile Include="SMC\Dungeon.cs" />
+    <Compile Include="SMC\Inn.cs" />
+    <Compile Include="SMC\Inventory.cs" />
+    <Compile Include="SMC\Item_List.cs" />
+    <Compile Include="SMC\Main_Stage.cs" />
+    <Compile Include="SMC\SaveLoad.cs" />
+    <Compile Include="SMC\Status.cs" />
+    <Compile Include="SMC\Stroe.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
