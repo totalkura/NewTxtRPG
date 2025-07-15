@@ -18,17 +18,21 @@ namespace STDungeon
         public Inventory()
         {
             Equipment = new List<ItemInfo>();
+            Consumables = new List<ItemInfo>();
             equippedItems = new HashSet<string>();
         }
 
         public void AddItem(ItemInfo item)
         {
             Equipment.Add(item);
+            Consumables.Add(item);
         }
 
         public bool RemoveItem(ItemInfo item)
         {
-            return Equipment.Remove(item);
+            bool removedFromEquipment = Equipment.Remove(item);
+            bool removedFromConsumables = Consumables.Remove(item);
+            return removedFromEquipment || removedFromConsumables;
         }
 
         public IReadOnlyList<ItemInfo> GetItems()
@@ -36,7 +40,7 @@ namespace STDungeon
             return Equipment.AsReadOnly();
         }
 
-        public int Count => Equipment.Count;
+        public int Count => Equipment.Count + Consumables.Count;
 
         // 인벤토리 출력 및 장착/해제 기능
         public void ShowAndEquip(Player player)
@@ -45,7 +49,7 @@ namespace STDungeon
             {
                 Console.Clear();
                 RenderConsole.WriteLine("인벤토리:");
-                if (Equipment.Count == 0)
+                if (Equipment.Count + Consumables.Count == 0)
                 {
                     RenderConsole.WriteLine("  (비어 있음)");
                     RenderConsole.WriteLine("계속하려면 Enter를 누르세요...");
@@ -65,7 +69,19 @@ namespace STDungeon
                     RenderConsole.WriteLine($"  {i + 1}. {item.Name} (가격: {item.Price}, {statText}){equippedText}");
                 }
 
-                RenderConsole.WriteLine("아이템 번호를 입력하면 장착/해제할 수 있습니다. (0 입력 시 나가기)");
+                // 소모품은 장착 아이템 뒤에 출력
+                for (int i = 0; i < Consumables.Count; i++)
+                {
+                    var potion = Consumables[i];
+                    string recoverText = potion.HpBonus > 0
+                        ? $"체력 회복: {potion.HpBonus}"
+                        : potion.MpBonus > 0
+                            ? $"방어력 상승: {potion.MpBonus}"
+                            : "";
+                    RenderConsole.WriteLine($"  {i + 1 + Equipment.Count}. {potion.Name} (가격: {potion.Price}, {recoverText})");
+                }
+
+                RenderConsole.WriteLine("아이템 번호를 입력하면 장착/해제, 또는 소비할 수 있습니다. (0 입력 시 나가기)");
                 Console.Write("선택: ");
                 string input = Console.ReadLine();
 
@@ -121,6 +137,34 @@ namespace STDungeon
                             equippedItems.Remove(item.Name);
                             RenderConsole.WriteLine($"{item.Name}을(를) 해제했습니다.");
                         }
+                    }
+                }
+                else if (idx > Equipment.Count && idx <= Equipment.Count + Consumables.Count)
+                {
+                    var potion = Consumables[idx - Equipment.Count - 1];
+
+                    bool used = false;
+
+                    if (potion.HpBonus > 0)
+                    {
+                        player.CurrentHp = Math.Min(player.MaxHp, player.CurrentHp + potion.HpBonus);
+                        RenderConsole.WriteLine($"{potion.Name}을(를) 사용하여 체력을 {potion.HpBonus} 회복했습니다.");
+                        used = true;
+                    }
+                    else if (potion.MpBonus > 0)
+                    {
+                        player.CurrentMp = Math.Min(player.MaxMp, player.CurrentMp + potion.MpBonus);
+                        RenderConsole.WriteLine($"{potion.Name}을(를) 사용하여 마나를 {potion.MpBonus} 회복했습니다.");
+                        used = true;
+                    }
+                    else
+                    {
+                        RenderConsole.WriteLine($"{potion.Name}은(는) 사용할 수 없는 아이템입니다.");
+                    }
+
+                    if (used)
+                    {
+                        Consumables.Remove(potion);
                     }
                 }
                 else
