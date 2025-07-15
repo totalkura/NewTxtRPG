@@ -1,4 +1,5 @@
-﻿using NewTxtRPG.etc;
+﻿using NewTxtRPG.Entitys;
+using NewTxtRPG.etc;
 
 namespace NewTxtRPG.Scene
 {
@@ -10,8 +11,9 @@ namespace NewTxtRPG.Scene
             {
                 RenderConsole.WriteLine("\x1b[1m\x1b[38;5;208m마을\x1b[0m");
                 RenderConsole.WriteLine("무엇을 하시겠습니까?");
-                RenderConsole.WriteLine("1. 여관 이용하기");
-                RenderConsole.WriteLine("2. 상점 이용하기");
+                RenderConsole.WriteLine("1. 인벤토리");
+                RenderConsole.WriteLine("2. 여관 이용하기");
+                RenderConsole.WriteLine("3. 상점 이용하기");
                 RenderConsole.WriteLine("0. 마을 나가기");
 
                 Console.Write("선택: ");
@@ -22,9 +24,12 @@ namespace NewTxtRPG.Scene
                 switch (input)
                 {
                     case "1":
-                        UseInn();
+                        UseInventory();
                         break;
                     case "2":
+                        UseInn();
+                        break;
+                    case "3":
                         UseShop();
                         break;
                     case "0":
@@ -36,6 +41,11 @@ namespace NewTxtRPG.Scene
                 }
             }
         }
+        private void UseInventory()
+        {
+            Player.Inventory.ShowAndEquip();
+        }
+
         private void UseInn()
         {
             RenderConsole.WriteLine("여관에서 휴식을 취합니다.");
