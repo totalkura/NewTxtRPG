@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NewTxtRPG.Structs;
 
-namespace STDungeon.Structs
+namespace NewTxtRPG.Entitys
 {
     // 아이템 목록 클래스
     internal static class Items

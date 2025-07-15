@@ -1,4 +1,4 @@
-﻿namespace STDungeon
+﻿namespace NewTxtRPG.Structs
 {
     // 다양한 대상(플레이어, 몬스터, 아이템)에 공통적으로 사용할 수 있는 스탯 구조체
     /// <summary>

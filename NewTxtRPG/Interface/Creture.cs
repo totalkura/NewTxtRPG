@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NewTxtRPG.Structs;
 
-namespace STDungeon
+namespace NewTxtRPG.Interface
 {
     // 크리쳐의 공통적인 속성을 정의하는 인터페이스
     internal interface ICreture

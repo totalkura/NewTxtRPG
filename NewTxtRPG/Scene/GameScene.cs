@@ -1,15 +1,14 @@
-﻿using NewTxtRPG.etc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NewTxtRPG.Entitys;
+using NewTxtRPG.etc;
+using NewTxtRPG.Interface;
+using NewTxtRPG.Structs;
 
 namespace NewTxtRPG.Scene
 {
     internal class GameScene
     {
         VillageScene villageScene = new VillageScene();
+        
         //던전 신
         public void StartGameScene()
         {
@@ -30,7 +29,6 @@ namespace NewTxtRPG.Scene
                 {
                     case "1":
                         ShowPlayerStatus();
-                        RenderConsole.WriteLine("플레이어 상태를 보여주는 기능은 아직 구현되지 않았습니다.");
                         break;
                     case "2":
                         GoVillage();
@@ -49,10 +47,34 @@ namespace NewTxtRPG.Scene
             }
         }
 
-        private void ShowPlayerStatus()
+        public void ShowPlayerStatus()
         {
-            RenderConsole.WriteLine("플레이어 상태를 보여주는 기능은 아직 구현되지 않았습니다.");
-            // 여기서 플레이어 상태를 보여주는 로직을 추가할 수 있습니다.
+            RenderConsole.WriteLine($"이름: {Player.Name}");
+            RenderConsole.WriteLine($"체력: {Player.CurrentHP} / {Player.Stat.MaxHP}");
+            RenderConsole.WriteLine($"마나: {Player.CurrentMP} / {Player.Stat.MaxMP}");
+
+            // 아이템 추가 공격력/방어력이 있을 때만 괄호로 표시
+            string attackText = Player.ItemAttackBonus > 0
+                ? $" (+{Player.ItemAttackBonus})"
+                : "";
+            string defenseText = Player.ItemDefenseBonus > 0
+                ? $" (+{Player.ItemDefenseBonus})"
+                : "";
+
+            RenderConsole.WriteLine($"공격력: {Player.Stat.Attack + Player.ItemAttackBonus}{attackText}");
+            RenderConsole.WriteLine($"방어력: {Player.Stat.Defense + Player.ItemDefenseBonus}{defenseText}");
+            RenderConsole.WriteLine($"골드: {Player.Gold}");
+
+            if (Player.Job != null)
+            {
+                RenderConsole.WriteLine("스킬 목록:");
+                RenderConsole.WriteLine($"  1. {Player.Job.Skill1.Name} - {Player.Job.Skill1.Effect} (배수: {Player.Job.Skill1.Multiplier}, 마나 소모: {Player.Job.Skill1.ManaCost})");
+                RenderConsole.WriteLine($"  2. {Player.Job.Skill2.Name} - {Player.Job.Skill2.Effect} (배수: {Player.Job.Skill2.Multiplier}, 마나 소모: {Player.Job.Skill2.ManaCost})");
+            }
+
+            RenderConsole.WriteLine("계속하려면 Enter를 누르세요...");
+            Console.ReadLine();
+            Console.Clear();
         }
 
         private void GoVillage()
@@ -62,6 +84,41 @@ namespace NewTxtRPG.Scene
 
         private void GoDungeon()
         {
+            DungeonScene dungeon = new DungeonScene();
+
+            while (true)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("< 던전 입구 >");
+                Console.ResetColor();
+                Console.WriteLine("던전을 들어가기전 난이도를 설정 하실 수 있습니다\n");
+
+                Console.WriteLine("[ 던전 난이도 ]");
+
+                Console.WriteLine("\n1. 쉬움   - 합니다");
+                Console.WriteLine("2. 일반   - 강합니다");
+                Console.WriteLine("3. 어려움 - 강력합니다");
+                Console.WriteLine("0. 나가기\n");
+
+                if (Player.CurrentHP < 30)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("< 체력이 낮을때 던전에 들어가는건 위험합니다>\n");
+                    Console.ResetColor();
+
+                }
+
+                Console.Write("원하시는 행동을 입력해 주세요.\n>>");
+                string actionInput = Console.ReadLine();
+
+                if (actionInput == "0") break;
+                if (actionInput == "1" || actionInput == "2" || actionInput == "3")
+                {
+                    dungeon.Battle(actionInput);
+                }
+
+            }
             RenderConsole.WriteLine("던전으로 이동합니다. 적과 싸우고 보물을 찾을 수 있습니다.");
             // 여기서 던전으로 이동하는 로직을 추가할 수 있습니다.
         }
