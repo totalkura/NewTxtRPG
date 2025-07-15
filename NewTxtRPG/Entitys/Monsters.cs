@@ -3,6 +3,7 @@
 namespace NewTxtRPG.Entitys
 {
 
+    // todo. 나중에 iCreture 인터페이스 이어서 구현 해주세요.
     internal class Monsters
     {
         public static List<Monsters> Monster { get; set; } = new List<Monsters>();

@@ -1,7 +1,4 @@
-﻿using NewTxtRPG.Hyunsu;
-using System;
-
-/*class ProgramHyunsu
+﻿/*class ProgramHyunsu
 {
     static void Main()
     {
