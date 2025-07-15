@@ -83,7 +83,7 @@ namespace NewTxtRPG
             ItemInfo? initialItem = null;
             while (selectedJob == null)
             {
-                Console.Write("번호를 입력하세요 (1 또는 2): ");
+                Console.Write("\n번호를 입력하세요 (1 또는 2): ");
                 string input = Console.ReadLine();
                 if (input == "1")
                 {
@@ -116,7 +116,7 @@ namespace NewTxtRPG
                 var equippedSet = equipField?.GetValue(Player.Inventory) as HashSet<string>;
                 equippedSet?.Add(initialItem.Value.Name);
             }
-            RenderConsole.WriteLine($"{name}님, {(selectedJob is WarriorJob ? "전사" : "도적")}로 게임을 시작합니다!");
+            RenderConsole.WriteLine($"{name}님, {(selectedJob is WarriorJob ? "전사" : "도적")}(으)로 게임을 시작합니다!");
         }
 
         private static void LoadGame()
