@@ -22,8 +22,9 @@ namespace STDungeon.Structs
         public int AttackBonus;     // 공격력 상승
         public int DefenseBonus;    // 방어력 상승
         public int HpBonus;        // 체력 상승 (소모품에만 적용)
+        public int MpBonus;        // 마나 상승 (소모품에만 적용)
 
-        public ItemInfo(int id, ItemType itemType, string name, int price, string description, int attackBonus, int defenseBonus, int hpBonus)
+        public ItemInfo(int id, ItemType itemType, string name, int price, string description, int attackBonus, int defenseBonus, int hpBonus, int mpBonus)
         {
             Id = id;
             ItemType = itemType;
@@ -33,6 +34,7 @@ namespace STDungeon.Structs
             AttackBonus = attackBonus;
             DefenseBonus = defenseBonus;
             HpBonus = hpBonus;
+            MpBonus = mpBonus;
         }
     }
 }
