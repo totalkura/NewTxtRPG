@@ -24,8 +24,10 @@ namespace STDungeon
 
         public void AddItem(ItemInfo item)
         {
-            Equipment.Add(item);
-            Consumables.Add(item);
+            if (item.ItemType == ItemType.Equipment)
+                Equipment.Add(item);
+            else if (item.ItemType == ItemType.Consumables)
+                Consumables.Add(item);
         }
 
         public bool RemoveItem(ItemInfo item)
