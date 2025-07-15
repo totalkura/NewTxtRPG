@@ -1,9 +1,11 @@
-﻿using NewTxtRPG.etc;
+﻿using Legacy.Gwangho;
+using NewTxtRPG.etc;
 using NewTxtRPG.Scene;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,11 +28,37 @@ namespace NewTxtRPG
         // 게임 초기화
         private static void InitializeGame()
         {
-            //if 세이브 파일이 있을때
-            //LoadGame();
-            //else 
-            SetPlayer();
+            if (File.Exists("save.txt"))
+            {
+                Console.WriteLine("세이브 파일이 발견되었습니다.");
+                Console.WriteLine("게임을 불러오시겠습니까?");
+                while (true)
+                {
+                    Console.WriteLine("1. 불러오기 2. 새로 시작하기");
 
+                    string choice = Console.ReadLine();
+
+                    if (!(choice == "1" || choice == "2"))
+                    {
+                        Console.WriteLine("잘못 된 입력입니다.");
+                    }
+
+                    if (choice == "1")
+                    {
+                        LoadGame();
+                        Thread.Sleep(1000); // 1초 대기
+                        Console.Clear();    // 로그 클리어
+                        return; // 게임 불러오기 후 루프 종료
+                    }
+                    Console.WriteLine("새로운 게임을 시작합니다.");
+                    SetPlayer();
+                    Thread.Sleep(1000); // 1초 대기
+                    Console.Clear();    // 로그 클리어
+                    return; // 새 게임 시작 후 루프 종료
+                }
+            }
+            Console.WriteLine("새로운 게임을 시작합니다.");
+            SetPlayer();
             Thread.Sleep(1000); // 1초 대기
             Console.Clear();    // 로그 클리어
         }
@@ -98,9 +126,7 @@ namespace NewTxtRPG
 
         private static void LoadGame()
         {
-            // 세이브 파일 로드 로직
-            // 예: Player = SaveManager.LoadPlayer();
-            RenderConsole.WriteLine("세이브 파일을 불러왔습니다.");
+            //로드 알고리즘
         }
     }
 }
