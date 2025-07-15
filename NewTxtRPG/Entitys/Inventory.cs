@@ -51,7 +51,7 @@ namespace NewTxtRPG.Entitys
                 if (equippedAttackItem.Name != null)
                 {
                     UnequipItem(equippedAttackItem);
-                    RenderConsole.WriteLine($"{equippedAttackItem.Name}을(를) 해제했습니다. (공격력 아이템은 하나만 장착 가능)");
+                    RenderConsole.WriteLineWithSpacing($"{equippedAttackItem.Name}을(를) 해제했습니다. (공격력 아이템은 하나만 장착 가능)");
                 }
                 Player.ItemAttackBonus += item.AttackBonus;
             }
@@ -61,12 +61,12 @@ namespace NewTxtRPG.Entitys
                 if (equippedDefenseItem.Name != null)
                 {
                     UnequipItem(equippedDefenseItem);
-                    RenderConsole.WriteLine($"{equippedDefenseItem.Name}을(를) 해제했습니다. (방어력 아이템은 하나만 장착 가능)");
+                    RenderConsole.WriteLineWithSpacing($"{equippedDefenseItem.Name}을(를) 해제했습니다. (방어력 아이템은 하나만 장착 가능)");
                 }
                 Player.ItemDefenseBonus += item.DefenseBonus;
             }
             equippedItems.Add(item.Name);
-            RenderConsole.WriteLine($"{item.Name}을(를) 장착했습니다.");
+            RenderConsole.WriteLineWithSpacing($"{item.Name}을(를) 장착했습니다.");
         }
 
         // 아이템 해제
@@ -81,7 +81,7 @@ namespace NewTxtRPG.Entitys
                 Player.ItemDefenseBonus -= item.DefenseBonus;
             }
             equippedItems.Remove(item.Name);
-            RenderConsole.WriteLine($"{item.Name}을(를) 해제했습니다.");
+            RenderConsole.WriteLineWithSpacing($"{item.Name}을(를) 해제했습니다.");
         }
 
 
@@ -92,11 +92,11 @@ namespace NewTxtRPG.Entitys
             while (true)
             {
                 Console.Clear();
-                RenderConsole.WriteLine("인벤토리:");
+                RenderConsole.WriteLineWithSpacing("인벤토리:");
                 if (Equipment.Count + Consumables.Count == 0)
                 {
-                    RenderConsole.WriteLine("  (비어 있음)");
-                    RenderConsole.WriteLine("계속하려면 Enter를 누르세요...");
+                    RenderConsole.WriteLineWithSpacing("  (비어 있음)");
+                    RenderConsole.WriteLineWithSpacing("계속하려면 Enter를 누르세요...");
                     Console.ReadLine();
                     return;
                 }
@@ -110,7 +110,7 @@ namespace NewTxtRPG.Entitys
                             ? $"방어력 상승: {item.DefenseBonus}"
                             : "";
                     string equippedText = equippedItems.Contains(item.Name) ? " (장착됨)" : "";
-                    RenderConsole.WriteLine($"  {i + 1}. {item.Name} (가격: {item.Price}, {statText}){equippedText}");
+                    RenderConsole.WriteLineWithSpacing($"  {i + 1}. {item.Name} (가격: {item.Price}, {statText}){equippedText}");
                 }
 
                 // 소모품은 장착 아이템 뒤에 출력
@@ -122,10 +122,10 @@ namespace NewTxtRPG.Entitys
                         : potion.MpBonus > 0
                             ? $"방어력 상승: {potion.MpBonus}"
                             : "";
-                    RenderConsole.WriteLine($"  {i + 1 + Equipment.Count}. {potion.Name} (가격: {potion.Price}, {recoverText})");
+                    RenderConsole.WriteLineWithSpacing($"  {i + 1 + Equipment.Count}. {potion.Name} (가격: {potion.Price}, {recoverText})");
                 }
 
-                RenderConsole.WriteLine("아이템 번호를 입력하면 장착/해제, 또는 소비할 수 있습니다. (0 입력 시 나가기)");
+                RenderConsole.WriteLineWithSpacing("아이템 번호를 입력하면 장착/해제, 또는 소비할 수 있습니다. (0 입력 시 나가기)");
                 Console.Write("선택: ");
                 string input = Console.ReadLine();
 
@@ -154,18 +154,18 @@ namespace NewTxtRPG.Entitys
                     if (potion.HpBonus > 0)
                     {
                         Player.CurrentHP = Math.Min(Player.Stat.MaxHP,Player.CurrentHP + potion.HpBonus);
-                        RenderConsole.WriteLine($"{potion.Name}을(를) 사용하여 체력을 {potion.HpBonus} 회복했습니다.");
+                        RenderConsole.WriteLineWithSpacing($"{potion.Name}을(를) 사용하여 체력을 {potion.HpBonus} 회복했습니다.");
                         used = true;
                     }
                     else if (potion.MpBonus > 0)
                     {
                         Player.CurrentMP = Math.Min(Player.Stat.MaxMP, Player.CurrentMP + potion.MpBonus);
-                        RenderConsole.WriteLine($"{potion.Name}을(를) 사용하여 마나를 {potion.MpBonus} 회복했습니다.");
+                        RenderConsole.WriteLineWithSpacing($"{potion.Name}을(를) 사용하여 마나를 {potion.MpBonus} 회복했습니다.");
                         used = true;
                     }
                     else
                     {
-                        RenderConsole.WriteLine($"{potion.Name}은(는) 사용할 수 없는 아이템입니다.");
+                        RenderConsole.WriteLineWithSpacing($"{potion.Name}은(는) 사용할 수 없는 아이템입니다.");
                     }
 
                     if (used)
@@ -175,10 +175,10 @@ namespace NewTxtRPG.Entitys
                 }
                 else
                 {
-                    RenderConsole.WriteLine("잘못된 입력입니다. 다시 입력하세요.");
+                    RenderConsole.WriteLineWithSpacing("잘못된 입력입니다. 다시 입력하세요.");
                 }
 
-                RenderConsole.WriteLine("계속하려면 Enter를 누르세요...");
+                RenderConsole.WriteLineWithSpacing("계속하려면 Enter를 누르세요...");
                 Console.ReadLine();
             }
             Console.Clear();

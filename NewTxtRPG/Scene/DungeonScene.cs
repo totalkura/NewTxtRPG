@@ -74,7 +74,7 @@ namespace NewTxtRPG.Scene
 
                 Player.CurrentSpeed += Player.Stat.Speed;
 
-                RenderConsole.WriteLine("┌────────────────────────────────────────────────────────────┐", ConsoleColor.DarkGray);
+                RenderConsole.WriteLineWithSpacing("┌────────────────────────────────────────────────────────────┐", ConsoleColor.DarkGray);
                 foreach (Monsters monster in FloorMonster)
                 {
                     string texts = $"[ {monster.Name,2} ]";
@@ -95,12 +95,12 @@ namespace NewTxtRPG.Scene
                     Console.ResetColor();
                     RenderConsole.Write(" HP", ConsoleColor.Red);
                     Console.Write($" : {monster.CurrentHP,4} / {monster.Stat.MaxHP,4} speed : ");
-                    RenderConsole.WriteLine($"{speedCheck}", ConsoleColor.Green);
+                    RenderConsole.WriteLineWithSpacing($"{speedCheck}", ConsoleColor.Green);
                     
                 }
 
 
-                RenderConsole.WriteLine("└────────────────────────────────────────────────────────────┘", ConsoleColor.DarkGray);
+                RenderConsole.WriteLineWithSpacing("└────────────────────────────────────────────────────────────┘", ConsoleColor.DarkGray);
                 foreach (Monsters monster in FloorMonster)
                 {
                     if (monster.CurrentSpeed >= 100)
@@ -108,7 +108,7 @@ namespace NewTxtRPG.Scene
                         ActionMonster(monster);
                         checkCursorPosition += 4;
                         Thread.Sleep(1500);
-                        RenderConsole.WriteLine("──────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
+                        RenderConsole.WriteLineWithSpacing("──────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
                     }
                 }
 
@@ -131,14 +131,14 @@ namespace NewTxtRPG.Scene
                     {
                         Console.SetCursorPosition(0, checkCursorPosition);
 
-                        RenderConsole.WriteLine("──────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
+                        RenderConsole.WriteLineWithSpacing("──────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
                         RenderConsole.Write($"{Player.Name}", ConsoleColor.Blue);
                         Console.WriteLine($" 턴입니다 행동을 선택해 주세요");
                         Console.WriteLine("                                              ");
                         Console.WriteLine("1. 공격");
                         Console.WriteLine("2. 스킬");
                         Console.WriteLine("3. 아이템");
-                        RenderConsole.WriteLine("──────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
+                        RenderConsole.WriteLineWithSpacing("──────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
                         Console.Write(">>");
                         string playerSelect = Console.ReadLine();
                         int rands;
@@ -241,7 +241,7 @@ namespace NewTxtRPG.Scene
                 Console.Write("만큼 ");
                 RenderConsole.Write("데미지", ConsoleColor.Red);
                 Console.WriteLine("를 입었습니다.\n");
-                RenderConsole.WriteLine("──────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
+                RenderConsole.WriteLineWithSpacing("──────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
                 Thread.Sleep(700);
             }
 
@@ -267,8 +267,8 @@ namespace NewTxtRPG.Scene
             Console.WriteLine("적이 너무 강해서 후퇴했습니다..");
             Console.WriteLine("가지고 있던 돈을 절반 잃어버렸습니다..\n");
 
-            RenderConsole.WriteLine($"{Player.CurrentHP} => 10 \n", ConsoleColor.Red);
-            RenderConsole.WriteLine($"\n{Player.Gold} - {Player.Gold/2} ", ConsoleColor.Yellow);
+            RenderConsole.WriteLineWithSpacing($"{Player.CurrentHP} => 10 \n", ConsoleColor.Red);
+            RenderConsole.WriteLineWithSpacing($"\n{Player.Gold} - {Player.Gold/2} ", ConsoleColor.Yellow);
             Player.CurrentHP = 10;
             Player.Gold = Player.Gold / 2;
 
@@ -282,8 +282,8 @@ namespace NewTxtRPG.Scene
 
             Console.WriteLine("보상으로 경험치와 골드를 획득하였습니다");
 
-            RenderConsole.WriteLine($"\n{Player.Gold} + {gold} ", ConsoleColor.Yellow);
-            RenderConsole.WriteLine($"{Player.Exp} + {exp} ", ConsoleColor.Cyan);
+            RenderConsole.WriteLineWithSpacing($"\n{Player.Gold} + {gold} ", ConsoleColor.Yellow);
+            RenderConsole.WriteLineWithSpacing($"{Player.Exp} + {exp} ", ConsoleColor.Cyan);
 
             Player.LevelUp();
             Thread.Sleep(4000);

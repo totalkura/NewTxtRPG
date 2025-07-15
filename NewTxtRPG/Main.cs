@@ -68,7 +68,7 @@ namespace NewTxtRPG
             Console.Write("플레이어 이름을 입력하세요: ");
             string name = Console.ReadLine();
 
-            RenderConsole.WriteLine("직업을 선택하세요:");
+            RenderConsole.WriteLineWithSpacing("직업을 선택하세요:");
             Console.WriteLine("1. 전사");
             Console.WriteLine("   - 공격력: 10, 방어력: 5, 체력: 100, 마나: 30");
             Console.WriteLine("   - 설명: 튼튼한 방어와 무난한 공격력을 가진 근접 전투 전문가");
@@ -97,7 +97,7 @@ namespace NewTxtRPG
                 }
                 else
                 {
-                    RenderConsole.WriteLine("잘못된 입력입니다. 다시 입력하세요.");
+                    RenderConsole.WriteLineWithSpacing("잘못된 입력입니다. 다시 입력하세요.");
                 }
             }
 
@@ -116,7 +116,7 @@ namespace NewTxtRPG
                 var equippedSet = equipField?.GetValue(Player.Inventory) as HashSet<string>;
                 equippedSet?.Add(initialItem.Value.Name);
             }
-            RenderConsole.WriteLine($"{name}님, {(selectedJob is WarriorJob ? "전사" : "도적")}(으)로 게임을 시작합니다!");
+            RenderConsole.WriteLineWithSpacing($"{name}님, {(selectedJob is WarriorJob ? "전사" : "도적")}(으)로 게임을 시작합니다!");
         }
 
         private static void LoadGame()

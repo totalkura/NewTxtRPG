@@ -9,12 +9,12 @@ namespace NewTxtRPG.Scene
         {
             while (true)
             {
-                RenderConsole.WriteLine("\x1b[1m\x1b[38;5;208m마을\x1b[0m");
-                RenderConsole.WriteLine("무엇을 하시겠습니까?");
-                RenderConsole.WriteLine("1. 인벤토리");
-                RenderConsole.WriteLine("2. 여관 이용하기");
-                RenderConsole.WriteLine("3. 상점 이용하기");
-                RenderConsole.WriteLine("0. 마을 나가기");
+                RenderConsole.WriteLineWithSpacing("\x1b[1m\x1b[38;5;208m마을\x1b[0m");
+                RenderConsole.WriteLineWithSpacing("무엇을 하시겠습니까?");
+                RenderConsole.WriteLineWithSpacing("1. 인벤토리");
+                RenderConsole.WriteLineWithSpacing("2. 여관 이용하기");
+                RenderConsole.WriteLineWithSpacing("3. 상점 이용하기");
+                RenderConsole.WriteLineWithSpacing("0. 마을 나가기");
 
                 Console.Write("선택: ");
                 string input = Console.ReadLine();
@@ -36,7 +36,7 @@ namespace NewTxtRPG.Scene
                         QuitVillage();
                         return;
                     default:
-                        RenderConsole.WriteLine("잘못된 입력입니다. 다시 선택하세요.");
+                        RenderConsole.WriteLineWithSpacing("잘못된 입력입니다. 다시 선택하세요.");
                         break;
                 }
             }
@@ -48,17 +48,17 @@ namespace NewTxtRPG.Scene
 
         private void UseInn()
         {
-            RenderConsole.WriteLine("여관에서 휴식을 취합니다.");
+            RenderConsole.WriteLineWithSpacing("여관에서 휴식을 취합니다.");
             // 여관 이용 로직 추가
         }
         private void UseShop()
         {
-            RenderConsole.WriteLine("상점에서 아이템을 구매합니다.");
+            RenderConsole.WriteLineWithSpacing("상점에서 아이템을 구매합니다.");
             // 상점 이용 로직 추가
         }
         private void QuitVillage()
         {
-            RenderConsole.WriteLine("마을을 나갑니다.");
+            RenderConsole.WriteLineWithSpacing("마을을 나갑니다.");
         }
     }
 }

@@ -15,11 +15,11 @@ namespace NewTxtRPG.Scene
             while (true)
             {
                 RenderConsole.WriteEmptyLine();
-                RenderConsole.WriteLine("무엇을 하시겠습니까?");
-                RenderConsole.WriteLine("1. 상태보기 ");
-                RenderConsole.WriteLine("2. 마을 (상점, 여관 등) ");
-                RenderConsole.WriteLine("3. 던전");
-                RenderConsole.WriteLine("0. 게임 종료");
+                RenderConsole.WriteLineWithSpacing("무엇을 하시겠습니까?");
+                RenderConsole.WriteLineWithSpacing("1. 상태보기 ");
+                RenderConsole.WriteLineWithSpacing("2. 마을 (상점, 여관 등) ");
+                RenderConsole.WriteLineWithSpacing("3. 던전");
+                RenderConsole.WriteLineWithSpacing("0. 게임 종료");
                 Console.Write("선택: ");
                 string input = Console.ReadLine();
 
@@ -40,7 +40,7 @@ namespace NewTxtRPG.Scene
                         EndGame();
                         return;
                     default:
-                        RenderConsole.WriteLine("잘못된 입력입니다. 다시 선택하세요.");
+                        RenderConsole.WriteLineWithSpacing("잘못된 입력입니다. 다시 선택하세요.");
                         break;
                 }
             }
@@ -48,9 +48,9 @@ namespace NewTxtRPG.Scene
 
         public void ShowPlayerStatus()
         {
-            RenderConsole.WriteLine($"이름: {Player.Name}");
-            RenderConsole.WriteLine($"체력: {Player.CurrentHP} / {Player.Stat.MaxHP}");
-            RenderConsole.WriteLine($"마나: {Player.CurrentMP} / {Player.Stat.MaxMP}");
+            RenderConsole.WriteLineWithSpacing($"이름: {Player.Name}");
+            RenderConsole.WriteLineWithSpacing($"체력: {Player.CurrentHP} / {Player.Stat.MaxHP}");
+            RenderConsole.WriteLineWithSpacing($"마나: {Player.CurrentMP} / {Player.Stat.MaxMP}");
 
             // 아이템 추가 공격력/방어력이 있을 때만 괄호로 표시
             string attackText = Player.ItemAttackBonus > 0
@@ -60,18 +60,18 @@ namespace NewTxtRPG.Scene
                 ? $" (+{Player.ItemDefenseBonus})"
                 : "";
 
-            RenderConsole.WriteLine($"공격력: {Player.Stat.Attack + Player.ItemAttackBonus}{attackText}");
-            RenderConsole.WriteLine($"방어력: {Player.Stat.Defense + Player.ItemDefenseBonus}{defenseText}");
-            RenderConsole.WriteLine($"골드: {Player.Gold}");
+            RenderConsole.WriteLineWithSpacing($"공격력: {Player.Stat.Attack + Player.ItemAttackBonus}{attackText}");
+            RenderConsole.WriteLineWithSpacing($"방어력: {Player.Stat.Defense + Player.ItemDefenseBonus}{defenseText}");
+            RenderConsole.WriteLineWithSpacing($"골드: {Player.Gold}");
 
             if (Player.Job != null)
             {
-                RenderConsole.WriteLine("스킬 목록:");
-                RenderConsole.WriteLine($"  1. {Player.Job.Skill1.Name} - {Player.Job.Skill1.Effect} (배수: {Player.Job.Skill1.Multiplier}, 마나 소모: {Player.Job.Skill1.ManaCost})");
-                RenderConsole.WriteLine($"  2. {Player.Job.Skill2.Name} - {Player.Job.Skill2.Effect} (배수: {Player.Job.Skill2.Multiplier}, 마나 소모: {Player.Job.Skill2.ManaCost})");
+                RenderConsole.WriteLineWithSpacing("스킬 목록:");
+                RenderConsole.WriteLineWithSpacing($"  1. {Player.Job.Skill1.Name} - {Player.Job.Skill1.Effect} (배수: {Player.Job.Skill1.Multiplier}, 마나 소모: {Player.Job.Skill1.ManaCost})");
+                RenderConsole.WriteLineWithSpacing($"  2. {Player.Job.Skill2.Name} - {Player.Job.Skill2.Effect} (배수: {Player.Job.Skill2.Multiplier}, 마나 소모: {Player.Job.Skill2.ManaCost})");
             }
 
-            RenderConsole.WriteLine("계속하려면 Enter를 누르세요...");
+            RenderConsole.WriteLineWithSpacing("계속하려면 Enter를 누르세요...");
             Console.ReadLine();
             Console.Clear();
         }
@@ -118,12 +118,12 @@ namespace NewTxtRPG.Scene
                 }
 
             }
-            RenderConsole.WriteLine("던전으로 이동합니다. 적과 싸우고 보물을 찾을 수 있습니다.");
+            RenderConsole.WriteLineWithSpacing("던전으로 이동합니다. 적과 싸우고 보물을 찾을 수 있습니다.");
         }
 
         private void EndGame()
         {
-            RenderConsole.WriteLine("게임을 종료합니다. 감사합니다!");
+            RenderConsole.WriteLineWithSpacing("게임을 종료합니다. 감사합니다!");
             // 여기서 게임 종료 로직을 추가할 수 있습니다.
         }
     }
