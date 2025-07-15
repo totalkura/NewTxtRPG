@@ -53,6 +53,32 @@ namespace Legacy.Gwangho
             {
                 Console.Clear();
                 Console.WriteLine("직업을 선택해 주십시오.");
+                Console.WriteLine("1. 전사");
+                Console.WriteLine("2. 도적");
+                Console.WriteLine("3. 마법사");
+                string choice2 = Console.ReadLine();
+                if (int.TryParse(choice2, out int cho2))
+                {
+                    if (cho2 == 1)
+                    {
+                        Console.WriteLine("알겠습니다. 캐릭터의 직업은 전사입니다.");
+                        job = "전사";
+                        Profile.atk += 2;
+                        break;
+                    }
+                    else if (cho2 == 2)
+                    {
+                        Console.WriteLine("알겠습니다. 캐릭터의 직업은 도적입니다.");
+                        job = "도적";
+                        break;
+                    }
+                    else if (cho2 == 3)
+                    {
+                        Console.WriteLine("알겠습니다. 캐릭터의 직업은 마법사입니다.");
+                        job = "마법사";
+                        break;
+                    }
+                }
 
             }
             // 이후 게임 진행 로직
