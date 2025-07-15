@@ -1,11 +1,13 @@
-﻿using NewTxtRPG.etc;
+﻿using NewTxtRPG.Entitys;
+using NewTxtRPG.etc;
+using NewTxtRPG.Interface;
 using NewTxtRPG.Scene;
+using NewTxtRPG.Structs;
 
 namespace NewTxtRPG
 {
     internal class MainClass
     {
-        //public static Player Player { get; private set; }
         public static void Main(string[] args)
         {
             Console.WriteLine("스파르타 던전에 오신 것을 환영합니다!");
@@ -77,43 +79,44 @@ namespace NewTxtRPG
             Console.WriteLine("   - 설명: 빠른 공격과 높은 기동성을 가진 치명적인 암살자");
             Console.WriteLine("   - 초기 장비: 초보자의 검");
 
-            //IJob selectedJob = null;
-            //ItemInfo? initialItem = null;
-            //while (selectedJob == null)
-            //{
-            //    Console.Write("번호를 입력하세요 (1 또는 2): ");
-            //    string input = Console.ReadLine();
-            //    if (input == "1")
-            //    {
-            //        selectedJob = new WarriorJob();
-            //        initialItem = Items.ItemList.FirstOrDefault(x => x.Name == "가죽 튜닉");
-            //    }
-            //    else if (input == "2")
-            //    {
-            //        selectedJob = new ThiefJob();
-            //        initialItem = Items.ItemList.FirstOrDefault(x => x.Name == "초보자의 검");
-            //    }
-            //    else
-            //    {
-            //        RenderConsole.WriteLine("잘못된 입력입니다. 다시 입력하세요.");
-            //    }
-            //}
+            IJob selectedJob = null;
+            ItemInfo? initialItem = null;
+            while (selectedJob == null)
+            {
+                Console.Write("번호를 입력하세요 (1 또는 2): ");
+                string input = Console.ReadLine();
+                if (input == "1")
+                {
+                    selectedJob = new WarriorJob();
+                    initialItem = Items.ItemList.FirstOrDefault(x => x.Name == "가죽 튜닉");
+                }
+                else if (input == "2")
+                {
+                    selectedJob = new ThiefJob();
+                    initialItem = Items.ItemList.FirstOrDefault(x => x.Name == "초보자의 검");
+                }
+                else
+                {
+                    RenderConsole.WriteLine("잘못된 입력입니다. 다시 입력하세요.");
+                }
+            }
 
-            //Player = new Player(name, beginningGold, selectedJob);
-            //if (initialItem.HasValue)
-            //{
-            //    Player.Inventory.AddItem(initialItem.Value);
-            //    // 바로 장착
-            //    if (initialItem.Value.AttackBonus > 0)
-            //        Player.ItemAttackBonus += initialItem.Value.AttackBonus;
-            //    if (initialItem.Value.DefenseBonus > 0)
-            //        Player.ItemDefenseBonus += initialItem.Value.DefenseBonus;
-            //    // 장착 상태로 표시
-            //    var equipField = typeof(Inventory).GetField("equippedItems", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            //    var equippedSet = equipField?.GetValue(Player.Inventory) as HashSet<string>;
-            //    equippedSet?.Add(initialItem.Value.Name);
-            //}
-            //RenderConsole.WriteLine($"{name}님, {(selectedJob is WarriorJob ? "전사" : "도적")}로 게임을 시작합니다!");
+            Player.Initialize(name, 1599, selectedJob);
+
+            if (initialItem.HasValue)
+            {
+                Player.Inventory.AddItem(initialItem.Value);
+                // 바로 장착
+                if (initialItem.Value.AttackBonus > 0)
+                    Player.ItemAttackBonus += initialItem.Value.AttackBonus;
+                if (initialItem.Value.DefenseBonus > 0)
+                    Player.ItemDefenseBonus += initialItem.Value.DefenseBonus;
+                // 장착 상태로 표시
+                var equipField = typeof(Inventory).GetField("equippedItems", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                var equippedSet = equipField?.GetValue(Player.Inventory) as HashSet<string>;
+                equippedSet?.Add(initialItem.Value.Name);
+            }
+            RenderConsole.WriteLine($"{name}님, {(selectedJob is WarriorJob ? "전사" : "도적")}로 게임을 시작합니다!");
         }
 
         private static void LoadGame()

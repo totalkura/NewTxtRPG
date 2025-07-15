@@ -34,7 +34,7 @@ namespace NewTxtRPG.Entitys
         public int Count => Equipment.Count;
 
         // 인벤토리 출력 및 장착/해제 기능
-        public void ShowAndEquip(Player player)
+        public void ShowAndEquip()
         {
             while (true)
             {
@@ -79,12 +79,12 @@ namespace NewTxtRPG.Entitys
                         var equippedAttackItem = Equipment.FirstOrDefault(x => x.AttackBonus > 0 && equippedItems.Contains(x.Name));
                         if (equippedAttackItem.Name != null)
                         {
-                            player.ItemAttackBonus -= equippedAttackItem.AttackBonus;
+                            Player.ItemAttackBonus -= equippedAttackItem.AttackBonus;
                             equippedItems.Remove(equippedAttackItem.Name);
                             RenderConsole.WriteLine($"{equippedAttackItem.Name}을(를) 해제했습니다. (공격력 아이템은 하나만 장착 가능)");
                         }
                         // 장착
-                        player.ItemAttackBonus += item.AttackBonus;
+                        Player.ItemAttackBonus += item.AttackBonus;
                         equippedItems.Add(item.Name);
                         RenderConsole.WriteLine($"{item.Name}을(를) 장착했습니다.");
                     }
@@ -94,12 +94,12 @@ namespace NewTxtRPG.Entitys
                         var equippedDefenseItem = Equipment.FirstOrDefault(x => x.DefenseBonus > 0 && equippedItems.Contains(x.Name));
                         if (equippedDefenseItem.Name != null)
                         {
-                            player.ItemDefenseBonus -= equippedDefenseItem.DefenseBonus;
+                            Player.ItemDefenseBonus -= equippedDefenseItem.DefenseBonus;
                             equippedItems.Remove(equippedDefenseItem.Name);
                             RenderConsole.WriteLine($"{equippedDefenseItem.Name}을(를) 해제했습니다. (방어력 아이템은 하나만 장착 가능)");
                         }
                         // 장착
-                        player.ItemDefenseBonus += item.DefenseBonus;
+                        Player.ItemDefenseBonus += item.DefenseBonus;
                         equippedItems.Add(item.Name);
                         RenderConsole.WriteLine($"{item.Name}을(를) 장착했습니다.");
                     }

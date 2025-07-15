@@ -1,4 +1,5 @@
-﻿using NewTxtRPG.etc;
+﻿using NewTxtRPG.Entitys;
+using NewTxtRPG.etc;
 
 namespace NewTxtRPG.Scene
 {

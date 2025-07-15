@@ -17,7 +17,7 @@ namespace NewTxtRPG.Scene
             FloorMonster = new List<Monsters>();
         }
 
-        public void Battle(string difficult, Player player)
+        public void Battle(string difficult)
         {
 
             Console.Clear();
@@ -61,7 +61,7 @@ namespace NewTxtRPG.Scene
                 Console.Clear();
                 int checkCursorPosition = 6;
 
-                player.CurrentSpeed += player.Stat.Speed;
+                Player.CurrentSpeed += Player.Stat.Speed;
                 foreach (Monsters monster in FloorMonster)
                 {
                     string texts = $"[ {monster.Name,2} ]";
@@ -88,7 +88,7 @@ namespace NewTxtRPG.Scene
                 {
                     if (monster.CurrentSpeed >= 100)
                     {
-                        ActionMonster(monster, player);
+                        ActionMonster(monster);
                         checkCursorPosition += 3;
 
                         Thread.Sleep(1500);
@@ -96,17 +96,17 @@ namespace NewTxtRPG.Scene
                 }
 
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write($"\n{player.Name}의 HP");
+                Console.Write($"\n{Player.Name}의 HP");
                 Console.ResetColor();
-                Console.WriteLine($" : {player.CurrentHP} / {player.Stat.MaxHP}\n");
+                Console.WriteLine($" : {Player.CurrentHP} / {Player.Stat.MaxHP}\n");
 
-                if (player.CurrentSpeed >= 100)
+                if (Player.CurrentSpeed >= 100)
                 {
                     while (true)
                     {
                         Console.SetCursorPosition(0, checkCursorPosition);
 
-                        Console.WriteLine($"{player.Name}의 턴입니다 행동을 선택해 주세요");
+                        Console.WriteLine($"{Player.Name}의 턴입니다 행동을 선택해 주세요");
                         Console.WriteLine("                                              ");
                         Console.WriteLine("1. 공격");
                         Console.WriteLine("2. 스킬");
@@ -127,7 +127,7 @@ namespace NewTxtRPG.Scene
                                 }
                                 while (FloorMonster[rands].DeathCheck);
 
-                                ActionPlayerAtt(player, FloorMonster[rands]);
+                                ActionPlayerAtt(FloorMonster[rands]);
                                 break;
                             case "2":
 
@@ -148,7 +148,7 @@ namespace NewTxtRPG.Scene
             }
         }
 
-        public void ActionMonster(Monsters monster, Player player)
+        public void ActionMonster(Monsters monster)
         {
             if (monster.CurrentHP > 0)
             {
@@ -158,19 +158,19 @@ namespace NewTxtRPG.Scene
                     monster.Stat.Attack + monster.Stat.Attack / 10;
 
                 monster.CurrentSpeed -= 100;
-                player.CurrentHP -= (int)Math.Ceiling(monsterAtt);
+                Player.CurrentHP -= (int)Math.Ceiling(monsterAtt);
                 Console.WriteLine($"{monster.Name}이(가) 공격합니다! ");
-                Console.WriteLine($"{player.Name}는 {Math.Ceiling(monsterAtt)}만큼 데미지를 입었습니다.\n");
+                Console.WriteLine($"{Player.Name}는 {Math.Ceiling(monsterAtt)}만큼 데미지를 입었습니다.\n");
             }
 
             monster.CurrentHP = monster.CurrentHP < 0 ? 0 : monster.CurrentHP;
 
         }
 
-        public void ActionPlayerAtt(Player player, Monsters monster)
+        public void ActionPlayerAtt(Monsters monster)
         {
 
-            if (player.CurrentHP > 0 && player.CurrentSpeed >= 100)
+            if (Player.CurrentHP > 0 && Player.CurrentSpeed >= 100)
             {
                 //치명타 및 회피 추가시 수정 예정
                 //치명타 배수 200? 150?
@@ -179,10 +179,10 @@ namespace NewTxtRPG.Scene
                     player.Stat.Attack * 1.5f  : 
                     player.Stat.Attack;
                 */
-                player.CurrentSpeed -= 100;
-                monster.CurrentHP -= player.Stat.Attack;
-                Console.WriteLine($"{player.Name}이(가) 공격합니다! ");
-                Console.WriteLine($"{monster.Name}은(는) {player.Stat.Attack}만큼 데미지를 입었습니다.");
+                Player.CurrentSpeed -= 100;
+                monster.CurrentHP -= Player.Stat.Attack;
+                Console.WriteLine($"{Player.Name}이(가) 공격합니다! ");
+                Console.WriteLine($"{monster.Name}은(는) {Player.Stat.Attack}만큼 데미지를 입었습니다.");
                 Thread.Sleep(1000);
             }
 
@@ -196,11 +196,11 @@ namespace NewTxtRPG.Scene
             Thread.Sleep(1500);
         }
 
-        public void Lose(Player player)
+        public void Lose()
         {
 
         }
-        public void Win(Player player)
+        public void Win()
         {
 
         }

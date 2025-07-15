@@ -11,18 +11,18 @@ namespace NewTxtRPG.Entitys
         public abstract Skill Skill2 { get; }
 
         // 스킬 사용 메서드
-        public virtual void UseSkill(Player player, int skillNumber)
+        public virtual void UseSkill(int skillNumber)
         {
             Skill skill = skillNumber == 1 ? Skill1 : Skill2;
 
-            if (player.CurrentMP < skill.ManaCost)
+            if (Player.CurrentMP < skill.ManaCost)
             {
                 Console.WriteLine("마나가 부족하여 스킬을 사용할 수 없습니다.");
                 return;
             }
 
-            player.CurrentMP -= skill.ManaCost;
-            Console.WriteLine($"{player.Name}이(가) '{skill.Name}' 스킬을 사용했습니다! (데미지: {player.Stat.Attack * skill.Multiplier}, 마나 소모: {skill.ManaCost})");
+            Player.CurrentMP -= skill.ManaCost;
+            Console.WriteLine($"{Player.Name}이(가) '{skill.Name}' 스킬을 사용했습니다! (데미지: {Player.Stat.Attack * skill.Multiplier}, 마나 소모: {skill.ManaCost})");
             // 실제 효과 적용(예: 적에게 데미지 등)은 추후 구현
         }
     }
