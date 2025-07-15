@@ -41,6 +41,10 @@ namespace STDungeon
         {
             return Equipment.AsReadOnly();
         }
+        public IReadOnlyList<ItemInfo> GetConsumables()
+        {
+            return Consumables.AsReadOnly();
+        }
 
         public int Count => Equipment.Count + Consumables.Count;
 
