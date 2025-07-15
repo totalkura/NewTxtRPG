@@ -36,7 +36,7 @@ namespace Legacy.Gwangho
                     }
                     else
                     {
-                        Console.WriteLine("1이나 2만 입력해 주세요.");
+                        Console.WriteLine("1, 2 중에서 입력해 주세요.");
                         Thread.Sleep(1500);
                         continue;
                     }
@@ -109,9 +109,51 @@ namespace Legacy.Gwangho
             Console.WriteLine("계속하려면 아무 키나 누르십시오...");
             Console.ReadKey();
 
-            Console.Clear();
-            Console.WriteLine("게임을 불러오시겠습니까?");
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("게임을 불러오시겠습니까?");
+                Console.WriteLine("1. 불러오기");
+                Console.WriteLine("2. 그냥 하기");
 
+                string choice3 = Console.ReadLine();
+                if (int.TryParse(choice3, out int cho3))
+                {
+                    if (cho3 == 1)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("게임을 불러옵니다...");
+                        Thread.Sleep(200);
+                        Console.Clear();
+                        Console.WriteLine("게임을 불러옵니다/..");
+                        Thread.Sleep(200);
+                        Console.Clear();
+                        Console.WriteLine("게임을 불러옵니다./.");
+                        Thread.Sleep(200);
+                        Console.Clear();
+                        Console.WriteLine("게임을 불러옵니다../");
+                        Load.Loadgame();
+                        break;
+                    }
+                    else if (cho3 == 2)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("1, 2 중에서 입력해 주세요.");
+                        Thread.Sleep(1500);
+                        continue;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("숫자로 입력해 주세요.");
+                    Thread.Sleep(1500);
+                    continue;
+                }
+
+            }
 
             // 이후 게임 진행 로직
             Console.WriteLine("게임을 시작합니다...");
