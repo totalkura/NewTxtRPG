@@ -84,6 +84,8 @@ namespace NewTxtRPG.Entitys
             RenderConsole.WriteLine($"{item.Name}을(를) 해제했습니다.");
         }
 
+
+
         // 인벤토리 출력 및 장착/해제 기능
         public void ShowAndEquip()
         {
@@ -151,13 +153,13 @@ namespace NewTxtRPG.Entitys
 
                     if (potion.HpBonus > 0)
                     {
-                        player.CurrentHp = Math.Min(player.MaxHp, player.CurrentHp + potion.HpBonus);
+                        Player.CurrentHP = Math.Min(Player.Stat.MaxHP,Player.CurrentHP + potion.HpBonus);
                         RenderConsole.WriteLine($"{potion.Name}을(를) 사용하여 체력을 {potion.HpBonus} 회복했습니다.");
                         used = true;
                     }
                     else if (potion.MpBonus > 0)
                     {
-                        player.CurrentMp = Math.Min(player.MaxMp, player.CurrentMp + potion.MpBonus);
+                        Player.CurrentMP = Math.Min(Player.Stat.MaxMP, Player.CurrentMP + potion.MpBonus);
                         RenderConsole.WriteLine($"{potion.Name}을(를) 사용하여 마나를 {potion.MpBonus} 회복했습니다.");
                         used = true;
                     }

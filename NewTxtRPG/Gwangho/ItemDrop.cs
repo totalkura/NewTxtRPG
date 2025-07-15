@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-
+/*
 namespace Legacy.Gwangho
 {
     
@@ -37,4 +37,4 @@ namespace Legacy.Gwangho
 
     }
 }
-
+*/
