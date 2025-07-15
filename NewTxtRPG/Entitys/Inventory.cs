@@ -10,31 +10,33 @@ namespace STDungeon
 {
     internal class Inventory
     {
-        private List<ItemInfo> items;
+
+        private List<ItemInfo> Equipment; // 장비 목록
+        private List<ItemInfo> Consumables; // 소모품 목록
         private HashSet<string> equippedItems; // 장착된 아이템 이름 저장
 
         public Inventory()
         {
-            items = new List<ItemInfo>();
+            Equipment = new List<ItemInfo>();
             equippedItems = new HashSet<string>();
         }
 
         public void AddItem(ItemInfo item)
         {
-            items.Add(item);
+            Equipment.Add(item);
         }
 
         public bool RemoveItem(ItemInfo item)
         {
-            return items.Remove(item);
+            return Equipment.Remove(item);
         }
 
         public IReadOnlyList<ItemInfo> GetItems()
         {
-            return items.AsReadOnly();
+            return Equipment.AsReadOnly();
         }
 
-        public int Count => items.Count;
+        public int Count => Equipment.Count;
 
         // 인벤토리 출력 및 장착/해제 기능
         public void ShowAndEquip(Player player)
@@ -43,7 +45,7 @@ namespace STDungeon
             {
                 Console.Clear();
                 RenderConsole.WriteLine("인벤토리:");
-                if (items.Count == 0)
+                if (Equipment.Count == 0)
                 {
                     RenderConsole.WriteLine("  (비어 있음)");
                     RenderConsole.WriteLine("계속하려면 Enter를 누르세요...");
@@ -51,9 +53,9 @@ namespace STDungeon
                     return;
                 }
 
-                for (int i = 0; i < items.Count; i++)
+                for (int i = 0; i < Equipment.Count; i++)
                 {
-                    var item = items[i];
+                    var item = Equipment[i];
                     string statText = item.AttackBonus > 0
                         ? $"공격력 상승: {item.AttackBonus}"
                         : item.DefenseBonus > 0
@@ -71,15 +73,15 @@ namespace STDungeon
                     break;
 
                 int idx;
-                if (int.TryParse(input, out idx) && idx >= 1 && idx <= items.Count)
+                if (int.TryParse(input, out idx) && idx >= 1 && idx <= Equipment.Count)
                 {
-                    var item = items[idx - 1];
+                    var item = Equipment[idx - 1];
 
                     // 공격력/방어력 아이템 중복 장착 방지
                     if (item.AttackBonus > 0)
                     {
                         // 이미 공격력 아이템이 장착되어 있다면 해제
-                        var equippedAttackItem = items.FirstOrDefault(x => x.AttackBonus > 0 && equippedItems.Contains(x.Name));
+                        var equippedAttackItem = Equipment.FirstOrDefault(x => x.AttackBonus > 0 && equippedItems.Contains(x.Name));
                         if (equippedAttackItem.Name != null)
                         {
                             player.ItemAttackBonus -= equippedAttackItem.AttackBonus;
@@ -94,7 +96,7 @@ namespace STDungeon
                     else if (item.DefenseBonus > 0)
                     {
                         // 이미 방어력 아이템이 장착되어 있다면 해제
-                        var equippedDefenseItem = items.FirstOrDefault(x => x.DefenseBonus > 0 && equippedItems.Contains(x.Name));
+                        var equippedDefenseItem = Equipment.FirstOrDefault(x => x.DefenseBonus > 0 && equippedItems.Contains(x.Name));
                         if (equippedDefenseItem.Name != null)
                         {
                             player.ItemDefenseBonus -= equippedDefenseItem.DefenseBonus;
@@ -137,7 +139,7 @@ namespace STDungeon
         public (int attackBonus, int defenseBonus) GetEquippedBonus()
         {
             int attack = 0, defense = 0;
-            foreach (var item in items)
+            foreach (var item in Equipment)
             {
                 if (equippedItems.Contains(item.Name))
                 {
