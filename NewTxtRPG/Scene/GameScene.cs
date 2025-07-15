@@ -1,11 +1,14 @@
 ﻿using NewTxtRPG.Entitys;
 using NewTxtRPG.etc;
+using NewTxtRPG.Interface;
+using NewTxtRPG.Structs;
 
 namespace NewTxtRPG.Scene
 {
     internal class GameScene
     {
         VillageScene villageScene = new VillageScene();
+        
         //던전 신
         public void StartGameScene()
         {
@@ -26,7 +29,6 @@ namespace NewTxtRPG.Scene
                 {
                     case "1":
                         ShowPlayerStatus();
-                        RenderConsole.WriteLine("플레이어 상태를 보여주는 기능은 아직 구현되지 않았습니다.");
                         break;
                     case "2":
                         GoVillage();
@@ -45,10 +47,34 @@ namespace NewTxtRPG.Scene
             }
         }
 
-        private void ShowPlayerStatus()
+        public void ShowPlayerStatus()
         {
-            RenderConsole.WriteLine("플레이어 상태를 보여주는 기능은 아직 구현되지 않았습니다.");
-            // 여기서 플레이어 상태를 보여주는 로직을 추가할 수 있습니다.
+            RenderConsole.WriteLine($"이름: {Player.Name}");
+            RenderConsole.WriteLine($"체력: {Player.CurrentHP} / {Player.Stat.MaxHP}");
+            RenderConsole.WriteLine($"마나: {Player.CurrentMP} / {Player.Stat.MaxMP}");
+
+            // 아이템 추가 공격력/방어력이 있을 때만 괄호로 표시
+            string attackText = Player.ItemAttackBonus > 0
+                ? $" (+{Player.ItemAttackBonus})"
+                : "";
+            string defenseText = Player.ItemDefenseBonus > 0
+                ? $" (+{Player.ItemDefenseBonus})"
+                : "";
+
+            RenderConsole.WriteLine($"공격력: {Player.Stat.Attack + Player.ItemAttackBonus}{attackText}");
+            RenderConsole.WriteLine($"방어력: {Player.Stat.Defense + Player.ItemDefenseBonus}{defenseText}");
+            RenderConsole.WriteLine($"골드: {Player.Gold}");
+
+            if (Player.Job != null)
+            {
+                RenderConsole.WriteLine("스킬 목록:");
+                RenderConsole.WriteLine($"  1. {Player.Job.Skill1.Name} - {Player.Job.Skill1.Effect} (배수: {Player.Job.Skill1.Multiplier}, 마나 소모: {Player.Job.Skill1.ManaCost})");
+                RenderConsole.WriteLine($"  2. {Player.Job.Skill2.Name} - {Player.Job.Skill2.Effect} (배수: {Player.Job.Skill2.Multiplier}, 마나 소모: {Player.Job.Skill2.ManaCost})");
+            }
+
+            RenderConsole.WriteLine("계속하려면 Enter를 누르세요...");
+            Console.ReadLine();
+            Console.Clear();
         }
 
         private void GoVillage()

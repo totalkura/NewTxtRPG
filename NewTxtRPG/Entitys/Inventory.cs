@@ -5,7 +5,6 @@ namespace NewTxtRPG.Entitys
 {
     internal class Inventory
     {
-
         private List<ItemInfo> Equipment; // 장비 목록
         private List<ItemInfo> Consumables; // 소모품 목록
         private HashSet<string> equippedItems; // 장착된 아이템 이름 저장
@@ -32,6 +31,48 @@ namespace NewTxtRPG.Entitys
         }
 
         public int Count => Equipment.Count;
+
+        // 아이템 장착
+        private void EquipItem(ItemInfo item)
+        {
+            if (item.AttackBonus > 0)
+            {
+                var equippedAttackItem = Equipment.FirstOrDefault(x => x.AttackBonus > 0 && equippedItems.Contains(x.Name));
+                if (equippedAttackItem.Name != null)
+                {
+                    UnequipItem(equippedAttackItem);
+                    RenderConsole.WriteLine($"{equippedAttackItem.Name}을(를) 해제했습니다. (공격력 아이템은 하나만 장착 가능)");
+                }
+                Player.ItemAttackBonus += item.AttackBonus;
+            }
+            else if (item.DefenseBonus > 0)
+            {
+                var equippedDefenseItem = Equipment.FirstOrDefault(x => x.DefenseBonus > 0 && equippedItems.Contains(x.Name));
+                if (equippedDefenseItem.Name != null)
+                {
+                    UnequipItem(equippedDefenseItem);
+                    RenderConsole.WriteLine($"{equippedDefenseItem.Name}을(를) 해제했습니다. (방어력 아이템은 하나만 장착 가능)");
+                }
+                Player.ItemDefenseBonus += item.DefenseBonus;
+            }
+            equippedItems.Add(item.Name);
+            RenderConsole.WriteLine($"{item.Name}을(를) 장착했습니다.");
+        }
+
+        // 아이템 해제
+        private void UnequipItem(ItemInfo item)
+        {
+            if (item.AttackBonus > 0)
+            {
+                Player.ItemAttackBonus -= item.AttackBonus;
+            }
+            else if (item.DefenseBonus > 0)
+            {
+                Player.ItemDefenseBonus -= item.DefenseBonus;
+            }
+            equippedItems.Remove(item.Name);
+            RenderConsole.WriteLine($"{item.Name}을(를) 해제했습니다.");
+        }
 
         // 인벤토리 출력 및 장착/해제 기능
         public void ShowAndEquip()
@@ -71,51 +112,13 @@ namespace NewTxtRPG.Entitys
                 if (int.TryParse(input, out idx) && idx >= 1 && idx <= Equipment.Count)
                 {
                     var item = Equipment[idx - 1];
-
-                    // 공격력/방어력 아이템 중복 장착 방지
-                    if (item.AttackBonus > 0)
+                    if (!equippedItems.Contains(item.Name))
                     {
-                        // 이미 공격력 아이템이 장착되어 있다면 해제
-                        var equippedAttackItem = Equipment.FirstOrDefault(x => x.AttackBonus > 0 && equippedItems.Contains(x.Name));
-                        if (equippedAttackItem.Name != null)
-                        {
-                            Player.ItemAttackBonus -= equippedAttackItem.AttackBonus;
-                            equippedItems.Remove(equippedAttackItem.Name);
-                            RenderConsole.WriteLine($"{equippedAttackItem.Name}을(를) 해제했습니다. (공격력 아이템은 하나만 장착 가능)");
-                        }
-                        // 장착
-                        Player.ItemAttackBonus += item.AttackBonus;
-                        equippedItems.Add(item.Name);
-                        RenderConsole.WriteLine($"{item.Name}을(를) 장착했습니다.");
-                    }
-                    else if (item.DefenseBonus > 0)
-                    {
-                        // 이미 방어력 아이템이 장착되어 있다면 해제
-                        var equippedDefenseItem = Equipment.FirstOrDefault(x => x.DefenseBonus > 0 && equippedItems.Contains(x.Name));
-                        if (equippedDefenseItem.Name != null)
-                        {
-                            Player.ItemDefenseBonus -= equippedDefenseItem.DefenseBonus;
-                            equippedItems.Remove(equippedDefenseItem.Name);
-                            RenderConsole.WriteLine($"{equippedDefenseItem.Name}을(를) 해제했습니다. (방어력 아이템은 하나만 장착 가능)");
-                        }
-                        // 장착
-                        Player.ItemDefenseBonus += item.DefenseBonus;
-                        equippedItems.Add(item.Name);
-                        RenderConsole.WriteLine($"{item.Name}을(를) 장착했습니다.");
+                        EquipItem(item);
                     }
                     else
                     {
-                        // 기타 아이템(공격력/방어력 보너스가 없는 경우) 장착/해제
-                        if (!equippedItems.Contains(item.Name))
-                        {
-                            equippedItems.Add(item.Name);
-                            RenderConsole.WriteLine($"{item.Name}을(를) 장착했습니다.");
-                        }
-                        else
-                        {
-                            equippedItems.Remove(item.Name);
-                            RenderConsole.WriteLine($"{item.Name}을(를) 해제했습니다.");
-                        }
+                        UnequipItem(item);
                     }
                 }
                 else
@@ -128,7 +131,6 @@ namespace NewTxtRPG.Entitys
             }
             Console.Clear();
         }
-
 
         // 장착된 아이템의 총 보너스 반환
         public (int attackBonus, int defenseBonus) GetEquippedBonus()
@@ -146,3 +148,4 @@ namespace NewTxtRPG.Entitys
         }
     }
 }
+
