@@ -68,15 +68,15 @@ namespace NewTxtRPG
             string name = Console.ReadLine();
 
             RenderConsole.WriteLineWithSpacing("직업을 선택하세요:");
-            Console.WriteLine("1. 전사");
-            Console.WriteLine("   - 공격력: 10, 방어력: 5, 체력: 100, 마나: 30");
-            Console.WriteLine("   - 설명: 튼튼한 방어와 무난한 공격력을 가진 근접 전투 전문가");
-            Console.WriteLine("   - 초기 장비: 가죽 튜닉, 치유의 물약 3개");
-            Console.WriteLine();
-            Console.WriteLine("2. 도적");
-            Console.WriteLine("   - 공격력: 14, 방어력: 3, 체력: 100, 마나: 40");
-            Console.WriteLine("   - 설명: 빠른 공격과 높은 기동성을 가진 치명적인 암살자");
-            Console.WriteLine("   - 초기 장비: 초보자의 검, 치유의 물약 2개, 마나의 물약 1개");
+            RenderConsole.WriteLine("1. 전사");
+            RenderConsole.WriteLine("   - 공격력: 10, 방어력: 5, 체력: 100, 마나: 30");
+            RenderConsole.WriteLine("   - 설명: 튼튼한 방어와 무난한 공격력을 가진 근접 전투 전문가");
+            RenderConsole.WriteLine("   - 초기 장비: 가죽 튜닉, 치유의 물약 3개");
+            RenderConsole.WriteLine();
+            RenderConsole.WriteLine("2. 도적");
+            RenderConsole.WriteLine("   - 공격력: 14, 방어력: 3, 체력: 100, 마나: 40");
+            RenderConsole.WriteLine("   - 설명: 빠른 공격과 높은 기동성을 가진 치명적인 암살자");
+            RenderConsole.WriteLine("   - 초기 장비: 초보자의 검, 치유의 물약 2개, 마나의 물약 1개");
 
             IJob selectedJob = null;
             ItemInfo[] initialItems = null;

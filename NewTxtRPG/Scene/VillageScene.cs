@@ -9,6 +9,7 @@ namespace NewTxtRPG.Scene
         {
             while (true)
             {
+                Console.Clear(); // 선택 후 콘솔 전체 지우기
                 RenderConsole.WriteLineWithSpacing("\x1b[1m\x1b[38;5;208m마을\x1b[0m");
                 RenderConsole.WriteLineWithSpacing("무엇을 하시겠습니까?");
                 RenderConsole.WriteLineWithSpacing("1. 인벤토리");
@@ -55,11 +56,12 @@ namespace NewTxtRPG.Scene
         {
             while (true)
             {
-                RenderConsole.WriteLineWithSpacing("상점에 들어갑니다.");
+                Console.Clear(); // 선택 후 콘솔 전체 지우기
+                RenderConsole.WriteLineWithSpacing("이용할 상점을 선택 해 주십시오.");
                 RenderConsole.WriteLineWithSpacing("1. 장비 상점");
                 RenderConsole.WriteLineWithSpacing("2. 포션 상점");
                 RenderConsole.WriteLineWithSpacing("0. 상점 나가기");
-                Console.Write("선택: ");
+                RenderConsole.Write("선택: ");
                 string input = Console.ReadLine();
 
                 if (input == "0")
@@ -73,10 +75,13 @@ namespace NewTxtRPG.Scene
                     shopScene.ShowShopItems();
                     while (true)
                     {
-                        Console.Write("구매할 아이템 번호를 입력하세요 (0 입력 시 나가기): ");
+                        RenderConsole.Write("구매할 아이템 번호를 입력하세요 (0 입력 시 나가기): ");
                         string equipInput = Console.ReadLine();
                         if (equipInput == "0")
+                        {
+                            RenderConsole.WriteLineWithSpacing("상점을 나갑니다.");
                             break;
+                        }
                         if (int.TryParse(equipInput, out int itemIndex) && itemIndex > 0)
                         {
                             shopScene.BuyItem(itemIndex - 1);
