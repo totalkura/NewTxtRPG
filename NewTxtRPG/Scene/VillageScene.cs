@@ -53,9 +53,52 @@ namespace NewTxtRPG.Scene
         }
         private void UseShop()
         {
-            RenderConsole.WriteLineWithSpacing("상점에서 아이템을 구매합니다.");
-            // 상점 이용 로직 추가
+            while (true)
+            {
+                RenderConsole.WriteLineWithSpacing("상점에 들어갑니다.");
+                RenderConsole.WriteLineWithSpacing("1. 장비 상점");
+                RenderConsole.WriteLineWithSpacing("2. 포션 상점");
+                RenderConsole.WriteLineWithSpacing("0. 상점 나가기");
+                Console.Write("선택: ");
+                string input = Console.ReadLine();
+
+                if (input == "0")
+                {
+                    RenderConsole.WriteLineWithSpacing("상점을 나갑니다.");
+                    break;
+                }
+                else if (input == "1")
+                {
+                    EquipmentShop shopScene = new EquipmentShop();
+                    shopScene.ShowShopItems();
+                    while (true)
+                    {
+                        Console.Write("구매할 아이템 번호를 입력하세요 (0 입력 시 나가기): ");
+                        string equipInput = Console.ReadLine();
+                        if (equipInput == "0")
+                            break;
+                        if (int.TryParse(equipInput, out int itemIndex) && itemIndex > 0)
+                        {
+                            shopScene.BuyItem(itemIndex - 1);
+                        }
+                        else
+                        {
+                            RenderConsole.WriteLineWithSpacing("잘못된 입력입니다. 다시 시도하세요.");
+                        }
+                    }
+                }
+                else if (input == "2")
+                {
+                    ConsumablesShop potionShop = new ConsumablesShop();
+                    potionShop.ShowShop();
+                }
+                else
+                {
+                    RenderConsole.WriteLineWithSpacing("잘못된 입력입니다. 다시 시도하세요.");
+                }
+            }
         }
+
         private void QuitVillage()
         {
             RenderConsole.WriteLineWithSpacing("마을을 나갑니다.");

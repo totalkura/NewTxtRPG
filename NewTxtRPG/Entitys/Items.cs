@@ -19,7 +19,7 @@ namespace NewTxtRPG.Entitys
             new ItemInfo(9, ItemType.Equipment, "스파르타의 창",     1600,  "스파르타의 전사들이 사용했다는 전설의 창입니다.", 7, 0, 0, 0),
             new ItemInfo(10, ItemType.Equipment, "스파르타의 갑옷",  3500,  "스파르타의 전사들이 사용했다는 전설의 갑옷입니다.", 0, 15, 0, 0),
             // 소모품 예시
-            new ItemInfo(11, ItemType.Consumables, "체력 포션",       50,  "체력을 30 회복합니다.", 0, 0, 30, 0),
+            new ItemInfo(11, ItemType.Consumables, "치유의 물약",       50,  "체력을 30 회복합니다.", 0, 0, 30, 0),
             new ItemInfo(12, ItemType.Consumables, "마나의 물약",     50,  "마나를 30 회복합니다.", 0, 0, 0, 30),
             new ItemInfo(13, ItemType.Consumables, "슈퍼 엘릭서",    200,  "체력과 마나를 동시에 50 회복하는 만능 물약입니다.", 0, 0, 50, 50)
         };
