@@ -49,6 +49,9 @@ namespace Legacy.Gwangho
                 }
             }
 
+            Console.WriteLine("계속하려면 아무 키나 누르십시오...");
+            Console.ReadKey();
+
             while (true)
             {
                 Console.Clear();
@@ -64,25 +67,56 @@ namespace Legacy.Gwangho
                         Console.WriteLine("알겠습니다. 캐릭터의 직업은 전사입니다.");
                         job = "전사";
                         Profile.atk += 2;
+                        Profile.def += 2;
+                        Profile.hp += 50;
+                        Profile.mp -= 20;
                         break;
                     }
                     else if (cho2 == 2)
                     {
                         Console.WriteLine("알겠습니다. 캐릭터의 직업은 도적입니다.");
                         job = "도적";
+                        Profile.atk += 5;
                         break;
                     }
                     else if (cho2 == 3)
                     {
                         Console.WriteLine("알겠습니다. 캐릭터의 직업은 마법사입니다.");
                         job = "마법사";
+                        Profile.def -= 2;
+                        Profile.hp -= 20;
+                        Profile.mp += 100;
                         break;
                     }
+                    else
+                    {
+                        Console.WriteLine("1, 2, 3 중에서 입력해 주세요.");
+                        Thread.Sleep(1500);
+                        continue;
+                    }
+                
+                
+                }
+                else
+                {
+                    Console.WriteLine("숫자로 입력해 주세요.");
+                    Thread.Sleep(1500);
+                    continue;
                 }
 
             }
+
+            Console.WriteLine("계속하려면 아무 키나 누르십시오...");
+            Console.ReadKey();
+
+            Console.Clear();
+            Console.WriteLine("게임을 불러오시겠습니까?");
+
+
             // 이후 게임 진행 로직
             Console.WriteLine("게임을 시작합니다...");
+            Thread.Sleep(1500);
+            Game();
         }
     }
 }
