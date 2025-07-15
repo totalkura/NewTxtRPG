@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace STDungeon
+﻿namespace NewTxtRPG.Structs
 {
     // 스킬의 공통적인 속성을 담는 구조체
     internal struct Skill

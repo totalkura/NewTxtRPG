@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NewTxtRPG.etc
+﻿namespace NewTxtRPG.etc
 {
     internal static class RenderConsole
     {

@@ -1,4 +1,6 @@
-﻿namespace STDungeon
+﻿using NewTxtRPG.Structs;
+
+namespace NewTxtRPG.Entitys
 {
 
     internal class Monsters

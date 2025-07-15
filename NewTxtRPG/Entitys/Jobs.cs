@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NewTxtRPG.Interface;
+using NewTxtRPG.Structs;
 
-namespace STDungeon
+namespace NewTxtRPG.Entitys
 {
     // 직업의 기본 베이스 클래스
     internal abstract class JobBase : IJob

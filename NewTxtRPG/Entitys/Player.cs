@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NewTxtRPG.Interface;
+using NewTxtRPG.Structs;
 
-namespace STDungeon
+namespace NewTxtRPG.Entitys
 {
     // 플레이어 클래스: ICreture 인터페이스 구현
     internal class Player : ICreture

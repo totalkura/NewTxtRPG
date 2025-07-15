@@ -1,8 +1,7 @@
-﻿using STDungeon;
-using System.Threading;
+﻿using NewTxtRPG.Entitys;
 
 
-namespace STDungeon
+namespace NewTxtRPG.Scene
 {
     internal class DungeonScene
     {
