@@ -51,7 +51,6 @@ namespace NewTxtRPG.Entitys
 
         public static void Player_LevelUp()
         {
-
             Level += 1;
             //Stat.Attack += 2;
             //Stat.Defense += 1;

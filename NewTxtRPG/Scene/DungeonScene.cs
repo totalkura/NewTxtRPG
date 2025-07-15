@@ -1,4 +1,5 @@
 ﻿using NewTxtRPG.Entitys;
+using NewTxtRPG.etc;
 using NewTxtRPG.Structs;
 using System.Threading;
 
@@ -8,7 +9,7 @@ namespace NewTxtRPG.Scene
     internal class DungeonScene
     {
         private static readonly Random rand = new Random();
-        ColorWriter colorSet;
+        //ColorWriter colorSet;
         public List<Monsters> FloorMonster { get; set; }
 
         int floor;
@@ -73,7 +74,7 @@ namespace NewTxtRPG.Scene
 
                 Player.CurrentSpeed += Player.Stat.Speed;
 
-                colorSet.WriteLine("┌────────────────────────────────────────────────────────────┐", ConsoleColor.DarkGray);
+                RenderConsole.WriteLine("┌────────────────────────────────────────────────────────────┐", ConsoleColor.DarkGray);
                 foreach (Monsters monster in FloorMonster)
                 {
                     string texts = $"[ {monster.Name,2} ]";
@@ -92,14 +93,14 @@ namespace NewTxtRPG.Scene
                     Console.ForegroundColor = monster.DeathCheck ? ConsoleColor.DarkGray : ConsoleColor.Green;
                     Console.Write($"{texts}");
                     Console.ResetColor();
-                    colorSet.Write(" HP", ConsoleColor.Red);
+                    RenderConsole.Write(" HP", ConsoleColor.Red);
                     Console.Write($" : {monster.CurrentHP,4} / {monster.Stat.MaxHP,4} speed : ");
-                    colorSet.WriteLine($"{speedCheck}", ConsoleColor.Green);
+                    RenderConsole.WriteLine($"{speedCheck}", ConsoleColor.Green);
                     
                 }
 
 
-                colorSet.WriteLine("└────────────────────────────────────────────────────────────┘", ConsoleColor.DarkGray);
+                RenderConsole.WriteLine("└────────────────────────────────────────────────────────────┘", ConsoleColor.DarkGray);
                 foreach (Monsters monster in FloorMonster)
                 {
                     if (monster.CurrentSpeed >= 100)
@@ -107,12 +108,12 @@ namespace NewTxtRPG.Scene
                         ActionMonster(monster);
                         checkCursorPosition += 4;
                         Thread.Sleep(1500);
-                        colorSet.WriteLine("──────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
+                        RenderConsole.WriteLine("──────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
                     }
                 }
 
-                colorSet.Write($"{Player.Name}", ConsoleColor.Blue);
-                colorSet.Write(" HP", ConsoleColor.Red);
+                RenderConsole.Write($"{Player.Name}", ConsoleColor.Blue);
+                RenderConsole.Write(" HP", ConsoleColor.Red);
                 Console.WriteLine($" : {Player.CurrentHP} / {Player.Stat.MaxHP}\n");
 
                 //플레이어 사망
@@ -130,14 +131,14 @@ namespace NewTxtRPG.Scene
                     {
                         Console.SetCursorPosition(0, checkCursorPosition);
 
-                        colorSet.WriteLine("──────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
-                        colorSet.Write($"{Player.Name}", ConsoleColor.Blue);
+                        RenderConsole.WriteLine("──────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
+                        RenderConsole.Write($"{Player.Name}", ConsoleColor.Blue);
                         Console.WriteLine($" 턴입니다 행동을 선택해 주세요");
                         Console.WriteLine("                                              ");
                         Console.WriteLine("1. 공격");
                         Console.WriteLine("2. 스킬");
                         Console.WriteLine("3. 아이템");
-                        colorSet.WriteLine("──────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
+                        RenderConsole.WriteLine("──────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
                         Console.Write(">>");
                         string playerSelect = Console.ReadLine();
                         int rands;
@@ -198,15 +199,15 @@ namespace NewTxtRPG.Scene
                 monster.CurrentSpeed -= 100;
                 Player.CurrentHP -= (int)Math.Ceiling(monsterAtt);
 
-                colorSet.Write($"{monster.Name}", ConsoleColor.Green);
+                RenderConsole.Write($"{monster.Name}", ConsoleColor.Green);
                 Console.Write("이(가) ");
-                colorSet.Write("공격", ConsoleColor.Red);
+                RenderConsole.Write("공격", ConsoleColor.Red);
                 Console.WriteLine(" 합니다! ");
-                colorSet.Write($"{Player.Name}", ConsoleColor.Blue);
+                RenderConsole.Write($"{Player.Name}", ConsoleColor.Blue);
                 Console.Write("은(는) ");
-                colorSet.Write($"{Math.Ceiling(monsterAtt)}", ConsoleColor.DarkRed);
+                RenderConsole.Write($"{Math.Ceiling(monsterAtt)}", ConsoleColor.DarkRed);
                 Console.Write("만큼 ");
-                colorSet.Write("데미지", ConsoleColor.Red);
+                RenderConsole.Write("데미지", ConsoleColor.Red);
                 Console.WriteLine("를 입었습니다.\n");
 
                 Thread.Sleep(700);
@@ -229,24 +230,24 @@ namespace NewTxtRPG.Scene
                 Player.CurrentSpeed -= 100;
                 monster.CurrentHP -= Player.Stat.Attack;
 
-                colorSet.Write($"{Player.Name}", ConsoleColor.Blue);
+                RenderConsole.Write($"{Player.Name}", ConsoleColor.Blue);
                 Console.Write("이(가) ");
-                colorSet.Write("공격", ConsoleColor.Red);
+                RenderConsole.Write("공격", ConsoleColor.Red);
                 Console.WriteLine(" 합니다! ");
 
-                colorSet.Write($"{monster.Name}", ConsoleColor.Green);
+                RenderConsole.Write($"{monster.Name}", ConsoleColor.Green);
                 Console.Write("은(는) ");
-                colorSet.Write($"{Player.Stat.Attack}", ConsoleColor.DarkRed);
+                RenderConsole.Write($"{Player.Stat.Attack}", ConsoleColor.DarkRed);
                 Console.Write("만큼 ");
-                colorSet.Write("데미지", ConsoleColor.Red);
+                RenderConsole.Write("데미지", ConsoleColor.Red);
                 Console.WriteLine("를 입었습니다.\n");
-                colorSet.WriteLine("──────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
+                RenderConsole.WriteLine("──────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
                 Thread.Sleep(700);
             }
 
             if (monster.CurrentHP <= 0)
             {
-                colorSet.Write($"\n{monster.Name}", ConsoleColor.Green);
+                RenderConsole.Write($"\n{monster.Name}", ConsoleColor.Green);
                 Console.Write("은(는) ");
                 Console.WriteLine("기력이 다했다...");
                 monster.CurrentHP = monster.CurrentHP < 0 ? 0 : monster.CurrentHP;
@@ -266,8 +267,8 @@ namespace NewTxtRPG.Scene
             Console.WriteLine("적이 너무 강해서 후퇴했습니다..");
             Console.WriteLine("가지고 있던 돈을 절반 잃어버렸습니다..\n");
 
-            colorSet.WriteLine($"{Player.CurrentHP} => 10 \n", ConsoleColor.Red);
-            colorSet.WriteLine($"\n{Player.Gold} - {Player.Gold/2} ", ConsoleColor.Yellow);
+            RenderConsole.WriteLine($"{Player.CurrentHP} => 10 \n", ConsoleColor.Red);
+            RenderConsole.WriteLine($"\n{Player.Gold} - {Player.Gold/2} ", ConsoleColor.Yellow);
             Player.CurrentHP = 10;
             Player.Gold = Player.Gold / 2;
 
@@ -281,8 +282,8 @@ namespace NewTxtRPG.Scene
 
             Console.WriteLine("보상으로 경험치와 골드를 획득하였습니다");
 
-            colorSet.WriteLine($"\n{Player.Gold} + {gold} ", ConsoleColor.Yellow);
-            colorSet.WriteLine($"{Player.Exp} + {exp} ", ConsoleColor.Cyan);
+            RenderConsole.WriteLine($"\n{Player.Gold} + {gold} ", ConsoleColor.Yellow);
+            RenderConsole.WriteLine($"{Player.Exp} + {exp} ", ConsoleColor.Cyan);
 
             Player.LevelUp();
             Thread.Sleep(4000);

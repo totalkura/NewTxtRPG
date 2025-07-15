@@ -35,7 +35,6 @@ namespace NewTxtRPG.Scene
                         break;
                     case "3":
                         GoDungeon();
-                        RenderConsole.WriteLine("던전으로 이동하는 기능은 아직 구현되지 않았습니다.");
                         break;
                     case "0":
                         EndGame();
@@ -120,7 +119,6 @@ namespace NewTxtRPG.Scene
 
             }
             RenderConsole.WriteLine("던전으로 이동합니다. 적과 싸우고 보물을 찾을 수 있습니다.");
-            // 여기서 던전으로 이동하는 로직을 추가할 수 있습니다.
         }
 
         private void EndGame()
