@@ -8,3 +8,7 @@
 <img width="1059" height="870" alt="image (2)" src="https://github.com/user-attachments/assets/ae4c6728-3f69-44d2-9400-efe3e30f49a5" />
 
 플레이어 인터페이스 구조
+
+<img width="876" height="262" alt="image" src="https://github.com/user-attachments/assets/9a4cf947-ac45-42b5-a6a4-b3597bad9dfb" />
+
+깃 브랜치 전략

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 
 
-namespace NewTxtRPG.Gwangho
+namespace Legacy.Gwangho
 {
     
     static class ItemDrop

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NewTxtRPG.Gwangho
+namespace Legacy.Gwangho
 {
     public class Potion
     {
