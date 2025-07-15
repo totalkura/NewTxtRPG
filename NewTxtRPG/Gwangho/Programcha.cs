@@ -58,7 +58,7 @@ class Program
     static Item equippedArmor = null;
 
 
-
+    /*
     static void Main()
     {
         InitializeStore();
@@ -121,7 +121,7 @@ class Program
         }
 
     }
-
+    */
     static void status()
     {
         Console.Clear();

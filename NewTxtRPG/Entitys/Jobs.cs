@@ -33,7 +33,7 @@ namespace STDungeon
     // 전사 직업 클래스
     internal class WarriorJob : JobBase
     {
-        public override StatStruct BaseStat => new StatStruct(10, 5, 100, 30);
+        public override StatStruct BaseStat => new StatStruct(10, 5, 100, 30,0);
 
         public override Skill Skill1 => new Skill("베기", "검으로 적을 벱니다.", 1, 0);
         public override Skill Skill2 => new Skill("강타", "마나를 소모해 강력한 일격을 가합니다.", 2, 10);
@@ -42,7 +42,7 @@ namespace STDungeon
     // 도적 직업 클래스
     internal class ThiefJob : JobBase
     {
-        public override StatStruct BaseStat => new StatStruct(14, 3, 100, 40);
+        public override StatStruct BaseStat => new StatStruct(14, 3, 100, 40,0);
 
         public override Skill Skill1 => new Skill("찌르기", "단검으로 적을 빠르게 찌릅니다.", 1, 0);
         public override Skill Skill2 => new Skill("연속 찌르기", "마나를 소모해 여러 번 적을 찌릅니다.", 2, 8);
