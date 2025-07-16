@@ -51,7 +51,7 @@ namespace NewTxtRPG.Entitys
                 if (equippedAttackItem.Name != null)
                 {
                     UnequipItem(equippedAttackItem);
-                    RenderConsole.WriteLineWithSpacing($"{equippedAttackItem.Name}을(를) 해제했습니다. (공격력 아이템은 하나만 장착 가능)");
+                    RenderConsole.WriteLineWithSpacing($"(공격력 아이템은 하나만 장착 가능)");
                 }
                 Player.ItemAttackBonus += item.AttackBonus;
             }
@@ -61,7 +61,7 @@ namespace NewTxtRPG.Entitys
                 if (equippedDefenseItem.Name != null)
                 {
                     UnequipItem(equippedDefenseItem);
-                    RenderConsole.WriteLineWithSpacing($"{equippedDefenseItem.Name}을(를) 해제했습니다. (방어력 아이템은 하나만 장착 가능)");
+                    RenderConsole.WriteLineWithSpacing($"(방어력 아이템은 하나만 장착 가능)");
                 }
                 Player.ItemDefenseBonus += item.DefenseBonus;
             }

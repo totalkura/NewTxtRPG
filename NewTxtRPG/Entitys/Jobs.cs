@@ -7,6 +7,7 @@ namespace NewTxtRPG.Entitys
     // 직업의 기본 베이스 클래스
     internal abstract class JobBase : IJob
     {
+        public abstract string Name { get; } // 직업 이름
         public abstract StatStruct BaseStat { get; }
         public abstract Skill Skill1 { get; }
         public abstract Skill Skill2 { get; }
@@ -67,6 +68,7 @@ namespace NewTxtRPG.Entitys
     // 전사 직업 클래스
     internal class WarriorJob : JobBase
     {
+        public override string Name => "전사";
         public override StatStruct BaseStat => new StatStruct(10, 5, 100, 30,10);
 
         public override Skill Skill1 => new Skill("베기", "검으로 적을 벱니다.", 1, 0);
@@ -76,6 +78,7 @@ namespace NewTxtRPG.Entitys
     // 도적 직업 클래스
     internal class ThiefJob : JobBase
     {
+        public override string Name => "도적";
         public override StatStruct BaseStat => new StatStruct(14, 3, 100, 40,20);
 
         public override Skill Skill1 => new Skill("찌르기", "단검으로 적을 빠르게 찌릅니다.", 1, 0);
