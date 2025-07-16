@@ -324,9 +324,11 @@ namespace NewTxtRPG.Scene
 
             if (dropChance < 30) // 30% 확률
             {
-                var droppablePotions = Consumables;
+                var droppablePotions = Consumables
+                .Where(p => p.ItemType == ItemType.Consumables)
+                .ToList();
 
-                int index = rand.Next(droppablePotions.Count);
+                int index = rand.Next(11, 14);
 
                 ItemInfo dropped = Consumables[index];
                 Player.Inventory.AddItem(dropped);
@@ -337,10 +339,13 @@ namespace NewTxtRPG.Scene
             {
                 RenderConsole.WriteLineWithSpacing("아이템을 획득하지 못했습니다.");
             }
+            int BeforeExp = Player.Exp;
+            int BeforeGold = Player.Gold;
+            Player.Gold += gold;
+            Player.Exp += exp;
 
-
-            RenderConsole.WriteLineWithSpacing($"\n GOLD : {Player.Gold} => {Player.Gold+gold} ", ConsoleColor.Yellow);
-            RenderConsole.WriteLineWithSpacing($" EXP : {Player.Exp} => {Player.Exp+exp} ", ConsoleColor.Cyan);
+            RenderConsole.WriteLineWithSpacing($"\n GOLD : {BeforeGold} => {Player.Gold} ", ConsoleColor.Yellow);
+            RenderConsole.WriteLineWithSpacing($" EXP : {BeforeExp} => {Player.Exp} ", ConsoleColor.Cyan);
 
             Player.LevelUp();
             Thread.Sleep(4000);
