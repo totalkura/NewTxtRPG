@@ -71,6 +71,7 @@ namespace NewTxtRPG.Scene
 
                 if (playerMoveX >= 0 &&
                     playerMoveX < width &&
+                    playerMoveY >= 0 &&
                     playerMoveY < height)
                 {
                     playerX = playerMoveX;
@@ -78,8 +79,9 @@ namespace NewTxtRPG.Scene
                 }
                 else
                 {
-                    RenderConsole.WriteLine("그곳으론는 갈 수 없습니다");
+                    RenderConsole.WriteLine("그곳으로는 갈 수 없습니다");
                     Thread.Sleep(1000);
+                    continue;
                 }
 
                 if (!visit[playerMoveX, playerMoveY])
@@ -135,6 +137,7 @@ namespace NewTxtRPG.Scene
                 bossY = rand.Next(0, height);
             } while (bossX == playerX && bossY == playerY);
             visit[playerX, playerY] = true;
+            visit[bossX, bossY] = true;
 
         }
 

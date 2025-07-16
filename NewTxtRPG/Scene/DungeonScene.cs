@@ -287,6 +287,9 @@ namespace NewTxtRPG.Scene
                 case "2":
                     Player.Job.UseSkill(2, FloorMonster, gold, exp);
                     break;
+                case "3":
+                    Player.Job.UseSkill(3, FloorMonster, gold, exp);
+                    break;
             }
             Thread.Sleep(2500);
         }
