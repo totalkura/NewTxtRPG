@@ -156,6 +156,7 @@ namespace NewTxtRPG.Entitys
                         if (Player.CurrentHP == Player.Stat.MaxHP)
                         {
                             RenderConsole.WriteLineWithSpacing("체력이 이미 가득 찼습니다.");
+                            Thread.Sleep(1500);
                             return;
                         }
                         else
@@ -171,6 +172,7 @@ namespace NewTxtRPG.Entitys
                         if (Player.CurrentMP == Player.Stat.MaxMP)
                         {
                             RenderConsole.WriteLineWithSpacing("마나가 이미 가득 찼습니다.");
+                            Thread.Sleep(1500);
                             return;
                         }
                         else
