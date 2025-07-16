@@ -153,9 +153,18 @@ namespace NewTxtRPG.Entitys
 
                     if (potion.HpBonus > 0)
                     {
-                        Player.CurrentHP = Math.Min(Player.Stat.MaxHP,Player.CurrentHP + potion.HpBonus);
-                        RenderConsole.WriteLineWithSpacing($"{potion.Name}을(를) 사용하여 체력을 {potion.HpBonus} 회복했습니다.");
-                        used = true;
+                        if (Player.CurrentHP == Player.Stat.MaxHP)
+                        {
+                            RenderConsole.WriteLineWithSpacing("체력이 이미 가득 찼습니다.");
+                            return;
+                        }
+                        else
+                        {
+                            Player.CurrentHP = Math.Min(Player.Stat.MaxHP, Player.CurrentHP + potion.HpBonus);
+                            RenderConsole.WriteLineWithSpacing($"{potion.Name}을(를) 사용하여 체력을 {potion.HpBonus} 회복했습니다.");
+                            used = true;
+                        }
+                        
                     }
                     else if (potion.MpBonus > 0)
                     {
