@@ -9,8 +9,6 @@ namespace NewTxtRPG.Scene
     internal class DungeonScene
     {
 
-        private List<ItemInfo> Consumables;
-
         private static readonly Random rand = new Random();
         //ColorWriter colorSet;
         public List<Monsters> FloorMonster { get; set; }
@@ -27,7 +25,6 @@ namespace NewTxtRPG.Scene
         {
             Monsters.MonsterList();
             FloorMonster = new List<Monsters>();
-            Consumables = new List<ItemInfo>();
         }
 
         public void Battle(string difficult)
@@ -324,13 +321,13 @@ namespace NewTxtRPG.Scene
 
             if (dropChance < 30) // 30% 확률
             {
-                var droppablePotions = Consumables
+                var droppablePotions = Items.ItemList
                 .Where(p => p.ItemType == ItemType.Consumables)
                 .ToList();
 
-                int index = rand.Next(11, 14);
+                int index = rand.Next(droppablePotions.Count);
 
-                ItemInfo dropped = Consumables[index];
+                ItemInfo dropped = droppablePotions[index];
                 Player.Inventory.AddItem(dropped);
 
                 Console.WriteLine($"당신은 '{dropped.Name}' 아이템을 획득했습니다!");
