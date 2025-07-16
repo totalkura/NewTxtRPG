@@ -1,5 +1,6 @@
 using NewTxtRPG.etc;
 using NewTxtRPG.Structs;
+using System.Reflection.Metadata.Ecma335;
 
 namespace NewTxtRPG.Entitys
 {
@@ -84,6 +85,84 @@ namespace NewTxtRPG.Entitys
             RenderConsole.WriteLineWithSpacing($"{item.Name}을(를) 해제했습니다.");
         }
 
+        public void ShowConsumablesItem()
+        {
+            int cursorY = Console.CursorTop;
+            
+            while (true)
+            {
+                Console.SetCursorPosition(0, cursorY);
+                RenderConsole.WriteLine("─────────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
+
+                RenderConsole.WriteLineWithSpacing($" < 사용할 소모품을 선택해 주세요 >",ConsoleColor.Yellow);
+
+                for (int i = 0; i < Consumables.Count; i++)
+                {
+                    var potion = Consumables[i];
+                    string recoverText = potion.HpBonus > 0
+                        ? $"체력 회복: {potion.HpBonus}"
+                        : potion.MpBonus > 0
+                            ? $"마나 회복: {potion.MpBonus}"
+                            : "";
+                    RenderConsole.Write($"  {i + 1}. ");
+                    RenderConsole.Write($"{potion.Name}",ConsoleColor.Cyan);
+                    RenderConsole.WriteLine($" ( {recoverText})",ConsoleColor.Gray);
+
+                }
+                RenderConsole.WriteLine("─────────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
+
+                RenderConsole.Write("\n>> ");
+
+                string input = Console.ReadLine();
+
+                int a = int.TryParse(input, out a) ? int.Parse(input) : 0;
+
+                if (input == "0") break;
+                    
+                if (0 < Consumables.Count)
+                {
+                    var potions = Consumables[int.Parse(input)-1];
+                
+                    bool used = false;
+                
+                    if (potions.HpBonus > 0)
+                    {
+                        Player.CurrentHP = Math.Min(Player.Stat.MaxHP, Player.CurrentHP + potions.HpBonus);
+                        RenderConsole.Write($"{potions.Name}", ConsoleColor.Cyan);
+                        RenderConsole.Write("을(를) 사용하여 ");
+                        RenderConsole.Write("체력", ConsoleColor.DarkBlue);
+                        RenderConsole.WriteLineWithSpacing($"를 {potions.HpBonus} 회복했습니다.");
+                        used = true;
+                    }
+                    else if (potions.MpBonus > 0)
+                    {
+                        Player.CurrentMP = Math.Min(Player.Stat.MaxMP, Player.CurrentMP + potions.MpBonus);
+                        RenderConsole.Write($"{potions.Name}",ConsoleColor.Cyan);
+                        RenderConsole.Write("을(를) 사용하여 ");
+                        RenderConsole.Write("마나",ConsoleColor.DarkBlue);
+                        RenderConsole.WriteLineWithSpacing($"를 {potions.MpBonus} 회복했습니다.");
+                        used = true;
+                    }
+                    else
+                    {
+                        RenderConsole.WriteLineWithSpacing($"{potions.Name}은(는) 사용할 수 없는 아이템입니다.");
+                    }
+                
+                    if (used)
+                    {
+                        Consumables.Remove(potions);
+                    }
+                }
+                else
+                {
+                    RenderConsole.WriteLineWithSpacing("잘못된 입력입니다. 다시 입력하세요.");
+                    continue;
+                }
+                Thread.Sleep(1250);
+                break;
+                
+            }
+        }
 
 
         // 인벤토리 출력 및 장착/해제 기능
