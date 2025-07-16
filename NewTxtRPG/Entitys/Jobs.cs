@@ -40,6 +40,8 @@ namespace NewTxtRPG.Entitys
                 rand = rnd.Next(0, monster.Count);
             }
             while (monster[rand].DeathCheck);
+            
+            RenderConsole.WriteLineWithSpacing("─────────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
 
             RenderConsole.Write($"{monster[rand].Name}", ConsoleColor.Green);
             RenderConsole.Write("은(는) ");
@@ -52,6 +54,8 @@ namespace NewTxtRPG.Entitys
 
             if (monster[rand].CurrentHP <= 0)
             {
+                RenderConsole.WriteLineWithSpacing("─────────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
+
                 RenderConsole.Write($"\n{monster[rand].Name}", ConsoleColor.Green);
                 RenderConsole.Write("은(는) ");
                 RenderConsole.WriteLine("기력이 다했다...");
@@ -59,6 +63,7 @@ namespace NewTxtRPG.Entitys
                 monster[rand].DeathCheck = true;
                 gold += monster[rand].Gold;
                 exp += monster[rand].Exp;
+                Thread.Sleep(700);
             }
 
         }
