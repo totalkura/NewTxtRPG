@@ -52,6 +52,7 @@ namespace NewTxtRPG.Scene
             if (Player.Gold < 100)
             {
                 RenderConsole.WriteLine("골드가 부족하여 휴식할 수 없습니다.");
+                Console.ReadLine();
                 return;
             }
 
