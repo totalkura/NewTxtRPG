@@ -1,4 +1,5 @@
-﻿using NewTxtRPG.Structs;
+﻿using NewTxtRPG.Entitys;
+using NewTxtRPG.Structs;
 
 namespace NewTxtRPG.Interface
 {
@@ -11,5 +12,7 @@ namespace NewTxtRPG.Interface
         // 각 직업이 보유한 스킬 2개
         Skill Skill1 { get; }
         Skill Skill2 { get; }
+
+        void UseSkill(int skillNumber, List<Monsters> monster, int gold, int exp);
     }
 }

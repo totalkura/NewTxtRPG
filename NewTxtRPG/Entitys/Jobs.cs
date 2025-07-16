@@ -1,4 +1,5 @@
-﻿using NewTxtRPG.Interface;
+﻿using NewTxtRPG.etc;
+using NewTxtRPG.Interface;
 using NewTxtRPG.Structs;
 
 namespace NewTxtRPG.Entitys
@@ -11,19 +12,55 @@ namespace NewTxtRPG.Entitys
         public abstract Skill Skill2 { get; }
 
         // 스킬 사용 메서드
-        public virtual void UseSkill(int skillNumber)
+        public virtual void UseSkill(int skillNumber, List<Monsters> monster,int gold, int exp)
         {
+            Random rnd = new Random();
+            int rand;
+
             Skill skill = skillNumber == 1 ? Skill1 : Skill2;
 
             if (Player.CurrentMP < skill.ManaCost)
             {
-                Console.WriteLine("마나가 부족하여 스킬을 사용할 수 없습니다.");
+                RenderConsole.WriteLine("마나가 부족하여 스킬을 사용할 수 없습니다.");
                 return;
             }
 
             Player.CurrentMP -= skill.ManaCost;
-            Console.WriteLine($"{Player.Name}이(가) '{skill.Name}' 스킬을 사용했습니다! (데미지: {Player.Stat.Attack * skill.Multiplier}, 마나 소모: {skill.ManaCost})");
-            // 실제 효과 적용(예: 적에게 데미지 등)은 추후 구현
+
+            RenderConsole.Write("[");
+            RenderConsole.Write($"{Player.Name}",ConsoleColor.Blue);
+            RenderConsole.Write(" ] 이(가) '");
+            RenderConsole.Write($"{skill.Name}",ConsoleColor.Cyan);
+            RenderConsole.Write("' 스킬을 사용했습니다! ");
+            RenderConsole.Write("MP", ConsoleColor.DarkBlue);
+            RenderConsole.WriteLineWithSpacing($" - {skill.ManaCost}");
+
+            do
+            {
+                rand = rnd.Next(0, monster.Count);
+            }
+            while (monster[rand].DeathCheck);
+
+            RenderConsole.Write($"{monster[rand].Name}", ConsoleColor.Green);
+            RenderConsole.Write("은(는) ");
+            RenderConsole.Write($"{Player.Stat.Attack * skill.Multiplier}", ConsoleColor.DarkRed);
+            RenderConsole.Write("만큼 ");
+            RenderConsole.Write("데미지", ConsoleColor.Red);
+            RenderConsole.WriteLineWithSpacing("를 입었습니다.");
+
+            monster[rand].CurrentHP -= (int)(Player.Stat.Attack * skill.Multiplier);
+
+            if (monster[rand].CurrentHP <= 0)
+            {
+                RenderConsole.Write($"\n{monster[rand].Name}", ConsoleColor.Green);
+                RenderConsole.Write("은(는) ");
+                RenderConsole.WriteLine("기력이 다했다...");
+                monster[rand].CurrentHP = monster[rand].CurrentHP < 0 ? 0 : monster[rand].CurrentHP;
+                monster[rand].DeathCheck = true;
+                gold += monster[rand].Gold;
+                exp += monster[rand].Exp;
+            }
+
         }
     }
 
