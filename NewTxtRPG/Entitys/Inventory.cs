@@ -199,7 +199,7 @@ namespace NewTxtRPG.Entitys
                     string recoverText = potion.HpBonus > 0
                         ? $"체력 회복: {potion.HpBonus}"
                         : potion.MpBonus > 0
-                            ? $"방어력 상승: {potion.MpBonus}"
+                            ? $"마나 회복: {potion.MpBonus}"
                             : "";
                     RenderConsole.WriteLineWithSpacing($"  {i + 1 + Equipment.Count}. {potion.Name} (가격: {potion.Price}, {recoverText})");
                 }
@@ -235,6 +235,7 @@ namespace NewTxtRPG.Entitys
                         if (Player.CurrentHP == Player.Stat.MaxHP)
                         {
                             RenderConsole.WriteLineWithSpacing("체력이 이미 가득 찼습니다.");
+                            Thread.Sleep(1500);
                             return;
                         }
                         else
@@ -247,9 +248,19 @@ namespace NewTxtRPG.Entitys
                     }
                     else if (potion.MpBonus > 0)
                     {
-                        Player.CurrentMP = Math.Min(Player.Stat.MaxMP, Player.CurrentMP + potion.MpBonus);
-                        RenderConsole.WriteLineWithSpacing($"{potion.Name}을(를) 사용하여 마나를 {potion.MpBonus} 회복했습니다.");
-                        used = true;
+                        if (Player.CurrentMP == Player.Stat.MaxMP)
+                        {
+                            RenderConsole.WriteLineWithSpacing("마나가 이미 가득 찼습니다.");
+                            Thread.Sleep(1500);
+                            return;
+                        }
+                        else
+                        {
+                            Player.CurrentMP = Math.Min(Player.Stat.MaxMP, Player.CurrentMP + potion.MpBonus);
+                            RenderConsole.WriteLineWithSpacing($"{potion.Name}을(를) 사용하여 마나를 {potion.MpBonus} 회복했습니다.");
+                            used = true;
+                        }
+                        
                     }
                     else
                     {
