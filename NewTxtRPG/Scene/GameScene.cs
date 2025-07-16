@@ -1,15 +1,12 @@
 ﻿using NewTxtRPG.Entitys;
 using NewTxtRPG.etc;
-using NewTxtRPG.Interface;
-using NewTxtRPG.Structs;
 
 namespace NewTxtRPG.Scene
 {
     internal class GameScene
     {
         VillageScene villageScene = new VillageScene();
-        DungeonEventManager dungeon = new DungeonEventManager();
-        private Random rand = new Random();
+        
 
         //던전 신
         public void StartGameScene()
@@ -36,9 +33,7 @@ namespace NewTxtRPG.Scene
                         GoVillage();
                         break;
                     case "3":
-                        int RandomEvent = rand.Next(0, 2);
-                        if (RandomEvent == 0 )  GoDungeon();
-                        else dungeon.TriggerRandomEvent();
+                        GoDungeon();
                         break;
                     case "0":
                         EndGame();
@@ -96,42 +91,50 @@ namespace NewTxtRPG.Scene
 
         private void GoDungeon()
         {
-            DungeonScene dungeon = new DungeonScene();
-
+            
+            DungeonRoom dungeonRoom = new DungeonRoom();
+            
             while (true)
             {
                 Console.Clear();
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine("< 던전 입구 >");
-                Console.ResetColor();
-                Console.WriteLine("던전을 들어가기전 난이도를 설정 하실 수 있습니다\n");
+                RenderConsole.WriteLine("< 던전 입구 >", ConsoleColor.DarkYellow);
+                RenderConsole.WriteLineWithSpacing("던전을 들어가기전 난이도를 설정 하실 수 있습니다");
 
-                Console.WriteLine("[ 던전 난이도 ]");
+                RenderConsole.WriteLine("[ 던전 난이도 ]");
 
-                Console.WriteLine("\n1. 쉬움   - 약합니다");
-                Console.WriteLine("2. 일반   - 강합니다");
-                Console.WriteLine("3. 어려움 - 강력합니다");
-                Console.WriteLine("0. 나가기\n");
+                RenderConsole.WriteLine("\n1. 쉬움   - 약합니다");
+                RenderConsole.WriteLine("2. 일반   - 강합니다");
+                RenderConsole.WriteLine("3. 어려움 - 강력합니다");
+                RenderConsole.WriteLineWithSpacing("0. 나가기");
 
                 if (Player.CurrentHP < 30)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("< 체력이 낮을때 던전에 들어가는건 위험합니다>\n");
-                    Console.ResetColor();
+                    RenderConsole.WriteLineWithSpacing("< 체력이 낮을때 던전에 들어가는건 위험합니다>", ConsoleColor.Red);
 
-                }
-
-                Console.Write("원하시는 행동을 입력해 주세요.\n>>");
+                RenderConsole.Write("원하시는 행동을 입력해 주세요.\n>>");
                 string actionInput = Console.ReadLine();
 
                 if (actionInput == "0") break;
-                if (actionInput == "1" || actionInput == "2" || actionInput == "3")
+                switch (actionInput)
                 {
-                    dungeon.Battle(actionInput);
+                    case "1":
+                        dungeonRoom.CreateMap("1");
+                        break;
+                    case "2":
+                        dungeonRoom.CreateMap("2");
+                        break;
+                    case "3":
+                        dungeonRoom.CreateMap("3");
+                        break;
+                    default:
+                        RenderConsole.WriteLine("다시 입력해주세요");
+                        Thread.Sleep(1000);
+                        continue;
                 }
 
+                dungeonRoom.Move(actionInput);
+
             }
-            RenderConsole.WriteLineWithSpacing("던전으로 이동합니다. 적과 싸우고 보물을 찾을 수 있습니다.");
+            
         }
 
         private void EndGame()

@@ -15,6 +15,7 @@ namespace NewTxtRPG.Entitys
         // 스킬 사용 메서드
         public virtual void UseSkill(int skillNumber, List<Monsters> monster,int gold, int exp)
         {
+
             Random rnd = new Random();
             int rand;
 

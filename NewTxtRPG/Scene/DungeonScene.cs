@@ -1,5 +1,6 @@
 ﻿using NewTxtRPG.Entitys;
 using NewTxtRPG.etc;
+using NewTxtRPG.Structs;
 
 namespace NewTxtRPG.Scene
 {
@@ -25,6 +26,11 @@ namespace NewTxtRPG.Scene
             Monsters.MonsterList();
             FloorMonster = new List<Monsters>();
             Consumables = new List<ItemInfo>();
+        }
+
+        public void StageSet(string difficult)
+        {
+            
         }
 
         public void Battle(string difficult)
