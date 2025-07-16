@@ -3,7 +3,6 @@ using NewTxtRPG.etc;
 using NewTxtRPG.Structs;
 using System.Threading;
 
-
 namespace NewTxtRPG.Scene
 {
     internal class DungeonScene
@@ -132,12 +131,12 @@ namespace NewTxtRPG.Scene
                         string playerSelect = Console.ReadLine();
                         int rands;
 
+                        Console.SetCursorPosition(0, checkCursorPosition + 12);
+                        RenderConsole.WriteLine("                                              ");
+
                         switch (playerSelect)
                         {
                             case "1":
-                                Console.SetCursorPosition(0, checkCursorPosition + 10);
-                                RenderConsole.WriteLine("                                              ");
-
                                 do
                                 {
                                     rands = rand.Next(0, FloorMonster.Count);
@@ -147,17 +146,15 @@ namespace NewTxtRPG.Scene
                                 ActionPlayerAtt(FloorMonster[rands]);
                                 break;
                             case "2":
-                                Console.SetCursorPosition(0, checkCursorPosition + 10);
                                 ActionPlayerSkill();
                                 break;
                             case "3":
-                                Console.WriteLine("아직 미구현입니다");
-                                //break;
-                                continue;
+                                Player.Inventory.ShowConsumablesItem();
+                                break;
                             default:
                                 continue;
                         }
-
+                        Player.CurrentSpeed -= 100;
                         break;
                     }
                 }
@@ -171,7 +168,7 @@ namespace NewTxtRPG.Scene
                     break;
                 }
 
-                Thread.Sleep(600);
+                Thread.Sleep(400);
 
             }
         }
@@ -216,7 +213,6 @@ namespace NewTxtRPG.Scene
                     player.Stat.Attack * 1.5f  : 
                     player.Stat.Attack;
                 */
-                Player.CurrentSpeed -= 100;
                 monster.CurrentHP -= Player.Stat.Attack;
 
                 RenderConsole.Write($"{Player.Name}", ConsoleColor.Blue);
@@ -252,7 +248,6 @@ namespace NewTxtRPG.Scene
 
         public void ActionPlayerSkill()
         {
-            RenderConsole.WriteLine("─────────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
             RenderConsole.WriteLineWithSpacing("< 사용할 스킬을 선택하여 주세요 >");
 
             RenderConsole.Write($"1. ");
@@ -278,6 +273,7 @@ namespace NewTxtRPG.Scene
             RenderConsole.Write(">>");
 
             string skillSelect = Console.ReadLine();
+            RenderConsole.WriteLineWithSpacing("─────────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
 
             switch (skillSelect)
             {
@@ -288,10 +284,9 @@ namespace NewTxtRPG.Scene
                     Player.Job.UseSkill(2, FloorMonster, gold, exp);
                     break;
             }
-
-
-            Thread.Sleep(2000);
+            Thread.Sleep(2500);
         }
+
 
         public void Lose()
         {
