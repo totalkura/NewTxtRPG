@@ -1,11 +1,9 @@
 ﻿using NewTxtRPG.Entitys;
 using NewTxtRPG.etc;
-<<<<<<< HEAD
 using NewTxtRPG.Structs;
 using System.Threading;
 
-=======
->>>>>>> main
+
 
 namespace NewTxtRPG.Scene
 {
