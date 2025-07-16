@@ -6,6 +6,8 @@ namespace NewTxtRPG.Scene
     internal class DungeonScene
     {
 
+        private List<ItemInfo> Consumables;
+
         private static readonly Random rand = new Random();
         //ColorWriter colorSet;
         public List<Monsters> FloorMonster { get; set; }
@@ -22,6 +24,7 @@ namespace NewTxtRPG.Scene
         {
             Monsters.MonsterList();
             FloorMonster = new List<Monsters>();
+            Consumables = new List<ItemInfo>();
         }
 
         public void Battle(string difficult)
@@ -309,6 +312,24 @@ namespace NewTxtRPG.Scene
             RenderConsole.WriteLineWithSpacing("적을 전부 처치 하였습니다!");
 
             RenderConsole.WriteLine("보상으로 경험치와 골드를 획득하였습니다");
+
+            int dropChance = rand.Next(0, 100); // 0~99
+
+            if (dropChance < 30) // 30% 확률
+            {
+                var droppablePotions = Consumables;
+
+                int index = rand.Next(droppablePotions.Count);
+
+                ItemInfo dropped = Consumables[index];
+                Player.Inventory.AddItem(dropped);
+
+                Console.WriteLine($"당신은 '{dropped.Name}' 아이템을 획득했습니다!");
+            }
+            else
+            {
+                Console.WriteLine("아이템을 획득하지 못했습니다.");
+            }
 
 
             RenderConsole.WriteLineWithSpacing($"\n GOLD : {Player.Gold} => {Player.Gold+gold} ", ConsoleColor.Yellow);

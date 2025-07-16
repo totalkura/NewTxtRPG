@@ -52,10 +52,6 @@ namespace NewTxtRPG.Scene
 
         public void ShowPlayerStatus()
         {
-            RenderConsole.WriteLineWithSpacing($"이름: {Player.Name}");
-            RenderConsole.WriteLineWithSpacing($"체력: {Player.CurrentHP} / {Player.Stat.MaxHP}");
-            RenderConsole.WriteLineWithSpacing($"마나: {Player.CurrentMP} / {Player.Stat.MaxMP}");
-
             // 아이템 추가 공격력/방어력이 있을 때만 괄호로 표시
             string attackText = Player.ItemAttackBonus > 0
                 ? $" (+{Player.ItemAttackBonus})"
@@ -64,8 +60,21 @@ namespace NewTxtRPG.Scene
                 ? $" (+{Player.ItemDefenseBonus})"
                 : "";
 
+            //Lv.1
+            //Player (전사)
+            //공격력: 10
+            //방어력: 5
+            //체력: 100 / 100
+            //마나: 30 / 30
+            //골드: 100
+            RenderConsole.WriteLineWithSpacing($"LV. {Player.Level}");
+            RenderConsole.WriteLineWithSpacing($"{Player.Name} ({Player.Job.Name})");
+
             RenderConsole.WriteLineWithSpacing($"공격력: {Player.Stat.Attack + Player.ItemAttackBonus}{attackText}");
             RenderConsole.WriteLineWithSpacing($"방어력: {Player.Stat.Defense + Player.ItemDefenseBonus}{defenseText}");
+            RenderConsole.WriteLineWithSpacing($"체력: {Player.CurrentHP} / {Player.Stat.MaxHP}");
+            RenderConsole.WriteLineWithSpacing($"마나: {Player.CurrentMP} / {Player.Stat.MaxMP}");
+
             RenderConsole.WriteLineWithSpacing($"골드: {Player.Gold}");
 
             if (Player.Job != null)

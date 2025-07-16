@@ -15,14 +15,25 @@ namespace NewTxtRPG
             InitializeGame();
             StartGame();
 
+            // 게임 종료 시 세이브 여부 확인
+            Console.WriteLine();
+            Console.Write("게임을 저장하시겠습니까? (저장 : 1, 저장없이 나가기 : 0): ");
+            string saveInput = Console.ReadLine();
+            if (saveInput.Equals("1", StringComparison.OrdinalIgnoreCase))
+            {
+                JsonManager.SavePlayer();
+                Console.WriteLine("게임이 저장되었습니다.");
+            }
+
             Console.WriteLine("아무 키나 누르면 종료합니다...");
             Console.ReadKey();
         }
 
+
         // 게임 초기화
         private static void InitializeGame()
         {
-            if (File.Exists("save.txt"))
+            if (File.Exists("player_save.json"))
             {
                 Console.WriteLine("세이브 파일이 발견되었습니다.");
                 Console.WriteLine("게임을 불러오시겠습니까?");
@@ -39,7 +50,7 @@ namespace NewTxtRPG
 
                     if (choice == "1")
                     {
-                        LoadGame();
+                        JsonManager.LoadPlayer();
                         Thread.Sleep(1000); // 1초 대기
                         Console.Clear();    // 로그 클리어
                         return; // 게임 불러오기 후 루프 종료
@@ -132,12 +143,6 @@ namespace NewTxtRPG
                 }
             }
             RenderConsole.WriteLineWithSpacing($"{name}님, {(selectedJob is WarriorJob ? "전사" : "도적")}(으)로 게임을 시작합니다!");
-        }
-
-
-        private static void LoadGame()
-        {
-            //로드 알고리즘
         }
     }
 }

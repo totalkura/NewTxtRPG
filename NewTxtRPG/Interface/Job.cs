@@ -6,6 +6,7 @@ namespace NewTxtRPG.Interface
     // 직업의 공통적인 속성을 정의하는 인터페이스
     internal interface IJob
     {
+        string Name { get; } // 직업 이름
         // 각 직업의 기본 스탯
         StatStruct BaseStat { get; }
 
