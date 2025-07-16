@@ -52,10 +52,7 @@ namespace NewTxtRPG.Entitys
         public static void Player_LevelUp()
         {
             Level += 1;
-            //Stat.Attack += 2;
-            //Stat.Defense += 1;
-            //Stat.MaxHP += 10;
-            //Stat.MaxMP += 10;
+            Stat += new StatStruct(2,1,10,10,0);
             Console.WriteLine($"\n 레벨업! | {Level - 1} => {Level}");
             Console.WriteLine($"\n 최대체력 + 10");
             Console.WriteLine($" 최대마력 + 10");
