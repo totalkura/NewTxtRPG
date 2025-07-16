@@ -1,5 +1,6 @@
 ﻿using NewTxtRPG.Entitys;
 using NewTxtRPG.etc;
+using NewTxtRPG.Structs;
 using System.Threading;
 
 
@@ -334,7 +335,7 @@ namespace NewTxtRPG.Scene
             }
             else
             {
-                Console.WriteLine("아이템을 획득하지 못했습니다.");
+                RenderConsole.WriteLineWithSpacing("아이템을 획득하지 못했습니다.");
             }
 
 
