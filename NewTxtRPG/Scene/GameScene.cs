@@ -8,7 +8,9 @@ namespace NewTxtRPG.Scene
     internal class GameScene
     {
         VillageScene villageScene = new VillageScene();
-        
+        DungeonEventManager dungeon = new DungeonEventManager();
+        private Random rand = new Random();
+
         //던전 신
         public void StartGameScene()
         {
@@ -34,7 +36,9 @@ namespace NewTxtRPG.Scene
                         GoVillage();
                         break;
                     case "3":
-                        GoDungeon();
+                        int RandomEvent = rand.Next(0, 2);
+                        if (RandomEvent == 0 )  GoDungeon();
+                        else dungeon.TriggerRandomEvent();
                         break;
                     case "0":
                         EndGame();
@@ -95,7 +99,7 @@ namespace NewTxtRPG.Scene
 
                 Console.WriteLine("[ 던전 난이도 ]");
 
-                Console.WriteLine("\n1. 쉬움   - 합니다");
+                Console.WriteLine("\n1. 쉬움   - 약합니다");
                 Console.WriteLine("2. 일반   - 강합니다");
                 Console.WriteLine("3. 어려움 - 강력합니다");
                 Console.WriteLine("0. 나가기\n");
