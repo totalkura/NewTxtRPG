@@ -168,9 +168,18 @@ namespace NewTxtRPG.Entitys
                     }
                     else if (potion.MpBonus > 0)
                     {
-                        Player.CurrentMP = Math.Min(Player.Stat.MaxMP, Player.CurrentMP + potion.MpBonus);
-                        RenderConsole.WriteLineWithSpacing($"{potion.Name}을(를) 사용하여 마나를 {potion.MpBonus} 회복했습니다.");
-                        used = true;
+                        if (Player.CurrentMP == Player.Stat.MaxMP)
+                        {
+                            RenderConsole.WriteLineWithSpacing("마나가 이미 가득 찼습니다.");
+                            return;
+                        }
+                        else
+                        {
+                            Player.CurrentMP = Math.Min(Player.Stat.MaxMP, Player.CurrentMP + potion.MpBonus);
+                            RenderConsole.WriteLineWithSpacing($"{potion.Name}을(를) 사용하여 마나를 {potion.MpBonus} 회복했습니다.");
+                            used = true;
+                        }
+                        
                     }
                     else
                     {
