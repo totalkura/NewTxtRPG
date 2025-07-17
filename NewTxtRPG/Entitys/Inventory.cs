@@ -203,8 +203,12 @@ namespace NewTxtRPG.Entitys
                         : item.DefenseBonus > 0
                             ? $"방어력 상승: {item.DefenseBonus}"
                             : "";
-                    string equippedText = equippedItems.Contains(item.Name) ? " (장착됨)" : "";
-                    RenderConsole.WriteLineWithSpacing($"  {i + 1}. {item.Name} (가격: {item.Price}, {statText}){equippedText}");
+
+                    if (equippedItems.Contains(item.Name))
+                        RenderConsole.WriteLineWithSpacing($"  {i + 1}. {item.Name} (가격: {item.Price}, {statText})(장착됨)", ConsoleColor.DarkYellow);
+                    else
+                        RenderConsole.WriteLineWithSpacing($"  {i + 1}. {item.Name} (가격: {item.Price}, {statText})");
+
                 }
 
                 // 소모품은 장착 아이템 뒤에 출력
@@ -250,7 +254,6 @@ namespace NewTxtRPG.Entitys
                         if (Player.CurrentHP == Player.Stat.MaxHP)
                         {
                             RenderConsole.WriteLineWithSpacing("체력이 이미 가득 찼습니다.");
-                            return;
                         }
                         else
                         {
@@ -262,9 +265,16 @@ namespace NewTxtRPG.Entitys
                     }
                     else if (potion.MpBonus > 0)
                     {
-                        Player.CurrentMP = Math.Min(Player.Stat.MaxMP, Player.CurrentMP + potion.MpBonus);
-                        RenderConsole.WriteLineWithSpacing($"{potion.Name}을(를) 사용하여 마나를 {potion.MpBonus} 회복했습니다.");
-                        used = true;
+                        if (Player.CurrentMP == Player.Stat.MaxMP)
+                        {
+                            RenderConsole.WriteLineWithSpacing("마나가 이미 가득 찼습니다.");
+                        }
+                        else
+                        {
+                            Player.CurrentMP = Math.Min(Player.Stat.MaxMP, Player.CurrentMP + potion.MpBonus);
+                            RenderConsole.WriteLineWithSpacing($"{potion.Name}을(를) 사용하여 마나를 {potion.MpBonus} 회복했습니다.");
+                            used = true;
+                        }
                     }
                     else
                     {

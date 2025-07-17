@@ -55,23 +55,37 @@ namespace NewTxtRPG.Scene
                 Console.ReadLine();
                 return;
             }
-
-            RenderConsole.WriteLine($"휴식에는 100골드가 필요합니다. 휴식하시겠습니까? (보유 골드 : {Player.Gold} + )");
-            RenderConsole.WriteLine("1. 휴식하기");
-            RenderConsole.WriteLine("0. 나가기");
-            Console.Write("선택: ");
-            string input = Console.ReadLine();
-            if (input?.Trim().ToUpper() == "1")
+            while (true)
             {
-                Player.Gold -= 100;
-                Player.CurrentHP = Player.Stat.MaxHP;
-                RenderConsole.WriteLine("휴식을 취했습니다! 체력이 모두 회복되었습니다.");
+                RenderConsole.WriteLine($"휴식에는 100골드가 필요합니다. 휴식하시겠습니까? (보유 골드 : {Player.Gold} + )");
+                RenderConsole.WriteLine("1. 휴식하기");
+                RenderConsole.WriteLine("0. 나가기");
+                Console.Write("선택: ");
+                string input = Console.ReadLine();
+                if (input?.Trim().ToUpper() == "1")
+                {
+                    Player.Gold -= 100;
+                    Player.CurrentHP = Player.Stat.MaxHP;
+                    RenderConsole.WriteLine("휴식을 취했습니다! 체력이 모두 회복되었습니다.");
+                    RenderConsole.WriteLine("마을로 돌아갑니다.");
+                    break;
+                }
+                else if (input?.Trim().ToUpper() == "0")
+                {
+                    RenderConsole.WriteLine("휴식을 취하지 않습니다.");
+                    RenderConsole.WriteLine("마을로 돌아갑니다.");
+                    break;
+                }
+                else if (input?.Trim().ToUpper() == "18")
+                {
+                    RenderConsole.WriteLine("여관 주인 : 왜 욕하세요? 고소할게요.", ConsoleColor.Yellow);
+                    RenderConsole.WriteLine("합의금으로 100G를 줬다..", ConsoleColor.DarkRed);
+                    Player.Gold -= 100;
+                    break;
+                }
+                Console.Clear();
             }
-            else
-            {
-                RenderConsole.WriteLine("마을로 돌아갑니다.");
-            }
-            Console.Clear();
+            Thread.Sleep(2000); // 대기
         }
         private void UseShop()
         {
