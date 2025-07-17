@@ -17,6 +17,8 @@ namespace NewTxtRPG.Scene
         int gold; 
         //몬스터로 얻는 경험치 축적
         int exp;
+        // 드랍아이템 보상을 위한 마지막으로 처치한 몬스터 정보 가져오기
+        public Monsters lastDefeatedMonster;
 
 
         public DungeonScene()
@@ -246,6 +248,7 @@ namespace NewTxtRPG.Scene
                 monster.DeathCheck = true;
                 gold += monster.Gold;
                 exp += monster.Exp;
+                lastDefeatedMonster = monster;
             }
 
             Thread.Sleep(2000);
@@ -302,6 +305,7 @@ namespace NewTxtRPG.Scene
                 monster.DeathCheck = true;
                 gold += monster.Gold;
                 exp += monster.Exp;
+                lastDefeatedMonster = monster;
             }
             Thread.Sleep(2500);
         }
@@ -332,25 +336,8 @@ namespace NewTxtRPG.Scene
 
             RenderConsole.WriteLine("보상으로 경험치와 골드를 획득하였습니다");
 
-            int dropChance = rand.Next(0, 100); // 0~99
-
-            if (dropChance < 30) // 30% 확률
-            {
-                var droppablePotions = Items.ItemList
-                .Where(p => p.ItemType == ItemType.Consumables)
-                .ToList();
-
-                int index = rand.Next(droppablePotions.Count);
-
-                ItemInfo dropped = droppablePotions[index];
-                Player.Inventory.AddItem(dropped);
-
-                Console.WriteLine($"당신은 '{dropped.Name}' 아이템을 획득했습니다!");
-            }
-            else
-            {
-                RenderConsole.WriteLineWithSpacing("아이템을 획득하지 못했습니다.");
-            }
+            ItemDrop();
+            
             int BeforeExp = Player.Exp;
             int BeforeGold = Player.Gold;
             Player.Gold += gold;
@@ -360,7 +347,8 @@ namespace NewTxtRPG.Scene
             RenderConsole.WriteLineWithSpacing($" EXP : {BeforeExp} => {Player.Exp} ", ConsoleColor.Cyan);
 
             Player.LevelUp();
-            Thread.Sleep(4000);
+            RenderConsole.WriteLineWithSpacing("계속하려면 Enter를 누르세요...");
+            Console.ReadLine();
         }
 
         public void draw()
@@ -410,6 +398,62 @@ namespace NewTxtRPG.Scene
             RenderConsole.WriteLine($" : {Player.CurrentMP} / {Player.Stat.MaxMP}".PadRight(18));
             RenderConsole.WriteLine("─────────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
                 
+        }
+
+        public void ItemDrop()
+        {
+            int dropChance1 = rand.Next(0, 100); // 0~99
+
+            if (dropChance1 < 30) // 30% 확률
+            {
+                var droppablePotions = Items.ItemList
+                .Where(p => p.ItemType == ItemType.Consumables)
+                .ToList();
+
+                int index = rand.Next(droppablePotions.Count);
+
+                ItemInfo dropped = droppablePotions[index];
+                Player.Inventory.AddItem(dropped);
+
+                Console.WriteLine($"당신은 '{dropped.Name}' 아이템을 획득했습니다!");
+            }
+
+            int dropChance2 = rand.Next(0, 1);
+            string Monstername = lastDefeatedMonster.Name;
+            var droppableDropitem = Items.ItemList
+                .Where(q => q.ItemType == ItemType.Dropped)
+                .ToList();
+
+            switch (dropChance2)
+            {
+                case 0:
+                    if (Monstername == "소")
+                    {
+                        ItemInfo dropped1 = droppableDropitem[17];
+                        Player.Inventory.AddItem(dropped1);
+                        Console.WriteLine($"당신은 '{dropped1.Name}' 아이템을 획득했습니다!");
+                        int dropChanceCow = rand.Next(0, 10);
+                        if (dropChanceCow == 7)
+                        {
+                            ItemInfo dropped2 = droppableDropitem[18];
+                            Player.Inventory.AddItem(dropped2);
+                            Console.WriteLine($"정말 운이 좋으시군요! 당신은 '{dropped2.Name}' 아이템을 획득했습니다!");
+                        }
+                    }
+                    else if (Monstername == "박쥐")
+                    {
+
+                    }
+                    else if (Monstername == "토끼")
+                    {
+
+                    }
+                    else if (Monstername == "다람쥐")
+                    {
+
+                    }
+                        break;
+            }
         }
 
 
