@@ -218,7 +218,7 @@ namespace NewTxtRPG.Entitys
                     string recoverText = potion.HpBonus > 0
                         ? $"체력 회복: {potion.HpBonus}"
                         : potion.MpBonus > 0
-                            ? $"방어력 상승: {potion.MpBonus}"
+                            ? $"마나 회복: {potion.MpBonus}"
                             : "";
                     RenderConsole.WriteLineWithSpacing($"  {i + 1 + Equipment.Count}. {potion.Name} (가격: {potion.Price}, {recoverText})");
                 }

@@ -1,14 +1,11 @@
 ﻿using NewTxtRPG.Entitys;
 using NewTxtRPG.etc;
 using NewTxtRPG.Structs;
-using System.Threading;
 
 namespace NewTxtRPG.Scene
 {
     internal class DungeonScene
     {
-
-        private List<ItemInfo> Consumables;
 
         private static readonly Random rand = new Random();
         //ColorWriter colorSet;
@@ -26,7 +23,11 @@ namespace NewTxtRPG.Scene
         {
             Monsters.MonsterList();
             FloorMonster = new List<Monsters>();
-            Consumables = new List<ItemInfo>();
+        }
+
+        public void StageSet(string difficult)
+        {
+            
         }
 
         public void Battle(string difficult)
@@ -286,6 +287,9 @@ namespace NewTxtRPG.Scene
                 case "2":
                     Player.Job.UseSkill(2, FloorMonster, gold, exp);
                     break;
+                case "3":
+                    Player.Job.UseSkill(3, FloorMonster, gold, exp);
+                    break;
             }
             Thread.Sleep(2500);
         }
@@ -320,23 +324,28 @@ namespace NewTxtRPG.Scene
 
             if (dropChance < 30) // 30% 확률
             {
-                var droppablePotions = Consumables;
+                var droppablePotions = Items.ItemList
+                .Where(p => p.ItemType == ItemType.Consumables)
+                .ToList();
 
                 int index = rand.Next(droppablePotions.Count);
 
-                ItemInfo dropped = Consumables[index];
+                ItemInfo dropped = droppablePotions[index];
                 Player.Inventory.AddItem(dropped);
 
                 Console.WriteLine($"당신은 '{dropped.Name}' 아이템을 획득했습니다!");
             }
             else
             {
-                Console.WriteLine("아이템을 획득하지 못했습니다.");
+                RenderConsole.WriteLineWithSpacing("아이템을 획득하지 못했습니다.");
             }
+            int BeforeExp = Player.Exp;
+            int BeforeGold = Player.Gold;
+            Player.Gold += gold;
+            Player.Exp += exp;
 
-
-            RenderConsole.WriteLineWithSpacing($"\n GOLD : {Player.Gold} => {Player.Gold+gold} ", ConsoleColor.Yellow);
-            RenderConsole.WriteLineWithSpacing($" EXP : {Player.Exp} => {Player.Exp+exp} ", ConsoleColor.Cyan);
+            RenderConsole.WriteLineWithSpacing($"\n GOLD : {BeforeGold} => {Player.Gold} ", ConsoleColor.Yellow);
+            RenderConsole.WriteLineWithSpacing($" EXP : {BeforeExp} => {Player.Exp} ", ConsoleColor.Cyan);
 
             Player.LevelUp();
             Thread.Sleep(4000);
