@@ -253,6 +253,7 @@ namespace NewTxtRPG.Scene
 
         public void ActionPlayerSkill()
         {
+
             RenderConsole.WriteLineWithSpacing("< 사용할 스킬을 선택하여 주세요 >");
 
             RenderConsole.Write($"1. ");
@@ -292,6 +293,17 @@ namespace NewTxtRPG.Scene
                     Player.Job.UseSkill(3, FloorMonster, gold, exp);
                     break;
             }
+
+            foreach (var monster in FloorMonster)
+            {
+                if (monster.CurrentHP <= 0 && !monster.DeathCheck)
+                {
+                    gold += monster.Gold;
+                    exp += monster.Exp;
+                    monster.DeathCheck = true; // 중복 보상 방지
+                }
+            }
+
             Thread.Sleep(2500);
         }
 
@@ -342,7 +354,8 @@ namespace NewTxtRPG.Scene
             else
             {
                 RenderConsole.WriteLineWithSpacing("아이템을 획득하지 못했습니다.");
-            }            
+            }
+
 
             Player.Gold += gold;
             Player.Exp += exp;
