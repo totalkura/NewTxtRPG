@@ -32,7 +32,7 @@ namespace NewTxtRPG.Scene
                         : "";
 
                 // 인벤토리에 이미 있는지 확인
-                bool alreadyOwned = Player.Inventory.GetItems().Any(invItem => invItem.Name == item.Name);
+                bool alreadyOwned = Player.Inventory.GetEquipment().Any(invItem => invItem.Name == item.Name);
 
                 string ownText = alreadyOwned ? " (이미 보유)" : "";
                 var color = alreadyOwned ? ConsoleColor.DarkGray : ConsoleColor.White;
@@ -53,7 +53,7 @@ namespace NewTxtRPG.Scene
             var item = itemsForSale[itemIndex];
 
             // 인벤토리에 이미 있는지 확인
-            if (Player.Inventory.GetItems().Any(invItem => invItem.Name == item.Name))
+            if (Player.Inventory.GetEquipment().Any(invItem => invItem.Name == item.Name))
             {
                 RenderConsole.WriteLine("이미 보유한 아이템입니다.");
                 return;
@@ -72,7 +72,7 @@ namespace NewTxtRPG.Scene
         // 아이템 판매
         public void SellItem()
         {
-            var items = Player.Inventory.GetItems();
+            var items = Player.Inventory.GetEquipment();
             if (items.Count == 0)
             {
                 RenderConsole.WriteLine("판매할 아이템이 없습니다.");

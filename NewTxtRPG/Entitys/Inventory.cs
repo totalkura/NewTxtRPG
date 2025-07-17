@@ -32,13 +32,28 @@ namespace NewTxtRPG.Entitys
             return removedFromEquipment || removedFromConsumables;
         }
 
-        public IReadOnlyList<ItemInfo> GetItems()
+        public IReadOnlyList<ItemInfo> GetAllItems()
+        {
+            return Equipment.Concat(Consumables).ToList().AsReadOnly();
+        }
+
+        public IReadOnlyList<ItemInfo> GetEquipment()
         {
             return Equipment.AsReadOnly();
         }
         public IReadOnlyList<ItemInfo> GetConsumables()
         {
             return Consumables.AsReadOnly();
+        }
+
+        public IEnumerable<string> GetEquippedItemNames()
+        {
+            return equippedItems.ToList();
+        }
+
+        public void SetEquippedItemNames(IEnumerable<string> names)
+        {
+            equippedItems = new HashSet<string>(names);
         }
 
         public int Count => Equipment.Count + Consumables.Count;
@@ -297,6 +312,7 @@ namespace NewTxtRPG.Entitys
             }
             return (attack, defense);
         }
+
     }
 }
 
