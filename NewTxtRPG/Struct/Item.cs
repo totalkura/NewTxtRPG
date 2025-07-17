@@ -3,7 +3,8 @@
     public enum ItemType
     {
         Consumables, // 소모품
-        Equipment    // 장비
+        Equipment,    // 장비
+        Dropped       // 드랍 아이템
     }
     // 아이템 정보 구조체
     internal struct ItemInfo

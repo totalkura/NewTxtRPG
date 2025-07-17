@@ -21,7 +21,13 @@ namespace NewTxtRPG.Entitys
             // 소모품 예시
             new ItemInfo(11, ItemType.Consumables, "치유의 물약",       50,  "체력을 30 회복합니다.", 0, 0, 30, 0),
             new ItemInfo(12, ItemType.Consumables, "마나의 물약",     50,  "마나를 30 회복합니다.", 0, 0, 0, 30),
-            new ItemInfo(13, ItemType.Consumables, "슈퍼 엘릭서",    200,  "체력과 마나를 동시에 50 회복하는 만능 물약입니다.", 0, 0, 50, 50)
+            new ItemInfo(13, ItemType.Consumables, "슈퍼 엘릭서",    200,  "체력과 마나를 동시에 50 회복하는 만능 물약입니다.", 0, 0, 50, 50),
+            // 드랍 전용 아이템
+            new ItemInfo(14, ItemType.Dropped, "도토리", 10, "귀여운 다람쥐가 볼에 빵빵하게 넣고 다니는 도토리입니다.", 0, 0, 0, 0),
+            new ItemInfo(15, ItemType.Dropped, "토끼고기", 10, "귀여운 토끼의 복실복실한 털을 벗겨내 도축한 생고기입니다.", 0, 0, 0, 0),
+            new ItemInfo(16, ItemType.Dropped, "박쥐의 날개", 30, "그닥 안귀여운 박쥐에게서 잘라낸 날개입니다.", 0, 0, 0, 0),
+            new ItemInfo(17, ItemType.Dropped, "소고기", 50, "우리 모두가 취직하면 사먹고 싶어하는 투쁠 채끝살입니다.", 0, 0, 0, 0),
+            new ItemInfo(18, ItemType.Dropped, "우유", 500, "어떤 소가 '날 아무리 짜봐야 우유 안나와'라고 했다지만, 짜니까 나왔네요?", 0, 0, 0, 0)
         };
     }
 }

@@ -8,6 +8,7 @@ namespace NewTxtRPG.Entitys
     {
         private List<ItemInfo> Equipment; // 장비 목록
         private List<ItemInfo> Consumables; // 소모품 목록
+        private List<ItemInfo> Dropped;
         private HashSet<string> equippedItems; // 장착된 아이템 이름 저장
 
         public Inventory()
@@ -23,13 +24,16 @@ namespace NewTxtRPG.Entitys
                 Equipment.Add(item);
             else if (item.ItemType == ItemType.Consumables)
                 Consumables.Add(item);
+            else if (item.ItemType == ItemType.Dropped)
+                Dropped.Add(item);
         }
 
         public bool RemoveItem(ItemInfo item)
         {
             bool removedFromEquipment = Equipment.Remove(item);
             bool removedFromConsumables = Consumables.Remove(item);
-            return removedFromEquipment || removedFromConsumables;
+            bool removedDropped = Dropped.Remove(item);
+            return removedFromEquipment || removedFromConsumables || removedDropped;
         }
 
         public IReadOnlyList<ItemInfo> GetAllItems()
@@ -56,7 +60,7 @@ namespace NewTxtRPG.Entitys
             equippedItems = new HashSet<string>(names);
         }
 
-        public int Count => Equipment.Count + Consumables.Count;
+        public int Count => Equipment.Count + Consumables.Count +Dropped.Count;
 
         // 아이템 장착
         private void EquipItem(ItemInfo item)
