@@ -123,7 +123,7 @@ namespace NewTxtRPG.Scene
                     shopScene.ShowShopItems();
                     while (true)
                     {
-                        RenderConsole.Write("구매할 아이템 번호를 입력하세요 (0 입력 시 나가기): ");
+                        RenderConsole.Write("구매할 아이템 번호를 입력하세요 (0 입력 시 나가기, -1 입력시 아이템 판매): ");
                         string equipInput = Console.ReadLine();
                         if (equipInput == "0")
                         {
@@ -133,6 +133,11 @@ namespace NewTxtRPG.Scene
                         if (int.TryParse(equipInput, out int itemIndex) && itemIndex > 0)
                         {
                             shopScene.BuyItem(itemIndex - 1);
+                        }
+                        if (equipInput == "-1")
+                        {
+                            Console.Clear();
+                            shopScene.SellItem();
                         }
                         else
                         {
