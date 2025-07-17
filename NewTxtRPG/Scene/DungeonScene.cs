@@ -1,6 +1,7 @@
 ﻿using NewTxtRPG.Entitys;
 using NewTxtRPG.etc;
 using NewTxtRPG.Structs;
+using NewTxtRPG.Interface;
 
 namespace NewTxtRPG.Scene
 {
@@ -102,15 +103,9 @@ namespace NewTxtRPG.Scene
                 }
 
                 draw();
-                   
-                
-                //플레이어 사망
-                if (Player.CurrentHP <= 0)
-                {
-                    Lose();
-                    break;
-                }
 
+                //플레이어 사망
+                if (Player.CurrentHP <= 0) break;
 
 
                 if (Player.CurrentSpeed >= 100)
@@ -186,8 +181,11 @@ namespace NewTxtRPG.Scene
                     monster.Stat.Attack - monster.Stat.Attack / 10 :
                     monster.Stat.Attack + monster.Stat.Attack / 10;
 
+                int plDef = Player.Stat.Defense + Player.ItemDefenseBonus;
+                int monAtt = (int)monsterAtt - plDef < 0 ? 0 : (int)monsterAtt - plDef;
                 monster.CurrentSpeed -= 100;
-                Player.CurrentHP -= (int)Math.Ceiling(monsterAtt);
+
+                Player.CurrentHP -= monAtt;
 
                 RenderConsole.Write($"{monster.Name}", ConsoleColor.Green);
                 RenderConsole.Write("이(가) ");
@@ -195,7 +193,7 @@ namespace NewTxtRPG.Scene
                 RenderConsole.WriteLine(" 합니다! ");
                 RenderConsole.Write($"{Player.Name}", ConsoleColor.Blue);
                 RenderConsole.Write("은(는) ");
-                RenderConsole.Write($"{Math.Ceiling(monsterAtt)}", ConsoleColor.DarkRed);
+                RenderConsole.Write($"{monAtt}", ConsoleColor.DarkRed);
                 RenderConsole.Write("만큼 ");
                 RenderConsole.Write("데미지", ConsoleColor.Red);
                 RenderConsole.WriteLine("를 입었습니다.");
@@ -217,7 +215,11 @@ namespace NewTxtRPG.Scene
                     player.Stat.Attack * 1.5f  : 
                     player.Stat.Attack;
                 */
-                monster.CurrentHP -= Player.Stat.Attack;
+
+                int plAtt = Player.Stat.Attack + Player.ItemAttackBonus;
+                int checkZeroAtt = plAtt - monster.Stat.Defense < 0 ? 0 : plAtt - monster.Stat.Defense;
+
+                monster.Damage(monster, plAtt);
 
                 RenderConsole.Write($"{Player.Name}", ConsoleColor.Blue);
                 RenderConsole.Write("이(가) ");
@@ -226,7 +228,7 @@ namespace NewTxtRPG.Scene
 
                 RenderConsole.Write($"{monster.Name}", ConsoleColor.Green);
                 RenderConsole.Write("은(는) ");
-                RenderConsole.Write($"{Player.Stat.Attack}", ConsoleColor.DarkRed);
+                RenderConsole.Write($"{checkZeroAtt}", ConsoleColor.DarkRed);
                 RenderConsole.Write("만큼 ");
                 RenderConsole.Write("데미지", ConsoleColor.Red);
                 RenderConsole.WriteLineWithSpacing("를 입었습니다.");

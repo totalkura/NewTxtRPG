@@ -65,16 +65,19 @@ namespace NewTxtRPG.Entitys
             }
             while (monster[rand].DeathCheck);
             
+            int plskillAtt = (int)((Player.Stat.Attack + Player.ItemAttackBonus) * skill.Multiplier);
+            int checkZeroAtt = plskillAtt - monster[rand].Stat.Defense < 0 ? 0 : plskillAtt - monster[rand].Stat.Defense;
+
             RenderConsole.WriteLineWithSpacing("─────────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
 
             RenderConsole.Write($"{monster[rand].Name}", ConsoleColor.Green);
             RenderConsole.Write("은(는) ");
-            RenderConsole.Write($"{Player.Stat.Attack * skill.Multiplier}", ConsoleColor.DarkRed);
+            RenderConsole.Write($"{checkZeroAtt}", ConsoleColor.DarkRed);
             RenderConsole.Write("만큼 ");
             RenderConsole.Write("데미지", ConsoleColor.Red);
             RenderConsole.WriteLineWithSpacing("를 입었습니다.");
 
-            monster[rand].CurrentHP -= (int)(Player.Stat.Attack * skill.Multiplier);
+            monster[rand].Damage(monster[rand], plskillAtt);
 
             if (monster[rand].CurrentHP <= 0)
             {
