@@ -17,6 +17,7 @@ namespace NewTxtRPG.Scene
                 RenderConsole.WriteLineWithSpacing("2. 여관 이용하기");
                 RenderConsole.WriteLineWithSpacing("3. 상점 이용하기");
                 RenderConsole.WriteLineWithSpacing("4. 퀘스트 받기");
+                RenderConsole.WriteLineWithSpacing("5. 카지노 가기");
                 RenderConsole.WriteLineWithSpacing("0. 마을 나가기");
 
                 Console.Write("선택: ");
@@ -39,6 +40,10 @@ namespace NewTxtRPG.Scene
                         QuestManager.Instance.UpdateAllQuestProgress();  // 진척도 갱신
                         QuestManager.Instance.Run();                     // 퀘스트 메뉴 실행
                         break;  
+                    case "5":
+                        CasinoScene casinoScene = new CasinoScene();
+                        casinoScene.StartCasino();
+                        break;
                     case "0":
                         QuitVillage();
                         return;
