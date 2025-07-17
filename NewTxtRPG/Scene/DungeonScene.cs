@@ -150,7 +150,8 @@ namespace NewTxtRPG.Scene
                                 ActionPlayerAtt(FloorMonster[rands]);
                                 break;
                             case "2":
-                                ActionPlayerSkill();
+                                rands = rand.Next(0, FloorMonster.Count);
+                                ActionPlayerSkill(FloorMonster[rands]);
                                 break;
                             case "3":
                                 Player.Inventory.ShowConsumablesItem();
@@ -250,7 +251,7 @@ namespace NewTxtRPG.Scene
             Thread.Sleep(2000);
         }
 
-        public void ActionPlayerSkill()
+        public void ActionPlayerSkill(Monsters monster)
         {
             RenderConsole.WriteLineWithSpacing("< 사용할 스킬을 선택하여 주세요 >");
 
@@ -290,6 +291,17 @@ namespace NewTxtRPG.Scene
                 case "3":
                     Player.Job.UseSkill(3, FloorMonster, gold, exp);
                     break;
+            }
+
+            if (monster.CurrentHP <= 0)
+            {
+                RenderConsole.Write($"\n{monster.Name}", ConsoleColor.Green);
+                RenderConsole.Write("은(는) ");
+                RenderConsole.WriteLine("기력이 다했다...");
+                monster.CurrentHP = monster.CurrentHP < 0 ? 0 : monster.CurrentHP;
+                monster.DeathCheck = true;
+                gold += monster.Gold;
+                exp += monster.Exp;
             }
             Thread.Sleep(2500);
         }
