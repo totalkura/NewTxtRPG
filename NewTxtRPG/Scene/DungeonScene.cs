@@ -1,7 +1,7 @@
 ﻿using NewTxtRPG.Entitys;
 using NewTxtRPG.etc;
 using NewTxtRPG.Structs;
-using System.Threading;
+using NewTxtRPG.Interface;
 
 namespace NewTxtRPG.Scene
 {
@@ -33,7 +33,6 @@ namespace NewTxtRPG.Scene
 
         public void Battle(string difficult)
         {
-
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             gold = 0;
@@ -69,7 +68,7 @@ namespace NewTxtRPG.Scene
                     break;
             }
 
-            foreach (Monsters monster in FloorMonster) monster.CurrentSpeed = 1;            
+            foreach (Monsters monster in FloorMonster) monster.CurrentSpeed = 1;
 
             RenderConsole.WriteEmptyLine();
             RenderConsole.WriteEmptyLine();
@@ -92,6 +91,7 @@ namespace NewTxtRPG.Scene
 
                 draw();
 
+
                 foreach (Monsters monster in FloorMonster)
                 {
                     if (monster.CurrentSpeed >= 100)
@@ -103,15 +103,9 @@ namespace NewTxtRPG.Scene
                 }
 
                 draw();
-                   
-                
-                //플레이어 사망
-                if (Player.CurrentHP <= 0)
-                {
-                    Lose();
-                    break;
-                }
 
+                //플레이어 사망
+                if (Player.CurrentHP <= 0) break;
 
 
                 if (Player.CurrentSpeed >= 100)
@@ -187,8 +181,11 @@ namespace NewTxtRPG.Scene
                     monster.Stat.Attack - monster.Stat.Attack / 10 :
                     monster.Stat.Attack + monster.Stat.Attack / 10;
 
+                int plDef = Player.Stat.Defense + Player.ItemDefenseBonus;
+                int monAtt = (int)monsterAtt - plDef < 0 ? 0 : (int)monsterAtt - plDef;
                 monster.CurrentSpeed -= 100;
-                Player.CurrentHP -= (int)Math.Ceiling(monsterAtt);
+
+                Player.CurrentHP -= monAtt;
 
                 RenderConsole.Write($"{monster.Name}", ConsoleColor.Green);
                 RenderConsole.Write("이(가) ");
@@ -196,7 +193,7 @@ namespace NewTxtRPG.Scene
                 RenderConsole.WriteLine(" 합니다! ");
                 RenderConsole.Write($"{Player.Name}", ConsoleColor.Blue);
                 RenderConsole.Write("은(는) ");
-                RenderConsole.Write($"{Math.Ceiling(monsterAtt)}", ConsoleColor.DarkRed);
+                RenderConsole.Write($"{monAtt}", ConsoleColor.DarkRed);
                 RenderConsole.Write("만큼 ");
                 RenderConsole.Write("데미지", ConsoleColor.Red);
                 RenderConsole.WriteLine("를 입었습니다.");
@@ -218,7 +215,11 @@ namespace NewTxtRPG.Scene
                     player.Stat.Attack * 1.5f  : 
                     player.Stat.Attack;
                 */
-                monster.CurrentHP -= Player.Stat.Attack;
+
+                int plAtt = Player.Stat.Attack + Player.ItemAttackBonus;
+                int checkZeroAtt = plAtt - monster.Stat.Defense < 0 ? 0 : plAtt - monster.Stat.Defense;
+
+                monster.Damage(monster, plAtt);
 
                 RenderConsole.Write($"{Player.Name}", ConsoleColor.Blue);
                 RenderConsole.Write("이(가) ");
@@ -227,7 +228,7 @@ namespace NewTxtRPG.Scene
 
                 RenderConsole.Write($"{monster.Name}", ConsoleColor.Green);
                 RenderConsole.Write("은(는) ");
-                RenderConsole.Write($"{Player.Stat.Attack}", ConsoleColor.DarkRed);
+                RenderConsole.Write($"{checkZeroAtt}", ConsoleColor.DarkRed);
                 RenderConsole.Write("만큼 ");
                 RenderConsole.Write("데미지", ConsoleColor.Red);
                 RenderConsole.WriteLineWithSpacing("를 입었습니다.");
@@ -253,7 +254,6 @@ namespace NewTxtRPG.Scene
 
         public void ActionPlayerSkill()
         {
-
             RenderConsole.WriteLineWithSpacing("< 사용할 스킬을 선택하여 주세요 >");
 
             RenderConsole.Write($"1. ");
@@ -293,17 +293,6 @@ namespace NewTxtRPG.Scene
                     Player.Job.UseSkill(3, FloorMonster, gold, exp);
                     break;
             }
-
-            foreach (var monster in FloorMonster)
-            {
-                if (monster.CurrentHP <= 0 && !monster.DeathCheck)
-                {
-                    gold += monster.Gold;
-                    exp += monster.Exp;
-                    monster.DeathCheck = true; // 중복 보상 방지
-                }
-            }
-
             Thread.Sleep(2500);
         }
 
@@ -326,7 +315,6 @@ namespace NewTxtRPG.Scene
         }
         public void Win()
         {
-            Player.DungeonCleared++; // 던전 클리어 횟수 증가
             Console.Clear();
             RenderConsole.WriteLine("< 승 리 >");
             RenderConsole.WriteLineWithSpacing("적을 전부 처치 하였습니다!");
@@ -334,9 +322,6 @@ namespace NewTxtRPG.Scene
             RenderConsole.WriteLine("보상으로 경험치와 골드를 획득하였습니다");
 
             int dropChance = rand.Next(0, 100); // 0~99
-
-            int beforeExp = Player.Exp;
-            int beforeGold = Player.Gold;
 
             if (dropChance < 30) // 30% 확률
             {
@@ -355,13 +340,13 @@ namespace NewTxtRPG.Scene
             {
                 RenderConsole.WriteLineWithSpacing("아이템을 획득하지 못했습니다.");
             }
-
-
+            int BeforeExp = Player.Exp;
+            int BeforeGold = Player.Gold;
             Player.Gold += gold;
             Player.Exp += exp;
 
-            RenderConsole.WriteLineWithSpacing($"\n GOLD : {beforeGold} => {Player.Gold} ", ConsoleColor.Yellow);
-            RenderConsole.WriteLineWithSpacing($" EXP : {beforeExp} => {Player.Exp} ", ConsoleColor.Cyan);
+            RenderConsole.WriteLineWithSpacing($"\n GOLD : {BeforeGold} => {Player.Gold} ", ConsoleColor.Yellow);
+            RenderConsole.WriteLineWithSpacing($" EXP : {BeforeExp} => {Player.Exp} ", ConsoleColor.Cyan);
 
             Player.LevelUp();
             Thread.Sleep(4000);

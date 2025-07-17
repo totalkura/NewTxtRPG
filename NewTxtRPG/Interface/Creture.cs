@@ -8,5 +8,9 @@ namespace NewTxtRPG.Interface
         int CurrentHP { get; set; }         // 현재 체력
         StatStruct Stat { get; set; }       // 스탯 (공격력, 방어력, 최대 체력 등)
         int Gold { get; set; }              // 보유 골드
+
+        void Damage(ICreture target, int damege);
+
+
     }
 }
