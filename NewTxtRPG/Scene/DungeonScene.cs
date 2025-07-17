@@ -1,6 +1,7 @@
 ﻿using NewTxtRPG.Entitys;
 using NewTxtRPG.etc;
 using NewTxtRPG.Structs;
+using System.Threading;
 
 namespace NewTxtRPG.Scene
 {
@@ -308,6 +309,7 @@ namespace NewTxtRPG.Scene
         }
         public void Win()
         {
+            Player.DungeonCleared++; // 던전 클리어 횟수 증가
             Console.Clear();
             RenderConsole.WriteLine("< 승 리 >");
             RenderConsole.WriteLineWithSpacing("적을 전부 처치 하였습니다!");

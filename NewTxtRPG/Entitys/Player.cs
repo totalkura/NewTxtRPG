@@ -19,6 +19,8 @@ namespace NewTxtRPG.Entitys
         public static Inventory Inventory { get; set; }        // 인벤토리
         public static IJob Job { get; set; }                   // 직업 정보
 
+        public static int DungeonCleared = 0;                  // 던전 클리어 여부
+
         // 아이템으로 인한 추가 스탯
         public static int ItemAttackBonus { get; set; }        // 아이템 공격력 보너스
         public static int ItemDefenseBonus { get; set; }       // 아이템 방어력 보너스
