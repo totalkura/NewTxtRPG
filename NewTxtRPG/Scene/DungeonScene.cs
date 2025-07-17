@@ -81,6 +81,9 @@ namespace NewTxtRPG.Scene
 
             Thread.Sleep(2000);
 
+            int BeforeExp = Player.Exp;
+            int BeforeGold = Player.Gold;
+
             while (true)
             {
                 
@@ -89,7 +92,6 @@ namespace NewTxtRPG.Scene
                 Player.CurrentSpeed += Player.Stat.Speed;
 
                 draw();
-
 
                 foreach (Monsters monster in FloorMonster)
                 {
@@ -338,8 +340,6 @@ namespace NewTxtRPG.Scene
             {
                 RenderConsole.WriteLineWithSpacing("아이템을 획득하지 못했습니다.");
             }
-            int BeforeExp = Player.Exp;
-            int BeforeGold = Player.Gold;
             Player.Gold += gold;
             Player.Exp += exp;
 
