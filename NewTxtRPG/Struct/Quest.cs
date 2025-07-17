@@ -11,6 +11,7 @@
 
         public string Name { get; }
         public string Description { get; }
+        public string Image { get; }
         public string ConditionDescription { get; }
         public int ConditionTarget { get; }
         public int ConditionProgress { get; set; }
@@ -21,11 +22,12 @@
         public bool IsAccepted { get; set; }
         public bool IsComplete { get; set; }
 
-        public Quest(string name, string description, string conditionDescription, int target,
+        public Quest(string name, string description, string image, string conditionDescription, int target,
                      int rewardGold, string rewardItemName, ConditionType type)
         {
             Name = name;
             Description = description;
+            Image = image;
             ConditionDescription = conditionDescription;
             ConditionTarget = target;
             RewardGold = rewardGold;
