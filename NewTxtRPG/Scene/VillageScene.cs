@@ -49,21 +49,23 @@ namespace NewTxtRPG.Scene
 
         private void UseInn()
         {
-            if (Player.Gold < 100)
-            {
-                RenderConsole.WriteLine("골드가 부족하여 휴식할 수 없습니다.");
-                Console.ReadLine();
-                return;
-            }
             while (true)
             {
-                RenderConsole.WriteLine($"휴식에는 100골드가 필요합니다. 휴식하시겠습니까? (보유 골드 : {Player.Gold} + )");
+                RenderConsole.WriteLine($"휴식에는 100골드가 필요합니다. 휴식하시겠습니까?");
+                RenderConsole.WriteLine("현재 골드: " + Player.Gold,Player.Gold >=100 ? ConsoleColor.Green : ConsoleColor.Red);
                 RenderConsole.WriteLine("1. 휴식하기");
                 RenderConsole.WriteLine("0. 나가기");
                 Console.Write("선택: ");
                 string input = Console.ReadLine();
                 if (input?.Trim().ToUpper() == "1")
                 {
+                    if (Player.Gold < 100)
+                    {
+                        RenderConsole.WriteLine("골드가 부족하여 휴식할 수 없습니다.");
+                        RenderConsole.WriteLine("마을로 돌아갑니다.");
+                        Console.ReadLine();
+                        return;
+                    }
                     Player.Gold -= 100;
                     Player.CurrentHP = Player.Stat.MaxHP;
                     RenderConsole.WriteLine("휴식을 취했습니다! 체력이 모두 회복되었습니다.");
@@ -85,7 +87,7 @@ namespace NewTxtRPG.Scene
                 }
                 Console.Clear();
             }
-            Thread.Sleep(2000); // 대기
+            Console.ReadLine();
         }
         private void UseShop()
         {
