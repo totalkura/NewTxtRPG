@@ -1,5 +1,6 @@
 ﻿using NewTxtRPG.Entitys;
 using NewTxtRPG.etc;
+using NewTxtRPG.Structs;
 
 namespace NewTxtRPG.Scene
 {
