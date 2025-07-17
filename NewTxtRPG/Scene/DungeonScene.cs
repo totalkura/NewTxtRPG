@@ -18,10 +18,6 @@ namespace NewTxtRPG.Scene
         //몬스터로 얻는 경험치 축적
         int exp;
 
-        // 경험치, 골드 획득 전 현황 기록
-        int BeforeExp = Player.Exp;
-        int BeforeGold = Player.Gold;
-
 
         public DungeonScene()
         {
@@ -36,6 +32,7 @@ namespace NewTxtRPG.Scene
 
         public void Battle(string difficult)
         {
+
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             gold = 0;
@@ -71,7 +68,7 @@ namespace NewTxtRPG.Scene
                     break;
             }
 
-            foreach (Monsters monster in FloorMonster) monster.CurrentSpeed = 1;
+            foreach (Monsters monster in FloorMonster) monster.CurrentSpeed = 1;            
 
             RenderConsole.WriteEmptyLine();
             RenderConsole.WriteEmptyLine();
@@ -324,6 +321,9 @@ namespace NewTxtRPG.Scene
 
             int dropChance = rand.Next(0, 100); // 0~99
 
+            int beforeExp = Player.Exp;
+            int beforeGold = Player.Gold;
+
             if (dropChance < 30) // 30% 확률
             {
                 var droppablePotions = Items.ItemList
@@ -340,12 +340,13 @@ namespace NewTxtRPG.Scene
             else
             {
                 RenderConsole.WriteLineWithSpacing("아이템을 획득하지 못했습니다.");
-            }
+            }            
+
             Player.Gold += gold;
             Player.Exp += exp;
 
-            RenderConsole.WriteLineWithSpacing($"\n GOLD : {BeforeGold} => {Player.Gold} ", ConsoleColor.Yellow);
-            RenderConsole.WriteLineWithSpacing($" EXP : {BeforeExp} => {Player.Exp} ", ConsoleColor.Cyan);
+            RenderConsole.WriteLineWithSpacing($"\n GOLD : {beforeGold} => {Player.Gold} ", ConsoleColor.Yellow);
+            RenderConsole.WriteLineWithSpacing($" EXP : {beforeExp} => {Player.Exp} ", ConsoleColor.Cyan);
 
             Player.LevelUp();
             Thread.Sleep(4000);
