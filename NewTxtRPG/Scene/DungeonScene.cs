@@ -18,6 +18,10 @@ namespace NewTxtRPG.Scene
         //몬스터로 얻는 경험치 축적
         int exp;
 
+        // 경험치, 골드 획득 전 현황 기록
+        int BeforeExp = Player.Exp;
+        int BeforeGold = Player.Gold;
+
 
         public DungeonScene()
         {
@@ -80,9 +84,6 @@ namespace NewTxtRPG.Scene
             Console.ResetColor();
 
             Thread.Sleep(2000);
-
-            int BeforeExp = Player.Exp;
-            int BeforeGold = Player.Gold;
 
             while (true)
             {
