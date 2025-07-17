@@ -57,7 +57,7 @@ namespace NewTxtRPG.Entitys
             Stat += new StatStruct(2,1,10,10,0);
             Console.WriteLine($"\n 레벨업! | {Level - 1} => {Level}");
             Console.WriteLine($"\n 최대체력 + 10");
-            Console.WriteLine($" 최대마력 + 10");
+            Console.WriteLine($" 최대마나 + 10");
             Console.WriteLine($" 공격력 + 2");
             Console.WriteLine($" 방어력 + 1");
         }
