@@ -1,10 +1,12 @@
-﻿using NewTxtRPG.Structs;
+﻿using NewTxtRPG.etc;
+using NewTxtRPG.Interface;
+using NewTxtRPG.Structs;
 
 namespace NewTxtRPG.Entitys
 {
 
     // todo. 나중에 iCreture 인터페이스 이어서 구현 해주세요.
-    internal class Monsters
+    internal class Monsters : ICreture
     {
         public static List<Monsters> Monster { get; set; } = new List<Monsters>();
         
@@ -56,6 +58,14 @@ namespace NewTxtRPG.Entitys
         {
             return new Monsters(Name, CurrentHP, Stat, Gold,Exp);
         }
+
+        public virtual void Damage(ICreture target, int damege)
+        {
+            int checkDamege = damege - target.Stat.Defense;
+            if (checkDamege > 0)
+                target.CurrentHP -= checkDamege;
+        }
+
     }
 
 

@@ -1,4 +1,5 @@
-﻿using NewTxtRPG.etc;
+﻿using NewTxtRPG.Entitys;
+using NewTxtRPG.etc;
 
 namespace NewTxtRPG.Scene
 {
@@ -25,11 +26,13 @@ namespace NewTxtRPG.Scene
 
         bool[,] visit;
 
+        bool vistiBoss;
+
         public void Move(string difficult)
         {
             DungeonScene dungeon = new DungeonScene();
             DungeonEventManager dungeonEvent = new DungeonEventManager();
-            
+            vistiBoss = false;
 
             while (true)
             {
@@ -40,7 +43,11 @@ namespace NewTxtRPG.Scene
 
                 if (playerX == bossX && playerY == bossY)
                 {
-                    RenderConsole.WriteLine("보스를 발견하였습니다",ConsoleColor.Red);
+                    RenderConsole.WriteEmptyLine();
+                    RenderConsole.WriteLine("< < < 보스를 발견하였습니다 > > >".PadLeft(3),ConsoleColor.Red);
+                    vistiBoss = true;
+                    Thread.Sleep(1500);
+
                     break;
                 }
 
@@ -99,6 +106,12 @@ namespace NewTxtRPG.Scene
                     else if (RandomEvent >= 20 && RandomEvent < 90 && difficult == "3")
                         dungeon.Battle(difficult);
                     visit[playerMoveX, playerMoveY] = true;
+                }
+
+                if (Player.CurrentHP <= 0)
+                {
+                    dungeon.Lose();
+                    break;
                 }
             }
         }
