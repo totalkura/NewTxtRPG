@@ -7,16 +7,16 @@ namespace NewTxtRPG.Entitys
     internal class MonsterBoss : ICreture
     {
         public static List<MonsterBoss> _MonsterBoss { get; set; } = new List<MonsterBoss>();
-        
+
         public string Name { get; set; }
         public int CurrentHP { get; set; } // 현재 체력
         public float CurrentSpeed { get; set; } // 현재 속도
         public StatStruct Stat { get; set; }
-        public int Gold {  get; set; }
+        public int Gold { get; set; }
         public Inventory Inventory { get; set; }
         public bool DeathCheck { get; set; }
         public int Exp { get; set; }
-        
+
         public MonsterBoss(string name, int currentHP, StatStruct stat, int gold, int exp)
         {
             Name = name;
@@ -38,8 +38,8 @@ namespace NewTxtRPG.Entitys
                 Speed = speed,
                 MaxHP = hp
             };
-            return new MonsterBoss(name,hp,stat, gold,exp);
-            
+            return new MonsterBoss(name, hp, stat, gold, exp);
+
         }
 
         public static void MonsterList()
@@ -48,12 +48,12 @@ namespace NewTxtRPG.Entitys
 
 
             _MonsterBoss.Add(CreateMonster("만렙토끼", 150, 20, 10, 15, 1000, 60)); //0
-            _MonsterBoss.Add(CreateMonster("???", 100, 0, 0, 5, 500,20)); //0
+            _MonsterBoss.Add(CreateMonster("???", 100, 0, 0, 5, 500, 20)); //0
         }
 
         public MonsterBoss copy()
         {
-            return new MonsterBoss(Name, CurrentHP, Stat, Gold,Exp);
+            return new MonsterBoss(Name, CurrentHP, Stat, Gold, Exp);
         }
 
 

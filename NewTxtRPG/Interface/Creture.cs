@@ -11,6 +11,5 @@ namespace NewTxtRPG.Interface
 
         void Damage(ICreture target, int damege);
 
-
     }
 }

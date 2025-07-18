@@ -551,6 +551,8 @@ namespace NewTxtRPG.Scene
                 gold += monster.Gold;
                 exp += monster.Exp;
                 lastDefeatedMonster = monster;
+
+
             }
             Thread.Sleep(2500);
         }
@@ -587,13 +589,13 @@ namespace NewTxtRPG.Scene
             switch (skillSelect)
             {
                 case "1":
-                    Player.Job.UseSkill(1, FloorMonster, ref gold, ref exp);
+                    Player.Job.UseSkill(1, BossMonster, ref gold, ref exp);
                     break;
                 case "2":
-                    Player.Job.UseSkill(2, FloorMonster, ref gold, ref exp);
+                    Player.Job.UseSkill(2, BossMonster, ref gold, ref exp);
                     break;
                 case "3":
-                    Player.Job.UseSkill(3, FloorMonster, ref gold, ref exp);
+                    Player.Job.UseSkill(3, BossMonster, ref gold, ref exp);
                     break;
             }
 

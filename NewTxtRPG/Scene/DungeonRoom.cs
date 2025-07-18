@@ -20,7 +20,7 @@ namespace NewTxtRPG.Scene
         DungeonRoom[,] dungeonRooms;
 
         int width;
-        int height;        
+        int height;
         int playerX, playerY;
         int bossX, bossY;
 
@@ -44,11 +44,11 @@ namespace NewTxtRPG.Scene
                 if (playerX == bossX && playerY == bossY)
                 {
                     RenderConsole.WriteEmptyLine();
-                    RenderConsole.WriteLine("< < < 보스를 발견하였습니다 > > >".PadLeft(3),ConsoleColor.Red);
+                    RenderConsole.WriteLine("< < < 보스를 발견하였습니다 > > >".PadLeft(3), ConsoleColor.Red);
                     vistiBoss = true;
                     Thread.Sleep(1500);
                     dungeon.BossBattle(difficult);
-                    
+
 
                     break;
                 }
@@ -181,5 +181,5 @@ namespace NewTxtRPG.Scene
 
     };
 
-    
+
 }
