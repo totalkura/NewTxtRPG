@@ -402,57 +402,62 @@ namespace NewTxtRPG.Scene
 
         public void ItemDrop()
         {
+            // 30% 확률로 소모품 드랍
             int dropChance1 = rand.Next(0, 100); // 0~99
-
-            if (dropChance1 < 30) // 30% 확률
+            if (dropChance1 < 30)
             {
                 var droppablePotions = Items.ItemList
-                .Where(p => p.ItemType == ItemType.Consumables)
-                .ToList();
+                    .Where(p => p.ItemType == ItemType.Consumables)
+                    .ToList();
 
-                int index = rand.Next(droppablePotions.Count);
-
-                ItemInfo dropped = droppablePotions[index];
-                Player.Inventory.AddItem(dropped);
-
-                Console.WriteLine($"당신은 '{dropped.Name}' 아이템을 획득했습니다!");
+                if (droppablePotions.Count > 0)
+                {
+                    int index = rand.Next(droppablePotions.Count);
+                    ItemInfo dropped = droppablePotions[index];
+                    Player.Inventory.AddItem(dropped);
+                    Console.WriteLine($"당신은 '{dropped.Name}' 아이템을 획득했습니다!");
+                }
             }
 
-            int dropChance2 = rand.Next(0, 1);
-            string Monstername = lastDefeatedMonster.Name;
-            var droppableDropitem = Items.ItemList
-                .Where(q => q.ItemType == ItemType.Dropped)
-                .ToList();
+            // 몬스터 드랍 처리
+            int dropChance2 = rand.Next(0, 2); // 50% 확률
+            string monsterName = lastDefeatedMonster.Name;
 
-            switch (dropChance2)
+            if (dropChance2 == 0)
             {
-                case 0:
-                    if (Monstername == "소")
-                    {
-                        ItemInfo dropped1 = droppableDropitem[17];
-                        Player.Inventory.AddItem(dropped1);
-                        Console.WriteLine($"당신은 '{dropped1.Name}' 아이템을 획득했습니다!");
-                        int dropChanceCow = rand.Next(0, 10);
-                        if (dropChanceCow == 7)
-                        {
-                            ItemInfo dropped2 = droppableDropitem[18];
-                            Player.Inventory.AddItem(dropped2);
-                            Console.WriteLine($"정말 운이 좋으시군요! 당신은 '{dropped2.Name}' 아이템을 획득했습니다!");
-                        }
-                    }
-                    else if (Monstername == "박쥐")
-                    {
+                List<int> dropIds = new List<int>();
 
-                    }
-                    else if (Monstername == "토끼")
-                    {
-
-                    }
-                    else if (Monstername == "다람쥐")
-                    {
-
-                    }
+                switch (monsterName)
+                {
+                    case "소":
+                        dropIds.Add(17); // 소고기
+                        if (rand.Next(0, 10) == 7) // 10% 확률로 우유
+                            dropIds.Add(18);
                         break;
+                    case "박쥐":
+                        dropIds.Add(16); // 박쥐 날개
+                        break;
+                    case "토끼":
+                        dropIds.Add(15); // 토끼고기
+                        break;
+                    case "다람쥐":
+                        dropIds.Add(14); // 도토리
+                        break;
+                }
+
+                foreach (int id in dropIds)
+                {
+                    var dropItem = Items.ItemList.FirstOrDefault(i => i.ItemType == ItemType.Dropped && i.Id == id);
+                    if (dropItem.Name != null)
+                    {
+                        Player.Inventory.AddItem(dropItem);
+                        Console.WriteLine($"당신은 '{dropItem.Name}' 아이템을 획득했습니다!");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"드롭 ID {id}에 해당하는 아이템이 존재하지 않습니다.");
+                    }
+                }
             }
         }
 
