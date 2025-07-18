@@ -15,6 +15,7 @@ namespace NewTxtRPG.Entitys
         {
             Equipment = new List<ItemInfo>();
             Consumables = new List<ItemInfo>();
+            Dropped = new List<ItemInfo>();
             equippedItems = new HashSet<string>();
         }
 
