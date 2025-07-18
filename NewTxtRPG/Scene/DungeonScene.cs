@@ -11,7 +11,7 @@ namespace NewTxtRPG.Scene
         //ColorWriter colorSet;
         public List<Monsters> FloorMonster { get; set; }
 
-        int floor;
+        public List<MonsterBoss> BossMonster { get; set; }
 
         //몬스터로 얻는 골드 축적
         int gold; 
@@ -20,16 +20,115 @@ namespace NewTxtRPG.Scene
         // 드랍아이템 보상을 위한 마지막으로 처치한 몬스터 정보 가져오기
         public Monsters lastDefeatedMonster;
 
+        //?
+        int bossAttack;
+
 
         public DungeonScene()
         {
             Monsters.MonsterList();
             FloorMonster = new List<Monsters>();
+
+            MonsterBoss.MonsterList();
+            BossMonster = new List<MonsterBoss>();
         }
 
-        public void StageSet(string difficult)
+        public void BossBattle(string difficult)
         {
-            
+            gold = 0;
+            exp = 0;
+            bossAttack = 0;
+            Console.Clear();
+            BossMonster.Clear();
+
+            BossMonster.Add(MonsterBoss._MonsterBoss[0].copy());
+
+            BossMonster[0].CurrentSpeed = 0;
+
+            while (true)
+            {
+                int checkCursorPosition = 6;
+
+                Player.CurrentSpeed += Player.Stat.Speed;
+
+                draw(BossMonster);
+
+
+                foreach (MonsterBoss monster in BossMonster)
+                {
+                    if (monster.CurrentSpeed >= 100)
+                    {
+                        ActionBossMonster(monster);
+                        //checkCursorPosition += 6;
+                        Thread.Sleep(1000);
+                    }
+                }
+
+                draw(BossMonster);
+
+                // 플레이어 사망
+                if (Player.CurrentHP <= 0)
+                {
+                    Lose();
+                    break;
+                }
+
+                if (Player.CurrentSpeed >= 100)
+                {
+                    while (true)
+                    {
+                        Console.SetCursorPosition(0, checkCursorPosition + 2);
+
+
+                        RenderConsole.WriteLineWithSpacing("─────────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
+                        RenderConsole.Write($"{Player.Name}", ConsoleColor.Blue);
+                        RenderConsole.WriteLine($" 차례 입니다 행동을 선택해 주세요");
+
+                        RenderConsole.WriteLine("                                              ");
+                        RenderConsole.WriteLine("1. 공격");
+                        RenderConsole.WriteLine("2. 스킬");
+                        RenderConsole.WriteLine("3. 아이템");
+
+                        RenderConsole.WriteLineWithSpacing("─────────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
+
+                        RenderConsole.Write(">>");
+                        string playerSelect = Console.ReadLine();
+
+                        Console.SetCursorPosition(0, checkCursorPosition + 12);
+                        RenderConsole.WriteLine("                                              ");
+
+                        switch (playerSelect)
+                        {
+                            case "1":
+                                ActionPlayerAtt(BossMonster[0]);
+                                break;
+                            case "2":
+                                ActionPlayerSkill(BossMonster[0]);
+                                break;
+                            case "3":
+                                Player.Inventory.ShowConsumablesItem();
+                                break;
+                            default:
+                                continue;
+                        }
+                        Player.CurrentSpeed -= 100;
+                        break;
+                    }
+
+                }
+                //몬스터 사망
+                int monsterDeathCheck = BossMonster.Count;
+                foreach (MonsterBoss monsters in BossMonster) monsterDeathCheck -= monsters.DeathCheck ? 1 : 0;
+                if (monsterDeathCheck == 0)
+                {
+                    Win();
+                    break;
+                }
+
+                Thread.Sleep(200);
+
+            }
+
         }
 
         public void Battle(string difficult)
@@ -40,7 +139,15 @@ namespace NewTxtRPG.Scene
             exp = 0;
             Console.Clear();
             FloorMonster.Clear();
-            
+
+            RenderConsole.WriteEmptyLine();
+            RenderConsole.WriteEmptyLine();
+            RenderConsole.WriteLine("적과 조우했습니다 !!".PadLeft(20), ConsoleColor.Yellow);
+            RenderConsole.WriteLine("적과 조우했습니다 !!".PadLeft(20), ConsoleColor.Red);
+            RenderConsole.WriteLine("적과 조우했습니다 !!".PadLeft(20), ConsoleColor.DarkRed);
+            RenderConsole.WriteLine("적과 조우했습니다 !!".PadLeft(20), ConsoleColor.Yellow);
+            RenderConsole.WriteLine("적과 조우했습니다 !!".PadLeft(20), ConsoleColor.Red);
+            RenderConsole.WriteLine("적과 조우했습니다 !!".PadLeft(20), ConsoleColor.DarkRed);
 
             int monsterSet = rand.Next(1, 5);
 
@@ -71,16 +178,6 @@ namespace NewTxtRPG.Scene
 
             foreach (Monsters monster in FloorMonster) monster.CurrentSpeed = 1;
 
-            RenderConsole.WriteEmptyLine();
-            RenderConsole.WriteEmptyLine();
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("적과 조우했습니다 !!".PadLeft(20)); Console.WriteLine("적과 조우했습니다 !!".PadLeft(20));
-                        Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("적과 조우했습니다 !!".PadLeft(20)); Console.WriteLine("적과 조우했습니다 !!".PadLeft(20));
-                        Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("적과 조우했습니다 !!".PadLeft(20)); Console.WriteLine("적과 조우했습니다 !!".PadLeft(20));
-            Console.ResetColor();
-
             Thread.Sleep(2000);
 
             while (true)
@@ -90,7 +187,7 @@ namespace NewTxtRPG.Scene
 
                 Player.CurrentSpeed += Player.Stat.Speed;
 
-                draw();
+                draw(FloorMonster);
 
 
                 foreach (Monsters monster in FloorMonster)
@@ -103,7 +200,7 @@ namespace NewTxtRPG.Scene
                    }
                 }
 
-                draw();
+                draw(FloorMonster);
                    
                 
                 //플레이어 사망
@@ -190,7 +287,9 @@ namespace NewTxtRPG.Scene
                     monster.Stat.Attack + monster.Stat.Attack / 10;
 
                 monster.CurrentSpeed -= 100;
-                Player.CurrentHP -= (int)Math.Ceiling(monsterAtt);
+                int damegeCheck = (int)monsterAtt - (Player.Stat.Defense + Player.ItemDefenseBonus);
+                damegeCheck = damegeCheck > 0 ? damegeCheck : 0;
+                Player.CurrentHP -= damegeCheck;
 
                 RenderConsole.Write($"{monster.Name}", ConsoleColor.Green);
                 RenderConsole.Write("이(가) ");
@@ -198,7 +297,7 @@ namespace NewTxtRPG.Scene
                 RenderConsole.WriteLine(" 합니다! ");
                 RenderConsole.Write($"{Player.Name}", ConsoleColor.Blue);
                 RenderConsole.Write("은(는) ");
-                RenderConsole.Write($"{Math.Ceiling(monsterAtt)}", ConsoleColor.DarkRed);
+                RenderConsole.Write($"{damegeCheck}", ConsoleColor.DarkRed);
                 RenderConsole.Write("만큼 ");
                 RenderConsole.Write("데미지", ConsoleColor.Red);
                 RenderConsole.WriteLine("를 입었습니다.");
@@ -207,6 +306,74 @@ namespace NewTxtRPG.Scene
             }
 
         }
+
+        public void ActionBossMonster(MonsterBoss monster)
+        {
+            float bossMonsterAtt = 0;
+            bool attaks = true;
+            if (monster.CurrentHP > 0)
+            {
+
+                switch (bossAttack)
+                {
+                    case 2:
+                        RenderConsole.Write($"{monster.Name}", ConsoleColor.Green);
+                        RenderConsole.WriteLine("이(가) 힘을 모으고 있습니다...");
+                        attaks = false;
+                        break;
+                    case 3:
+                        int damegeCheck = (int)(monster.Stat.Attack * 2.5) - (Player.Stat.Defense + Player.ItemDefenseBonus);
+                        damegeCheck = damegeCheck > 0 ? damegeCheck : 0;
+                        Player.CurrentHP -= damegeCheck;
+
+                        RenderConsole.Write($"{monster.Name}", ConsoleColor.Green);
+                        RenderConsole.Write("이(가) '");
+                        RenderConsole.Write("헥토 파스칼 킥!", ConsoleColor.Red);
+                        RenderConsole.WriteLine("' 을 사용합니다 ");
+                        RenderConsole.Write($"{Player.Name}", ConsoleColor.Blue);
+                        RenderConsole.Write("은(는) ");
+                        RenderConsole.Write($"{damegeCheck}", ConsoleColor.DarkRed);
+                        RenderConsole.Write("만큼 ");
+                        RenderConsole.Write("데미지", ConsoleColor.Red);
+                        RenderConsole.WriteLine("를 입었습니다.");
+
+                        attaks = false;
+                        break;
+                    default:
+                        bossMonsterAtt = rand.Next(0, 2) == 0 ?
+                        monster.Stat.Attack - monster.Stat.Attack / 10 :
+                        monster.Stat.Attack + monster.Stat.Attack / 10;
+                        break;
+                }
+
+                bossAttack++;
+
+                monster.CurrentSpeed -= 100;
+
+                if (attaks)
+                {
+                    int damegeCheck = (int)bossMonsterAtt - (Player.Stat.Defense + Player.ItemDefenseBonus);
+                    damegeCheck = damegeCheck > 0 ? damegeCheck : 0;
+                    Player.CurrentHP -= damegeCheck;
+
+                    RenderConsole.Write($"{monster.Name}", ConsoleColor.Green);
+                    RenderConsole.Write("이(가) ");
+                    RenderConsole.Write("공격", ConsoleColor.Red);
+                    RenderConsole.WriteLine(" 합니다! ");
+                    RenderConsole.Write($"{Player.Name}", ConsoleColor.Blue);
+                    RenderConsole.Write("은(는) ");
+                    RenderConsole.Write($"{damegeCheck}", ConsoleColor.DarkRed);
+                    RenderConsole.Write("만큼 ");
+                    RenderConsole.Write("데미지", ConsoleColor.Red);
+                    RenderConsole.WriteLine("를 입었습니다.");
+                }
+
+                RenderConsole.WriteLine("─────────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
+                Thread.Sleep(500);
+            }
+
+        }
+
 
         public void ActionPlayerAtt(Monsters monster)
         {
@@ -220,7 +387,9 @@ namespace NewTxtRPG.Scene
                     player.Stat.Attack * 1.5f  : 
                     player.Stat.Attack;
                 */
-                monster.CurrentHP -= Player.Stat.Attack;
+                int damegeCheck = (Player.Stat.Attack + Player.ItemAttackBonus) - monster.Stat.Defense;
+                damegeCheck = damegeCheck > 0 ? damegeCheck : 0;
+                monster.CurrentHP -= damegeCheck;
 
                 RenderConsole.Write($"{Player.Name}", ConsoleColor.Blue);
                 RenderConsole.Write("이(가) ");
@@ -229,7 +398,7 @@ namespace NewTxtRPG.Scene
 
                 RenderConsole.Write($"{monster.Name}", ConsoleColor.Green);
                 RenderConsole.Write("은(는) ");
-                RenderConsole.Write($"{Player.Stat.Attack}", ConsoleColor.DarkRed);
+                RenderConsole.Write($"{damegeCheck}", ConsoleColor.DarkRed);
                 RenderConsole.Write("만큼 ");
                 RenderConsole.Write("데미지", ConsoleColor.Red);
                 RenderConsole.WriteLineWithSpacing("를 입었습니다.");
@@ -310,11 +479,6 @@ namespace NewTxtRPG.Scene
             Thread.Sleep(2500);
         }
 
-        static public void BossBattle(string difficult)
-        {
-
-        }
-
         public void Lose()
         {
             Console.Clear();
@@ -355,7 +519,7 @@ namespace NewTxtRPG.Scene
             Console.ReadLine();
         }
 
-        public void draw()
+        public void draw(List<Monsters> z)
         {
             Console.Clear();
             RenderConsole.WriteLine("─────────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
@@ -402,6 +566,55 @@ namespace NewTxtRPG.Scene
             RenderConsole.WriteLine($" : {Player.CurrentMP} / {Player.Stat.MaxMP}".PadRight(18));
             RenderConsole.WriteLine("─────────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
                 
+        }
+
+        public void draw(List<MonsterBoss> z)
+        {
+            Console.Clear();
+            RenderConsole.WriteLine("─────────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
+            foreach (MonsterBoss monster in BossMonster)
+            {
+                string speedCheck = "";
+
+                monster.CurrentSpeed += monster.DeathCheck ? 0 : monster.Stat.Speed;
+
+                if (monster.CurrentSpeed >= 5)
+                {
+                    int a = (int)monster.CurrentSpeed / 5;
+                    for (int i = 0; i < 20; i++)
+                        speedCheck += i < a ? "█" : "░";
+                }
+
+                RenderConsole.Write(" [");
+                Console.ForegroundColor = monster.DeathCheck ? ConsoleColor.DarkGray : ConsoleColor.Green;
+                Console.Write($"{monster.Name}".PadLeft(6));
+                Console.ResetColor();
+                RenderConsole.Write(" ]");
+                RenderConsole.Write(" HP", ConsoleColor.Red);
+                RenderConsole.Write($" : {monster.CurrentHP} / {monster.Stat.MaxHP}".PadRight(18));
+                RenderConsole.Write(" speed : ".PadLeft(8));
+                RenderConsole.WriteLine($"{speedCheck.PadRight(20)}", ConsoleColor.Green);
+
+            }
+            string speedCheckP = "";
+            if (Player.CurrentSpeed >= 5)
+            {
+                int a = (int)Player.CurrentSpeed / 5;
+                for (int i = 0; i < 20; i++)
+                    speedCheckP += i < a ? "█" : "░";
+            }
+
+            RenderConsole.Write("\n [");
+            RenderConsole.Write($"{Player.Name}".PadLeft(6), ConsoleColor.Blue);
+            RenderConsole.Write(" ]");
+            RenderConsole.Write(" HP", ConsoleColor.Red);
+            RenderConsole.Write($" : {Player.CurrentHP} / {Player.Stat.MaxHP}".PadRight(18));
+            RenderConsole.Write(" speed : ".PadLeft(8));
+            RenderConsole.WriteLine($"{speedCheckP.PadRight(20)}", ConsoleColor.DarkBlue);
+            RenderConsole.Write(" MP".PadLeft(13), ConsoleColor.DarkBlue);
+            RenderConsole.WriteLine($" : {Player.CurrentMP} / {Player.Stat.MaxMP}".PadRight(18));
+            RenderConsole.WriteLine("─────────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
+
         }
 
         public void ItemDrop()
