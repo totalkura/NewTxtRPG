@@ -100,7 +100,7 @@ namespace NewTxtRPG.Entitys
     internal class WarriorJob : JobBase
     {
         public override string Name => "전사";
-        public override StatStruct BaseStat => new StatStruct(10, 5, 100, 30,10);
+        public override StatStruct BaseStat => new StatStruct(20, 15, 200, 30,10);
 
         public override Skill Skill1 => new Skill("베기", "검으로 적을 벱니다.", 1, 0);
         public override Skill Skill2 => new Skill("강타", "마나를 소모해 강력한 일격을 가합니다.", 2, 10);
@@ -111,7 +111,7 @@ namespace NewTxtRPG.Entitys
     internal class ThiefJob : JobBase
     {
         public override string Name => "도적";
-        public override StatStruct BaseStat => new StatStruct(14, 3, 100, 40,20);
+        public override StatStruct BaseStat => new StatStruct(12,5, 100, 40,20);
 
         public override Skill Skill1 => new Skill("찌르기", "단검으로 적을 빠르게 찌릅니다.", 1, 0);
         public override Skill Skill2 => new Skill("연속 찌르기", "마나를 소모해 여러 번 적을 찌릅니다.", 2, 8);
