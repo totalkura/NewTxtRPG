@@ -286,13 +286,13 @@ namespace NewTxtRPG.Scene
             switch (skillSelect)
             {
                 case "1":
-                    Player.Job.UseSkill(1, FloorMonster, gold, exp);
+                    Player.Job.UseSkill(1, FloorMonster, ref gold, ref exp);
                     break;
                 case "2":
-                    Player.Job.UseSkill(2, FloorMonster, gold, exp);
+                    Player.Job.UseSkill(2, FloorMonster, ref gold, ref exp);
                     break;
                 case "3":
-                    Player.Job.UseSkill(3, FloorMonster, gold, exp);
+                    Player.Job.UseSkill(3, FloorMonster, ref gold, ref exp);
                     break;
             }
 
@@ -310,6 +310,10 @@ namespace NewTxtRPG.Scene
             Thread.Sleep(2500);
         }
 
+        static public void BossBattle(string difficult)
+        {
+
+        }
 
         public void Lose()
         {
