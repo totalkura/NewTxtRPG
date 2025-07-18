@@ -79,16 +79,43 @@ namespace NewTxtRPG
             Console.Write("플레이어 이름을 입력하세요: ");
             string name = Console.ReadLine();
 
+            // 직업 정보 및 초기 아이템 정의
+            var jobs = new[]
+            {
+        new {
+            Job = (IJob)new WarriorJob(),
+            Description = "튼튼한 방어와 무난한 공격력을 가진 근접 전투 전문가",
+            InitialItems = new[] {
+                Items.ItemList.First(x => x.Name == "가죽 튜닉"),
+                Items.ItemList.First(x => x.Name == "치유의 물약"),
+                Items.ItemList.First(x => x.Name == "치유의 물약"),
+                Items.ItemList.First(x => x.Name == "치유의 물약")
+            }
+        },
+        new {
+            Job = (IJob)new ThiefJob(),
+            Description = "빠른 공격과 높은 기동성을 가진 치명적인 암살자",
+            InitialItems = new[] {
+                Items.ItemList.First(x => x.Name == "초보자의 검"),
+                Items.ItemList.First(x => x.Name == "치유의 물약"),
+                Items.ItemList.First(x => x.Name == "치유의 물약"),
+                Items.ItemList.First(x => x.Name == "마나의 물약")
+            }
+        }
+    };
+
             RenderConsole.WriteLineWithSpacing("직업을 선택하세요:");
-            RenderConsole.WriteLine("1. 전사");
-            RenderConsole.WriteLine("   - 공격력: 10, 방어력: 5, 체력: 100, 마나: 30, 공격 속도: 느림");
-            RenderConsole.WriteLine("   - 설명: 튼튼한 방어와 무난한 공격력을 가진 근접 전투 전문가");
-            RenderConsole.WriteLine("   - 초기 장비: 가죽 튜닉, 치유의 물약 3개");
-            RenderConsole.WriteLine();
-            RenderConsole.WriteLine("2. 도적");
-            RenderConsole.WriteLine("   - 공격력: 14, 방어력: 3, 체력: 100, 마나: 40, 공격 속도: 빠름");
-            RenderConsole.WriteLine("   - 설명: 빠른 공격과 높은 기동성을 가진 치명적인 암살자");
-            RenderConsole.WriteLine("   - 초기 장비: 초보자의 검, 치유의 물약 2개, 마나의 물약 1개");
+            for (int i = 0; i < jobs.Length; i++)
+            {
+                var job = jobs[i].Job;
+                var items = jobs[i].InitialItems;
+                RenderConsole.WriteLine($"{i + 1}. {job.Name}");
+                RenderConsole.WriteLine($"   - 공격력: {job.BaseStat.Attack}, 방어력: {job.BaseStat.Defense}, 체력: {job.BaseStat.MaxHP}, 마나: {job.BaseStat.MaxMP}, 공격 속도: {job.BaseStat.Speed:F1}");
+                RenderConsole.WriteLine($"   - 설명: {jobs[i].Description}");
+                string itemList = string.Join(", ", items.Select(x => x.Name));
+                RenderConsole.WriteLine($"   - 초기 장비: {itemList}");
+                RenderConsole.WriteLine();
+            }
 
             IJob selectedJob = null;
             ItemInfo[] initialItems = null;
@@ -96,25 +123,11 @@ namespace NewTxtRPG
             {
                 Console.Write("\n번호를 입력하세요 (1 또는 2): ");
                 string input = Console.ReadLine();
-                if (input == "1")
+                if (input == "1" || input == "2")
                 {
-                    selectedJob = new WarriorJob();
-                    initialItems = new ItemInfo[] {
-                Items.ItemList.First(x => x.Name == "가죽 튜닉"),
-                Items.ItemList.First(x => x.Name == "치유의 물약"),
-                Items.ItemList.First(x => x.Name == "치유의 물약"),
-                Items.ItemList.First(x => x.Name == "치유의 물약")
-            };
-                }
-                else if (input == "2")
-                {
-                    selectedJob = new ThiefJob();
-                    initialItems = new ItemInfo[] {
-                Items.ItemList.First(x => x.Name == "초보자의 검"),
-                Items.ItemList.First(x => x.Name == "치유의 물약"),
-                Items.ItemList.First(x => x.Name == "치유의 물약"),
-                Items.ItemList.First(x => x.Name == "마나의 물약")
-            };
+                    int idx = int.Parse(input) - 1;
+                    selectedJob = jobs[idx].Job;
+                    initialItems = jobs[idx].InitialItems;
                 }
                 else
                 {
@@ -136,14 +149,14 @@ namespace NewTxtRPG
                             Player.ItemAttackBonus += item.AttackBonus;
                         if (item.DefenseBonus > 0)
                             Player.ItemDefenseBonus += item.DefenseBonus;
-                        // 장착 상태로 표시
                         var equipField = typeof(Inventory).GetField("equippedItems", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
                         var equippedSet = equipField?.GetValue(Player.Inventory) as HashSet<string>;
                         equippedSet?.Add(item.Name);
                     }
                 }
             }
-            RenderConsole.WriteLineWithSpacing($"{name}님, {(selectedJob is WarriorJob ? "전사" : "도적")}(으)로 게임을 시작합니다!");
+            RenderConsole.WriteLineWithSpacing($"{name}님, {selectedJob.Name}(으)로 게임을 시작합니다!");
         }
+
     }
 }
