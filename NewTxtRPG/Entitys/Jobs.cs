@@ -14,7 +14,7 @@ namespace NewTxtRPG.Entitys
         public abstract Skill Skill3 { get; }
 
         // 스킬 사용 메서드
-        public virtual void UseSkill(int skillNumber, List<Monsters> monster,int gold, int exp)
+        public virtual void UseSkill(int skillNumber, List<Monsters> monster,ref int gold, ref int exp)
         {
 
             Random rnd = new Random();
@@ -79,7 +79,7 @@ namespace NewTxtRPG.Entitys
 
             monster[rand].Damage(monster[rand], plskillAtt);
 
-            if (monster[rand].CurrentHP <= 0)
+            if (monster[rand].CurrentHP <= 0 && !monster[rand].DeathCheck)
             {
                 RenderConsole.WriteLineWithSpacing("─────────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
 
@@ -90,6 +90,76 @@ namespace NewTxtRPG.Entitys
                 monster[rand].DeathCheck = true;
                 gold += monster[rand].Gold;
                 exp += monster[rand].Exp;
+                Thread.Sleep(700);
+            }
+
+        }
+        public virtual void UseSkill(int skillNumber, List<MonsterBoss> monster, ref int gold, ref int exp)
+        {
+            Skill skill = skillNumber == 1 ? Skill1 : skillNumber == 2 ? Skill2 : Skill3;
+
+            if (Player.CurrentMP < skill.ManaCost)
+            {
+                RenderConsole.WriteLine("마나가 부족하여 스킬을 사용할 수 없습니다.");
+                return;
+            }
+
+            Player.CurrentMP -= skill.ManaCost;
+
+            RenderConsole.Write("[");
+            RenderConsole.Write($"{Player.Name}", ConsoleColor.Blue);
+            RenderConsole.Write(" ] 이(가) '");
+            RenderConsole.Write($"{skill.Name}", ConsoleColor.Cyan);
+            RenderConsole.Write("' 스킬을 사용했습니다! ");
+            RenderConsole.Write("MP", ConsoleColor.DarkBlue);
+            RenderConsole.WriteLineWithSpacing($" - {skill.ManaCost}");
+
+            if (skillNumber == 3)
+            {
+                foreach (MonsterBoss monsters in monster)
+                {
+                    if (!monsters.DeathCheck)
+                    {
+                        RenderConsole.Write($"{monsters.Name}", ConsoleColor.Green);
+                        RenderConsole.Write("은(는) ");
+                        RenderConsole.Write($"{Player.Stat.Attack * skill.Multiplier}", ConsoleColor.DarkRed);
+                        RenderConsole.Write("만큼 ");
+                        RenderConsole.Write("데미지", ConsoleColor.Red);
+                        RenderConsole.WriteLineWithSpacing("를 입었습니다.");
+                        monsters.CurrentHP = 0;
+                        monsters.DeathCheck = true;
+                        gold += monsters.Gold;
+                        exp += monsters.Exp;
+                    }
+                }
+                return;
+            }
+
+            int plskillAtt = (int)((Player.Stat.Attack + Player.ItemAttackBonus) * skill.Multiplier);
+            int checkZeroAtt = plskillAtt - monster[0].Stat.Defense < 0 ? 0 : plskillAtt - monster[0].Stat.Defense;
+
+            RenderConsole.WriteLineWithSpacing("─────────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
+
+            RenderConsole.Write($"{monster[0].Name}", ConsoleColor.Green);
+            RenderConsole.Write("은(는) ");
+            RenderConsole.Write($"{checkZeroAtt}", ConsoleColor.DarkRed);
+            RenderConsole.Write("만큼 ");
+            RenderConsole.Write("데미지", ConsoleColor.Red);
+            RenderConsole.WriteLineWithSpacing("를 입었습니다.");
+
+            monster[0].Damage(monster[0], plskillAtt);
+
+            if (monster[0].CurrentHP <= 0 && !monster[0].DeathCheck)
+            {
+                RenderConsole.WriteLineWithSpacing("─────────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
+
+                RenderConsole.Write($"\n{monster[0].Name}", ConsoleColor.Green);
+                RenderConsole.Write("은(는) ");
+                RenderConsole.WriteLine("기력이 다했다...");
+                monster[0].CurrentHP = monster[0].CurrentHP < 0 ? 0 : monster[0].CurrentHP;
+                monster[0].DeathCheck = true;
+                gold += monster[0].Gold;
+                exp += monster[0].Exp;
                 Thread.Sleep(700);
             }
 

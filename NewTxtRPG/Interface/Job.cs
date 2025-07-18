@@ -15,6 +15,7 @@ namespace NewTxtRPG.Interface
         Skill Skill2 { get; }
         Skill Skill3 { get; }
 
-        void UseSkill(int skillNumber, List<Monsters> monster, int gold, int exp);
+        void UseSkill(int skillNumber, List<Monsters> monster,ref int gold,ref int exp);
+        void UseSkill(int skillNumber, List<MonsterBoss> monster, ref int gold, ref int exp);
     }
 }
