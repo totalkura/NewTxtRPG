@@ -19,6 +19,8 @@ namespace NewTxtRPG.Scene
         int exp;
         // 드랍아이템 보상을 위한 마지막으로 처치한 몬스터 정보 가져오기
         public Monsters lastDefeatedMonster;
+        // 보스 처치 보상을 위한 처치한 보스몬스터 정보 기록
+        public MonsterBoss DefeatedBoss;
 
         //?
         int bossAttack;
@@ -121,6 +123,33 @@ namespace NewTxtRPG.Scene
                 foreach (MonsterBoss monsters in BossMonster) monsterDeathCheck -= monsters.DeathCheck ? 1 : 0;
                 if (monsterDeathCheck == 0)
                 {
+                    List<int> dropId = new List<int>();
+                    DefeatedBoss = BossMonster[0];
+                    string monsterName = DefeatedBoss.Name;
+                    switch (monsterName)
+                    {
+                        case "만렙토끼":
+                            dropId.Add(19); // 만렙토끼 보스 아이템
+                            break;
+                        case "???":
+                            dropId.Add(20); // ??? 보스 아이템
+                            break;
+                    }
+                    foreach (int id in dropId)
+                    {
+                        var dropItem = Items.ItemList.FirstOrDefault(i => i.ItemType == ItemType.Dropped && i.Id == id);
+                        if (dropItem.Name != null)
+                        {
+                            Console.Clear();
+                            Player.Inventory.AddItem(dropItem);
+                            Console.WriteLine($"보스 클리어를 축하드립니다. 당신은 '{dropItem.Name}' 아이템을 획득했습니다!");
+                            Thread.Sleep(3000);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"드롭 ID {id}에 해당하는 아이템이 존재하지 않습니다.");
+                        }
+                    }
                     Win();
                     break;
                 }
@@ -423,6 +452,53 @@ namespace NewTxtRPG.Scene
             Thread.Sleep(2000);
         }
 
+        public void ActionPlayerAtt(MonsterBoss monster)
+        {
+
+            if (Player.CurrentHP > 0 && Player.CurrentSpeed >= 100)
+            {
+                //치명타 및 회피 추가시 수정 예정
+                //치명타 배수 200? 150?
+                /*
+                float playerCriAtt = rand.Next(0, 100) < 크리율 ? 
+                    player.Stat.Attack * 1.5f  : 
+                    player.Stat.Attack;
+                */
+                int damegeCheck = (Player.Stat.Attack + Player.ItemAttackBonus) - monster.Stat.Defense;
+                damegeCheck = damegeCheck > 0 ? damegeCheck : 0;
+                monster.CurrentHP -= damegeCheck;
+
+                RenderConsole.Write($"{Player.Name}", ConsoleColor.Blue);
+                RenderConsole.Write("이(가) ");
+                RenderConsole.Write("공격", ConsoleColor.Red);
+                RenderConsole.WriteLine(" 합니다! ");
+
+                RenderConsole.Write($"{monster.Name}", ConsoleColor.Green);
+                RenderConsole.Write("은(는) ");
+                RenderConsole.Write($"{damegeCheck}", ConsoleColor.DarkRed);
+                RenderConsole.Write("만큼 ");
+                RenderConsole.Write("데미지", ConsoleColor.Red);
+                RenderConsole.WriteLineWithSpacing("를 입었습니다.");
+
+                RenderConsole.WriteLineWithSpacing("─────────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
+
+                Thread.Sleep(700);
+            }
+
+            if (monster.CurrentHP <= 0)
+            {
+                RenderConsole.Write($"\n{monster.Name}", ConsoleColor.Green);
+                RenderConsole.Write("은(는) ");
+                RenderConsole.WriteLine("기력이 다했다...");
+                monster.CurrentHP = monster.CurrentHP < 0 ? 0 : monster.CurrentHP;
+                monster.DeathCheck = true;
+                gold += monster.Gold;
+                exp += monster.Exp;
+            }
+
+            Thread.Sleep(2000);
+        }
+
         public void ActionPlayerSkill(Monsters monster)
         {
             RenderConsole.WriteLineWithSpacing("< 사용할 스킬을 선택하여 주세요 >");
@@ -479,6 +555,61 @@ namespace NewTxtRPG.Scene
             Thread.Sleep(2500);
         }
 
+        public void ActionPlayerSkill(MonsterBoss monster)
+        {
+            RenderConsole.WriteLineWithSpacing("< 사용할 스킬을 선택하여 주세요 >");
+
+            RenderConsole.Write($"1. ");
+            RenderConsole.Write($"{Player.Job.Skill1.Name}", ConsoleColor.Cyan);
+            RenderConsole.Write(" - ");
+            RenderConsole.WriteLine($"{Player.Job.Skill1.Effect}", ConsoleColor.Gray);
+            RenderConsole.Write("[ ".PadLeft(3));
+            RenderConsole.Write("MP", ConsoleColor.Blue);
+            RenderConsole.Write($" {Player.Job.Skill1.ManaCost} ] [ ");
+            RenderConsole.Write("공격력", ConsoleColor.Red);
+            RenderConsole.WriteLineWithSpacing($" x {Player.Job.Skill1.Multiplier} ]");
+
+            RenderConsole.Write($"2. ");
+            RenderConsole.Write($"{Player.Job.Skill2.Name}", ConsoleColor.Cyan);
+            RenderConsole.Write(" - ");
+            RenderConsole.WriteLine($"{Player.Job.Skill2.Effect}", ConsoleColor.Gray);
+            RenderConsole.Write("[ ".PadLeft(3));
+            RenderConsole.Write("MP", ConsoleColor.Blue);
+            RenderConsole.Write($" {Player.Job.Skill2.ManaCost} ] [ ");
+            RenderConsole.Write("공격력", ConsoleColor.Red);
+            RenderConsole.WriteLineWithSpacing($" x {Player.Job.Skill2.Multiplier} ]");
+
+            RenderConsole.Write(">>");
+
+            string skillSelect = Console.ReadLine();
+            RenderConsole.WriteLineWithSpacing("─────────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
+
+            switch (skillSelect)
+            {
+                case "1":
+                    Player.Job.UseSkill(1, FloorMonster, ref gold, ref exp);
+                    break;
+                case "2":
+                    Player.Job.UseSkill(2, FloorMonster, ref gold, ref exp);
+                    break;
+                case "3":
+                    Player.Job.UseSkill(3, FloorMonster, ref gold, ref exp);
+                    break;
+            }
+
+            if (monster.CurrentHP <= 0)
+            {
+                RenderConsole.Write($"\n{monster.Name}", ConsoleColor.Green);
+                RenderConsole.Write("은(는) ");
+                RenderConsole.WriteLine("기력이 다했다...");
+                monster.CurrentHP = monster.CurrentHP < 0 ? 0 : monster.CurrentHP;
+                monster.DeathCheck = true;
+                gold += monster.Gold;
+                exp += monster.Exp;
+            }
+            Thread.Sleep(2500);
+        }
+
         public void Lose()
         {
             Console.Clear();
@@ -504,8 +635,11 @@ namespace NewTxtRPG.Scene
 
             RenderConsole.WriteLine("보상으로 경험치와 골드를 획득하였습니다");
 
-            ItemDrop();
-            
+            if (lastDefeatedMonster != null)
+            {
+                ItemDrop();
+            }
+
             int BeforeExp = Player.Exp;
             int BeforeGold = Player.Gold;
             Player.Gold += gold;
