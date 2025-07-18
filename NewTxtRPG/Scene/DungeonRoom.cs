@@ -47,6 +47,8 @@ namespace NewTxtRPG.Scene
                     RenderConsole.WriteLine("< < < 보스를 발견하였습니다 > > >".PadLeft(3),ConsoleColor.Red);
                     vistiBoss = true;
                     Thread.Sleep(1500);
+                    dungeon.BossBattle(difficult);
+                    
 
                     break;
                 }
@@ -157,12 +159,15 @@ namespace NewTxtRPG.Scene
         private void MapView()
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-            RenderConsole.WriteLine("던전 맵 (★: 플레이어, ※: 보스)\n");
+            RenderConsole.WriteLine("던전 맵 (★ : 플레이어, ※ : 보스)\n");
 
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
+                    if (x == 0)
+                        Console.Write("       ");
+
                     if (x == playerX && y == playerY)
                         Console.Write("★ ");
                     else if (x == bossX && y == bossY)

@@ -1,9 +1,10 @@
 ﻿using NewTxtRPG.Structs;
+using NewTxtRPG.Interface;
 
 namespace NewTxtRPG.Entitys
 {
 
-    internal class MonsterBoss
+    internal class MonsterBoss : ICreture
     {
         public static List<MonsterBoss> _MonsterBoss { get; set; } = new List<MonsterBoss>();
         
@@ -54,10 +55,14 @@ namespace NewTxtRPG.Entitys
         {
             return new MonsterBoss(Name, CurrentHP, Stat, Gold,Exp);
         }
+
+
+        public virtual void Damage(ICreture target, int damege)
+        {
+            int checkDamege = damege - target.Stat.Defense;
+            if (checkDamege > 0)
+                target.CurrentHP -= checkDamege;
+        }
+
     }
-
-
-        
-
- 
 }
