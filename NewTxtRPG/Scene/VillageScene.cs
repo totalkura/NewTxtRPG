@@ -79,7 +79,8 @@ namespace NewTxtRPG.Scene
                     }
                     Player.Gold -= 100;
                     Player.CurrentHP = Player.Stat.MaxHP;
-                    RenderConsole.WriteLine("휴식을 취했습니다! 체력이 모두 회복되었습니다.");
+                    Player.CurrentMP = Player.Stat.MaxMP;
+                    RenderConsole.WriteLine("휴식을 취했습니다! 체력과 마나가 모두 회복되었습니다.");
                     RenderConsole.WriteLine("마을로 돌아갑니다.");
                     break;
                 }
