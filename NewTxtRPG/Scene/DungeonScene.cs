@@ -123,33 +123,7 @@ namespace NewTxtRPG.Scene
                 foreach (MonsterBoss monsters in BossMonster) monsterDeathCheck -= monsters.DeathCheck ? 1 : 0;
                 if (monsterDeathCheck == 0)
                 {
-                    List<int> dropId = new List<int>();
                     DefeatedBoss = BossMonster[0];
-                    string monsterName = DefeatedBoss.Name;
-                    switch (monsterName)
-                    {
-                        case "만렙토끼":
-                            dropId.Add(19); // 만렙토끼 보스 아이템
-                            break;
-                        case "???":
-                            dropId.Add(20); // ??? 보스 아이템
-                            break;
-                    }
-                    foreach (int id in dropId)
-                    {
-                        var dropItem = Items.ItemList.FirstOrDefault(i => i.ItemType == ItemType.Dropped && i.Id == id);
-                        if (dropItem.Name != null)
-                        {
-                            Console.Clear();
-                            Player.Inventory.AddItem(dropItem);
-                            Console.WriteLine($"보스 클리어를 축하드립니다. 당신은 '{dropItem.Name}' 아이템을 획득했습니다!");
-                            Thread.Sleep(3000);
-                        }
-                        else
-                        {
-                            Console.WriteLine($"드롭 ID {id}에 해당하는 아이템이 존재하지 않습니다.");
-                        }
-                    }
                     Win();
                     break;
                 }
@@ -634,8 +608,38 @@ namespace NewTxtRPG.Scene
             Console.Clear();
             RenderConsole.WriteLine("< 승 리 >");
             RenderConsole.WriteLineWithSpacing("적을 전부 처치 하였습니다!");
+            if (DefeatedBoss != null)
+            {
+                List<int> dropId = new List<int>();
+                string monsterName = DefeatedBoss.Name;
+                switch (monsterName)
+                {
+                    case "만렙토끼":
+                        dropId.Add(19); // 만렙토끼 보스 아이템
+                        break;
+                    case "???":
+                        dropId.Add(20); // ??? 보스 아이템
+                        break;
+                }
+                foreach (int id in dropId)
+                {
+                    var dropItem = Items.ItemList.FirstOrDefault(i => i.ItemType == ItemType.Equipment && i.Id == id);
+                    if (dropItem.Name != null)
+                    {
+                        Console.Clear();
+                        Player.Inventory.AddItem(dropItem);
+                        Console.WriteLine($"보스 클리어를 축하드립니다. 당신은 '{dropItem.Name}' 아이템을 획득했습니다!");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"드롭 ID {id}에 해당하는 아이템이 존재하지 않습니다.");
+                    }
+                }
+            
+            }
 
-            RenderConsole.WriteLine("보상으로 경험치와 골드를 획득하였습니다");
+
+                RenderConsole.WriteLine("보상으로 경험치와 골드를 획득하였습니다");
 
             if (lastDefeatedMonster != null)
             {
