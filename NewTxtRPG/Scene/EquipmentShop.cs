@@ -14,6 +14,8 @@ namespace NewTxtRPG.Scene
             // 판매 가능한 아이템 목록 초기화 (장비만, 구매완료 아이템은 제외)
             itemsForSale = Items.ItemList
                 .Where(item => item.ItemType == ItemType.Equipment && item.Price > 0)
+                .Where(item => item.Id != 19)
+                .Where(item => item.Id != 20)
                 .ToList();
         }
 
