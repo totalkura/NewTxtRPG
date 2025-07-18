@@ -10,6 +10,7 @@ namespace NewTxtRPG
     {
         public static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
             Console.WriteLine("스파르타 던전에 오신 것을 환영합니다!");
 
             InitializeGame();
