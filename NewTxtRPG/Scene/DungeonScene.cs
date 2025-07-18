@@ -286,7 +286,7 @@ namespace NewTxtRPG.Scene
             switch (skillSelect)
             {
                 case "1":
-                    Player.Job.UseSkill(1,FloorMonster,gold,exp);
+                    Player.Job.UseSkill(1, FloorMonster, gold, exp);
                     break;
                 case "2":
                     Player.Job.UseSkill(2, FloorMonster, gold, exp);
