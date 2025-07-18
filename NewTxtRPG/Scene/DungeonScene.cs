@@ -79,7 +79,7 @@ namespace NewTxtRPG.Scene
             Console.WriteLine("적과 조우했습니다 !!".PadLeft(20)); Console.WriteLine("적과 조우했습니다 !!".PadLeft(20));
             Console.ResetColor();
 
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
 
             while (true)
             {
@@ -173,7 +173,7 @@ namespace NewTxtRPG.Scene
                     break;
                 }
 
-                Thread.Sleep(400);
+                Thread.Sleep(200);
 
             }
         }
@@ -201,7 +201,7 @@ namespace NewTxtRPG.Scene
                 RenderConsole.Write("데미지", ConsoleColor.Red);
                 RenderConsole.WriteLine("를 입었습니다.");
                 RenderConsole.WriteLine("─────────────────────────────────────────────────────────────────", ConsoleColor.DarkGray);
-                Thread.Sleep(700);
+                Thread.Sleep(300);
             }
 
         }
@@ -248,7 +248,7 @@ namespace NewTxtRPG.Scene
                 exp += monster.Exp;
             }
 
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
         }
 
         public void ActionPlayerSkill(Monsters monster)
@@ -303,7 +303,7 @@ namespace NewTxtRPG.Scene
                 gold += monster.Gold;
                 exp += monster.Exp;
             }
-            Thread.Sleep(2500);
+            Thread.Sleep(1000);
         }
 
 
@@ -321,7 +321,7 @@ namespace NewTxtRPG.Scene
             Player.CurrentHP = 10;
             Player.Gold = Player.Gold / 2;
 
-            Thread.Sleep(4000);
+            Thread.Sleep(2000);
         }
         public void Win()
         {
@@ -360,7 +360,7 @@ namespace NewTxtRPG.Scene
             RenderConsole.WriteLineWithSpacing($" EXP : {BeforeExp} => {Player.Exp} ", ConsoleColor.Cyan);
 
             Player.LevelUp();
-            Thread.Sleep(4000);
+            Thread.Sleep(2000);
         }
 
         public void draw()
