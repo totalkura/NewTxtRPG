@@ -28,7 +28,7 @@ namespace NewTxtRPG.Entitys
             new ItemInfo(16, ItemType.Dropped, "박쥐의 날개", 30, "그닥 안귀여운 박쥐에게서 잘라낸 날개입니다.", 0, 0, 0, 0),
             new ItemInfo(17, ItemType.Dropped, "소고기", 50, "우리 모두가 취직하면 사먹고 싶어하는 투쁠 채끝살입니다.", 0, 0, 0, 0),
             new ItemInfo(18, ItemType.Dropped, "우유", 500, "어떤 소가 '날 아무리 짜봐야 우유 안나와'라고 했다지만, 짜니까 나왔네요?", 0, 0, 0, 0),
-            new ItemInfo(19, ItemType.Equipment, "바니걸 코스튬", 5000, "만렙토끼 보스 클리어 보상 아이템입니다. 꽉 껴서 아프지만 입을수는 있습니다.", 0, 22, 0, 0),
+            new ItemInfo(19, ItemType.Equipment, "토끼 잠옷", 5000, "만렙토끼 보스 클리어 보상 아이템입니다. 귀여운 잠옷입니다.", 0, 22, 0, 0),
             new ItemInfo(20, ItemType.Equipment, "뼈다귀", 10000, "??? 보스 클리어 보상 아이템입니다. 들어서 무기로 쓸수 있습니다.", 45, 0, 0, 0)
         };
     }
