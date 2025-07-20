@@ -134,7 +134,7 @@ namespace NewTxtRPG.Scene
                 dungeonRoom.Move(actionInput);
 
             }
-            
+            Console.Clear();
         }
 
         private void EndGame()

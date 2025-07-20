@@ -1,5 +1,6 @@
 ﻿using NewTxtRPG.Entitys;
 using NewTxtRPG.etc;
+using NewTxtRPG.Structs;
 
 namespace NewTxtRPG.Scene
 {
@@ -32,6 +33,8 @@ namespace NewTxtRPG.Scene
         {
             DungeonScene dungeon = new DungeonScene();
             DungeonEventManager dungeonEvent = new DungeonEventManager();
+            SanzScene sanz = new SanzScene();
+
             vistiBoss = false;
 
             while (true)
@@ -46,11 +49,16 @@ namespace NewTxtRPG.Scene
                     RenderConsole.WriteEmptyLine();
                     RenderConsole.WriteLine("< < < 보스를 발견하였습니다 > > >".PadLeft(3), ConsoleColor.Red);
                     vistiBoss = true;
+
                     Thread.Sleep(1500);
-                    dungeon.BossBattle(difficult);
+                    if (Player.Inventory.GetConsumables().Count(x => x.Name == "?") > 0 &&
+                        Player.Inventory.GetEquipment().Count(x => x.Name == "뼈다귀") == 0)
+                        sanz.SanzBattle();
+                    else
+                        dungeon.BossBattle(difficult);
+                   
 
-
-                    break;
+                  return;
                 }
 
                 RenderConsole.Write("이동하세요 ( 1. 위 2. 아래 3. 왼쪽 4. 오른쪽 )\n>>");

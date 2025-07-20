@@ -1,6 +1,5 @@
 using NewTxtRPG.etc;
 using NewTxtRPG.Structs;
-using System.Reflection.Metadata.Ecma335;
 
 namespace NewTxtRPG.Entitys
 {
