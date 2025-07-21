@@ -615,10 +615,10 @@ namespace NewTxtRPG.Scene
                 switch (monsterName)
                 {
                     case "만렙토끼":
-                        dropId.Add(19); // 만렙토끼 보스 아이템
+                        dropId.Add(20); // 만렙토끼 보스 아이템
                         break;
                     case "???":
-                        dropId.Add(20); // ??? 보스 아이템
+                        dropId.Add(21); // ??? 보스 아이템
                         break;
                 }
                 foreach (int id in dropId)
@@ -787,18 +787,18 @@ namespace NewTxtRPG.Scene
                 switch (monsterName)
                 {
                     case "소":
-                        dropIds.Add(17); // 소고기
+                        dropIds.Add(18); // 소고기
                         if (rand.Next(0, 10) == 7) // 10% 확률로 우유
-                            dropIds.Add(18);
+                            dropIds.Add(19);
                         break;
                     case "박쥐":
-                        dropIds.Add(16); // 박쥐 날개
+                        dropIds.Add(17); // 박쥐 날개
                         break;
                     case "토끼":
-                        dropIds.Add(15); // 토끼고기
+                        dropIds.Add(16); // 토끼고기
                         break;
                     case "다람쥐":
-                        dropIds.Add(14); // 도토리
+                        dropIds.Add(15); // 도토리
                         break;
                 }
 
