@@ -46,12 +46,12 @@ namespace NewTxtRPG.Entitys
 
         public static void MonsterList()
         {
-            Monster.Clear();   
+            Monster.Clear();
 
-            Monster.Add(CreateMonster("다람쥐", 20, 3, 0, 5, 100,2)); //0
-            Monster.Add(CreateMonster("토끼", 15, 2, 0, 5, 100,4));  //1
-            Monster.Add(CreateMonster("박쥐", 30, 5, 5, 2, 300,8));  //2
-            Monster.Add(CreateMonster("소", 70, 10, 15, 15, 500,12));   //3
+            Monster.Add(CreateMonster("다람쥐", 10, 10, 0, 10, 100, 2)); //0
+            Monster.Add(CreateMonster("토끼", 12, 5, 0, 12, 100, 4));  //1
+            Monster.Add(CreateMonster("박쥐", 18, 15, 5, 16, 300, 8));  //2
+            Monster.Add(CreateMonster("소", 70, 30, 15, 10, 500, 12));   //3
         }
 
         public Monsters copy()

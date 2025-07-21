@@ -1,7 +1,6 @@
 ﻿using NewTxtRPG.Entitys;
 using NewTxtRPG.Structs;
 using NewTxtRPG.etc;
-using System.Text;
 
 namespace NewTxtRPG.Managers
 {
